@@ -1,9 +1,9 @@
 // Dati delle carte: ogni nome compare due volte
 const cardsData = [
-  "Renzo", "Renzo",
-  "Lucia", "Lucia",
-  "Don Rodrigo", "Don Rodrigo",
-  "Fra Cristoforo", "Fra Cristoforo"
+  { name: "Renzo", img: "renzo.png" },
+  { name: "Lucia", img: "lucia.png" },
+  { name: "DonRodrigo", img: "don-rodrigo.png" },
+  { name: "FraCristoforo", img: "fra-cristoforo.png" }
 ];
 
 const board = document.querySelector(".game-board");
