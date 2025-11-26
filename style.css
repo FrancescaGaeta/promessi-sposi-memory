@@ -15,42 +15,49 @@ p {
   margin-bottom: 20px;
 }
 
+/* GRIGLIA DEL GIOCO */
 .game-board {
-  width: 600px;
-  max-width: 90vw;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1600px;
+  margin: 20px auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(5, 1fr);  /* 5 carte per riga */
+  gap: 20px;
 }
 
+/* CARTA GENERICA */
 .card {
-  width: 107%;
-  height: 150px;
-  background-image: url("img/back.png"); /* retro comune */
+  width: 260px;              /* puoi aumentare (es. 300) se le vuoi più larghe */
+  height: 360px;             /* e questa se le vuoi più alte */
+  background-image: url("img/back.png");   /* retro comune */
   background-size: cover;
   background-position: center;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 12px;
   cursor: pointer;
-  user-select: none;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-.card img {
+/* LATO RETRO (il ?) – ora non lo usi più, ma lo lascio per sicurezza */
+.card .back {
+  display: none;
+}
+
+/* LATO FRONTE: L’IMMAGINE DELLA CARTA */
+.card .front {
+  display: none;              /* nascosta finché la carta è coperta */
   width: 100%;
-  height: 100%;
-  object-fit: cover; 
-  display: none; /* invisibile finché la carta è coperta */
+  height: 90%;
+  object-fit: contain;        /* MOSTRA TUTTA L’IMMAGINE senza tagliarla */
+  background-color: #ffffff;  /* bordo bianco intorno se non riempie tutto */
 }
 
-.card.flipped img {
-  display: block; /* quando giri la carta, mostra l’immagine */
-}
-
+/* QUANDO LA CARTA È GIRATA */
 .card.flipped {
-  background-image: none; /* quando è girata, togli il retro */
+  background-image: none;     /* togli il retro */
+}
+
+.card.flipped .front {
+  display: block;             /* mostra l’immagine del personaggio */
 }
