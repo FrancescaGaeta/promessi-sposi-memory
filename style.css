@@ -21,14 +21,14 @@ p {
   max-width: 1600px;
   margin: 20px auto;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);  /* 5 carte per riga */
+  grid-template-columns: repeat(7, 1fr);  /* 5 carte per riga */
   gap: 20px;
 }
 
 /* CARTA GENERICA */
 .card {
-  width: 260px;              /* puoi aumentare (es. 300) se le vuoi più larghe */
-  height: 360px;             /* e questa se le vuoi più alte */
+  width: 190px;              /* puoi aumentare (es. 300) se le vuoi più larghe */
+  height: 230px;             /* e questa se le vuoi più alte */
   background-image: url("img/back.png");   /* retro comune */
   background-size: cover;
   background-position: center;
@@ -44,14 +44,16 @@ p {
   display: none;
 }
 
-/* LATO FRONTE: L’IMMAGINE DELLA CARTA */
 .card .front {
-  display: none;              /* nascosta finché la carta è coperta */
+  display: none;
+  position: absolute;
+  top: 0; 
+  left: 0;
   width: 100%;
-  height: 90%;
-  object-fit: contain;        /* MOSTRA TUTTA L’IMMAGINE senza tagliarla */
-  background-color: #ffffff;  /* bordo bianco intorno se non riempie tutto */
+  height: 100%;
+  object-fit: cover;      /* riempie la carta deformando un po' */
 }
+
 
 /* QUANDO LA CARTA È GIRATA */
 .card.flipped {
