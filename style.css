@@ -239,12 +239,11 @@ body {
 /* Tablet / schermi medi */
 @media (max-width: 900px) {
   .page {
-    padding: 24px 20px 30px;
+    padding: 20px;
   }
 
   .game-board {
     grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
   }
 
   .card {
@@ -259,12 +258,8 @@ body {
 
 /* Smartphone “standard” – 3 carte per riga dentro la cornice */
 @media (max-width: 600px) {
-  body {
-    padding: 8px; /* più spazio per la pagina dentro lo schermo */
-  }
-
   .page {
-    padding: 12px 8px 20px;
+    padding: 16px 10px 24px;
   }
 
   .header h1 {
@@ -277,20 +272,19 @@ body {
 
   .info-bar {
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
   }
 
   .game-board {
-    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 colonne fluide */
-    gap: 8px;
+    grid-template-columns: repeat(3, 1fr); /* 3 colonne */
+    gap: 10px;
     justify-items: center;
   }
 
-  /* NIENTE larghezza fissa in px: si adattano alla colonna */
+  /* carte più piccole, così 3 per riga stanno ben dentro */
   .card {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 4; /* mantiene proporzione */
+    width: 90px;
+    height: 120px;
   }
 
   .message-panel {
@@ -323,6 +317,7 @@ body {
     font-size: 1rem;
   }
 }
+
 
 
 
