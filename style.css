@@ -153,7 +153,6 @@ body {
   text-align: center;
 }
 
-
 .message-panel h2 {
   margin: 0 0 8px;
   font-size: 1.1rem;
@@ -235,27 +234,7 @@ body {
   margin-right: auto;
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .game-board {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .card {
-    width: 120px;
-    height: 160px;
-  }
-}
-
-@media (max-width: 600px) {
-  .page {
-    padding: 20px 12px 28px;
-  }
-
-  .game-board {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+/* ---------------------- RESPONSIVE ---------------------- */
 
 /* Tablet / schermi medi */
 @media (max-width: 900px) {
@@ -277,7 +256,7 @@ body {
   }
 }
 
-/* Smartphone “standard” */
+/* Smartphone “standard” (3 carte per riga, allineate) */
 @media (max-width: 600px) {
   .page {
     padding: 16px 10px 24px;
@@ -297,13 +276,16 @@ body {
   }
 
   .game-board {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
+    justify-items: center;
   }
 
   .card {
-    width: 110px;
-    height: 150px;
+    width: 100%;        /* riempie la colonna */
+    max-width: 110px;   /* non diventa enorme */
+    height: auto;
+    aspect-ratio: 3 / 4; /* stessa proporzione sempre */
   }
 
   .message-panel {
@@ -318,16 +300,6 @@ body {
 
 /* Smartphone piccoli (es. 4.7") */
 @media (max-width: 480px) {
-  .game-board {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  .card {
-    width: 120px;
-    height: 150px;
-  }
-
   .info-bar {
     flex-direction: column;
     align-items: center;
@@ -346,3 +318,4 @@ body {
     font-size: 1rem;
   }
 }
+
