@@ -98,7 +98,7 @@ body {
   justify-items: center;
 }
 
-/* CARTA */
+/* CARTA (desktop) */
 .card {
   width: 150px;
   height: 200px;
@@ -119,10 +119,6 @@ body {
 }
 
 /* CONTENUTO DELLA CARTA */
-.card .back {
-  display: none; /* non la usiamo, lasciata se vuoi rimettere il "?" */
-}
-
 .card .front {
   display: none;
   position: absolute;
@@ -133,7 +129,6 @@ body {
   filter: sepia(0.4) contrast(1.1) saturate(0.9);
 }
 
-/* STATO GIRATA */
 .card.flipped {
   background-image: none;
 }
@@ -160,7 +155,6 @@ body {
   letter-spacing: 0.18em;
   font-weight: 600;
   color: #7d5c3a;
-  font-family: "Cormorant Garamond", "Crimson Text", serif;
 }
 
 #message {
@@ -174,12 +168,12 @@ body {
 #playAgainBtn,
 #tryAgainBtn {
   font-family: "Cormorant Garamond", "Crimson Text", serif;
-  padding: 8px 16px;
+  padding: 10px 18px;
   border-radius: 999px;
   border: 1px solid #7d5c3a;
   background: #f7f0df;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -190,7 +184,10 @@ body {
   background: #e7d7b8;
 }
 
-/* OVERLAY COMUNE (vittoria / sconfitta) */
+/* ------------------------------------------
+   OVERLAY (vittoria / sconfitta)
+------------------------------------------ */
+
 .overlay {
   position: absolute;
   inset: 0;
@@ -217,31 +214,25 @@ body {
 
 .overlay-title {
   font-size: 1.5rem;
-  margin: 0 0 6px;
+  margin-bottom: 6px;
 }
 
 .overlay-text {
   font-size: 1.1rem;
-  margin: 0 0 18px;
+  margin-bottom: 18px;
 }
 
 .overlay-image {
   max-width: 180px;
-  height: auto;
-  margin-bottom: 12px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto 12px auto;
 }
 
-/* ---------------------- RESPONSIVE ---------------------- */
+/* ------------------------------------------
+          RESPONSIVE
+------------------------------------------ */
 
-/* Tablet / schermi medi */
+/* Tablet */
 @media (max-width: 900px) {
-  .page {
-    padding: 24px 20px 30px;
-  }
-
   .game-board {
     grid-template-columns: repeat(4, 1fr);
     gap: 14px;
@@ -251,28 +242,21 @@ body {
     width: 120px;
     height: 160px;
   }
-
-  .info-bar {
-    gap: 20px;
-  }
 }
 
-/* Smartphone “standard” – 3 carte per riga dentro la cornice */
+/* SMARTPHONE – VERSIONE PRINCIPALE (carte più grandi) */
 @media (max-width: 600px) {
+
   body {
-    padding: 8px; /* più spazio per la pagina dentro lo schermo */
+    padding: 8px;
   }
 
   .page {
-    padding: 12px 8px 20px;
+    padding: 14px 10px 22px;
   }
 
   .header h1 {
     font-size: 1.5rem;
-  }
-
-  .subtitle {
-    font-size: 0.9rem;
   }
 
   .info-bar {
@@ -280,47 +264,39 @@ body {
     gap: 10px;
   }
 
+  /* 3 carte per riga, colonne fluide */
   .game-board {
-    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 colonne fluide */
-    gap: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
     justify-items: center;
   }
 
-  /* NIENTE larghezza fissa in px: si adattano alla colonna */
+  /* CARTE PIÙ GRANDI MA SEMPRE NELLA CORNICE */
   .card {
     width: 100%;
     height: auto;
-    aspect-ratio: 3 / 4; /* mantiene proporzione */
+    max-width: 130px;   /* 🔥 Aumentate! prima erano 110 */
+    aspect-ratio: 3/4;  /* mantiene proporzione */
   }
 
   .message-panel {
-    margin-top: 20px;
     padding: 14px 12px;
-  }
-
-  #message {
-    font-size: 0.9rem;
   }
 }
 
-/* Smartphone piccoli (es. 4.7") */
+/* Smartphone piccoli */
 @media (max-width: 480px) {
-  .info-bar {
-    flex-direction: column;
-    align-items: center;
+
+  .game-board {
+    gap: 8px;
+  }
+
+  .card {
+    max-width: 120px; /* leggermente più piccole per telefoni molto stretti */
   }
 
   .overlay-content {
-    width: 90vw;
-    padding: 20px 16px;
-  }
-
-  .overlay-title {
-    font-size: 1.2rem;
-  }
-
-  .overlay-text {
-    font-size: 1rem;
+    width: 92vw;
   }
 }
 
