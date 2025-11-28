@@ -256,7 +256,7 @@ body {
   }
 }
 
-/* Smartphone “standard” (3 carte per riga, allineate) */
+/* Smartphone “standard” – 3 carte per riga dentro la cornice */
 @media (max-width: 600px) {
   .page {
     padding: 16px 10px 24px;
@@ -276,16 +276,15 @@ body {
   }
 
   .game-board {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, 1fr); /* 3 colonne */
     gap: 10px;
     justify-items: center;
   }
 
+  /* carte più piccole, così 3 per riga stanno ben dentro */
   .card {
-    width: 100%;        /* riempie la colonna */
-    max-width: 110px;   /* non diventa enorme */
-    height: auto;
-    aspect-ratio: 3 / 4; /* stessa proporzione sempre */
+    width: 90px;
+    height: 120px;
   }
 
   .message-panel {
@@ -318,5 +317,6 @@ body {
     font-size: 1rem;
   }
 }
+
 
 
