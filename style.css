@@ -225,6 +225,7 @@ body {
   margin: 0 0 18px;
 }
 
+/* immagine di sconfitta, se la usi */
 .overlay-image {
   max-width: 180px;
   height: auto;
@@ -234,87 +235,6 @@ body {
   margin-right: auto;
 }
 
-/* ---------------------- RESPONSIVE ---------------------- */
-
-/* Tablet / schermi medi */
-@media (max-width: 900px) {
-  .page {
-    padding: 20px;
-  }
-
-  .game-board {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .card {
-    width: 120px;
-    height: 160px;
-  }
-
-  .info-bar {
-    gap: 20px;
-  }
-}
-
-/* Smartphone “standard” – 3 carte per riga, più grandi e avvicinate */
-@media (max-width: 600px) {
-  .page {
-    padding: 16px 10px 24px;
-  }
-
-  .header h1 {
-    font-size: 1.5rem;
-  }
-
-  .subtitle {
-    font-size: 0.9rem;
-  }
-
-  .info-bar {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .game-board {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-
-  .card {
-    width: 100px;   /* più grandi ma sicure nella cornice */
-    height: 140px;
-  }
-
-  .message-panel {
-    margin-top: 20px;
-    padding: 14px 12px;
-  }
-
-  #message {
-    font-size: 0.9rem;
-  }
-}
-
-/* Smartphone piccoli (es. 4.7") */
-@media (max-width: 480px) {
-  .info-bar {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .overlay-content {
-    width: 90vw;
-    padding: 20px 16px;
-  }
-
-  .overlay-title {
-    font-size: 1.2rem;
-  }
-
-  .overlay-text {
-    font-size: 1rem;
-  }
-}
 
 
 
