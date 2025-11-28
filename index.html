@@ -4,15 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memory – I Promessi Sposi</title>
+
+  <!-- Font un po’ più letterario -->
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Memory – I Promessi Sposi</h1>
-  <p>Abbina le coppie di personaggi del romanzo.</p>
+  <div class="page">
+    <header class="header">
+      <h1>Memory – I Promessi Sposi</h1>
+      <p class="subtitle">Riconosci i personaggi del romanzo di Alessandro Manzoni.</p>
+    </header>
 
-  <div class="game-board">
-    <!-- Le carte saranno create via JavaScript -->
+    <section class="info-bar">
+      <div class="info-item">
+        <span class="label">Tentativi:</span>
+        <span id="tries">0</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Coppie trovate:</span>
+        <span id="matches">0</span> / 12
+      </div>
+    </section>
+
+    <main>
+      <div class="game-board">
+        <!-- Le carte saranno create via JavaScript -->
+      </div>
+    </main>
+
+    <section class="message-panel">
+      <h2>Voce del Narratore</h2>
+      <p id="message">
+        «Quel ramo del lago di Como…»<br>
+        Comincia il gioco, e con esso le vicende dei nostri promessi.
+      </p>
+      <button id="resetBtn">Ricomincia la partita</button>
+    </section>
   </div>
 
   <script src="script.js"></script>
