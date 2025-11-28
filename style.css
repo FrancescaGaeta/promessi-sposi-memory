@@ -283,8 +283,8 @@ body {
 
   /* carte più piccole, così 3 per riga stanno ben dentro */
   .card {
-    width: 90px;
-    height: 120px;
+    width: 85px;
+    height: 115px;
   }
 
   .message-panel {
