@@ -1,15 +1,329 @@
-@media (max-width: 600px) {
+/* GENERALE */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Crimson Text", Georgia, "Times New Roman", serif;
+  background: radial-gradient(circle at top, #fdf7e6 0, #e7ddc5 40%, #d3c3a3 100%);
+  margin: 0;
+  padding: 20px;
+  color: #2b1e16;
+}
+
+/* Font più "manzoniano" per titoli e frasi importanti */
+.manzonian-font {
+  font-family: "Cormorant Garamond", "Crimson Text", serif;
+  letter-spacing: 0.04em;
+}
+
+/* CONTENITORE TIPO "PAGINA" */
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 25px 40px;
+  background: #f7f0df;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.15);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+  position: relative;
+}
+
+/* Finta "decorazione" agli angoli */
+.page::before,
+.page::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(0,0,0,0.08);
+  pointer-events: none;
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-family: "Cormorant Garamond", "Crimson Text", serif;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+  font-size: 2rem;
+}
+
+.subtitle {
+  margin: 0;
+  font-style: italic;
+  font-size: 1rem;
+  color: #6b5842;
+}
+
+/* BARRA INFO (tentativi / coppie / tempo) */
+.info-bar {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 15px 0 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+
+.info-item {
+  font-size: 1rem;
+  text-align: center;
+}
+
+.label {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  color: #8c735c;
+  display: block;
+  font-family: "Cormorant Garamond", "Crimson Text", serif;
+}
+
+#timer {
+  font-family: "Cormorant Garamond", "Crimson Text", serif;
+  font-size: 1.1rem;
+}
+
+/* GRIGLIA DEL GIOCO */
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  justify-items: center;
+}
+
+/* CARTA */
+.card {
+  width: 150px;
+  height: 200px;
+  background-image: url("img/back.png");
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* CONTENUTO DELLA CARTA */
+.card .back {
+  display: none; /* non la usiamo, lasciata se vuoi rimettere il "?" */
+}
+
+.card .front {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.4) contrast(1.1) saturate(0.9);
+}
+
+/* STATO GIRATA */
+.card.flipped {
+  background-image: none;
+}
+
+.card.flipped .front {
+  display: block;
+}
+
+/* PANNELLO MESSAGGI */
+.message-panel {
+  margin: 30px auto 0 auto;
+  padding: 18px 16px;
+  border-radius: 10px;
+  background: #f0e3ca;
+  border: 1px solid rgba(0,0,0,0.12);
+  max-width: 600px;
+  text-align: center;
+}
+
+.message-panel h2 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  color: #7d5c3a;
+  font-family: "Cormorant Garamond", "Crimson Text", serif;
+}
+
+#message {
+  margin: 0 0 12px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* BOTTONE RESET / OVERLAY BUTTONS */
+#resetBtn,
+#playAgainBtn,
+#tryAgainBtn {
+  font-family: "Cormorant Garamond", "Crimson Text", serif;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #7d5c3a;
+  background: #f7f0df;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+#resetBtn:hover,
+#playAgainBtn:hover,
+#tryAgainBtn:hover {
+  background: #e7d7b8;
+}
+
+/* OVERLAY COMUNE (vittoria / sconfitta) */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.hidden {
+  display: none;
+}
+
+.overlay-content {
+  background: #f7f0df;
+  border-radius: 16px;
+  border: 2px solid rgba(0,0,0,0.25);
+  padding: 26px 28px 22px;
+  max-width: 480px;
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+}
+
+.overlay-title {
+  font-size: 1.5rem;
+  margin: 0 0 6px;
+}
+
+.overlay-text {
+  font-size: 1.1rem;
+  margin: 0 0 18px;
+}
+
+.overlay-image {
+  max-width: 180px;
+  height: auto;
+  margin-bottom: 12px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------------------- RESPONSIVE ---------------------- */
+
+/* Tablet / schermi medi */
+@media (max-width: 900px) {
+  .page {
+    padding: 24px 20px 30px;
+  }
+
   .game-board {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 6px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
   }
 
   .card {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 4;
+    width: 120px;
+    height: 160px;
+  }
+
+  .info-bar {
+    gap: 20px;
   }
 }
+
+/* Smartphone “standard” – 3 carte per riga dentro la cornice */
+@media (max-width: 600px) {
+  body {
+    padding: 8px; /* più spazio per la pagina dentro lo schermo */
+  }
+
+  .page {
+    padding: 12px 8px 20px;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .info-bar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .game-board {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 colonne fluide */
+    gap: 8px;
+    justify-items: center;
+  }
+
+  /* NIENTE larghezza fissa in px: si adattano alla colonna */
+  .card {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4; /* mantiene proporzione */
+  }
+
+  .message-panel {
+    margin-top: 20px;
+    padding: 14px 12px;
+  }
+
+  #message {
+    font-size: 0.9rem;
+  }
+}
+
+/* Smartphone piccoli (es. 4.7") */
+@media (max-width: 480px) {
+  .info-bar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .overlay-content {
+    width: 90vw;
+    padding: 20px 16px;
+  }
+
+  .overlay-title {
+    font-size: 1.2rem;
+  }
+
+  .overlay-text {
+    font-size: 1rem;
+  }
+}
+
 
 
 
