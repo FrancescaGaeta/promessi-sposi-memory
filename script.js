@@ -37,8 +37,13 @@ const triesSpan = document.getElementById("tries");
 const matchesSpan = document.getElementById("matches");
 const messageEl = document.getElementById("message");
 const resetBtn = document.getElementById("resetBtn");
+const timerSpan = document.getElementById("timer");
+const victoryOverlay = document.getElementById("victoryOverlay");
+const defeatOverlay = document.getElementById("defeatOverlay");
+const playAgainBtn = document.getElementById("playAgainBtn");
+const tryAgainBtn = document.getElementById("tryAgainBtn");
 
-// VARIABILI DI STATO
+// VARIABILI DI STATO GIOCO
 let hasFlipped = false;
 let firstCard = null;
 let secondCard = null;
@@ -46,6 +51,40 @@ let lockBoard = false;
 let tries = 0;
 let matches = 0;
 const totalPairs = originalCards.length;
+let gameOver = false;
+
+// TIMER
+const countdownSeconds = 180; // 3 minuti – puoi cambiarlo
+let currentTime = countdownSeconds;
+let timerInterval = null;
+
+// FUNZIONE TIMER
+function updateTimerDisplay() {
+  const minutes = String(Math.floor(currentTime / 60)).padStart(2, "0");
+  const seconds = String(currentTime % 60).padStart(2, "0");
+  timerSpan.textContent = `${minutes}:${seconds}`;
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    currentTime--;
+    if (currentTime <= 0) {
+      currentTime = 0;
+      updateTimerDisplay();
+      clearInterval(timerInterval);
+      handleTimeOver();
+      return;
+    }
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function handleTimeOver() {
+  gameOver = true;
+  lockBoard = true;
+  messageEl.textContent = "«Il tempo è trascorso: come molte storie, anche questa resta incompiuta.»";
+  defeatOverlay.classList.remove("hidden");
+}
 
 // FUNZIONE DI INIZIALIZZAZIONE
 function initGame() {
@@ -61,7 +100,6 @@ function initGame() {
     card.classList.add("card");
     card.dataset.name = cardInfo.name;
 
-    // IMPORTANTE: struttura con .inner per il flip 3D
     card.innerHTML = `
       <div class="inner">
         <div class="back"></div>
@@ -77,15 +115,29 @@ function initGame() {
   firstCard = null;
   secondCard = null;
   lockBoard = false;
+  gameOver = false;
+
   tries = 0;
   matches = 0;
   triesSpan.textContent = tries;
   matchesSpan.textContent = matches;
   messageEl.innerHTML = "«Quel ramo del lago di Como…»<br>Ricomincia la storia dei nostri promessi.";
+
+  // reset overlay vittoria/sconfitta
+  victoryOverlay.classList.add("hidden");
+  defeatOverlay.classList.add("hidden");
+
+  // reset e avvio timer
+  if (timerInterval) clearInterval(timerInterval);
+  currentTime = countdownSeconds;
+  updateTimerDisplay();
+  startTimer();
 }
 
 // GESTIONE CLICK SULLA BOARD
 board.addEventListener("click", e => {
+  if (gameOver) return; // partita finita: no interazioni
+
   const clicked = e.target.closest(".card");
   if (!clicked) return;                     // clic fuori da una carta
   if (clicked.classList.contains("flipped")) return; // già girata
@@ -130,7 +182,7 @@ function checkForMatch() {
 
     // tutte le coppie trovate
     if (matches === totalPairs) {
-      messageEl.innerHTML = "«I nostri promessi, dopo tanti casi, giunsero finalmente a lieto fine.»<br>Hai trovato tutte le coppie!";
+      handleVictory();
     }
   } else {
     // COPPIA SBAGLIATA
@@ -147,8 +199,24 @@ function checkForMatch() {
   }
 }
 
+// VITTORIA
+function handleVictory() {
+  gameOver = true;
+  lockBoard = true;
+  if (timerInterval) clearInterval(timerInterval);
+
+  messageEl.innerHTML = "«I nostri promessi, dopo tanti casi, giunsero finalmente a lieto fine.»<br>Hai trovato tutte le coppie!";
+  victoryOverlay.classList.remove("hidden");
+}
+
 // BOTTONE RESET
 resetBtn.addEventListener("click", initGame);
+
+// BOTTONE "GIOCA ANCORA" NELL'OVERLAY DI VITTORIA
+playAgainBtn.addEventListener("click", initGame);
+
+// BOTTONE "RIPROVA" NELL'OVERLAY DI SCONFITTA
+tryAgainBtn.addEventListener("click", initGame);
 
 // AVVIO INIZIALE
 initGame();

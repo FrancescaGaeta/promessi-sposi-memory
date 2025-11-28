@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memory – I Promessi Sposi</title>
 
-  <!-- Font un po’ più letterario -->
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Font: stile più “manzoniano” -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -27,6 +27,10 @@
         <span class="label">Coppie trovate:</span>
         <span id="matches">0</span> / 12
       </div>
+      <div class="info-item">
+        <span class="label">Tempo rimasto:</span>
+        <span id="timer">03:00</span>
+      </div>
     </section>
 
     <main>
@@ -43,8 +47,36 @@
       </p>
       <button id="resetBtn">Ricomincia la partita</button>
     </section>
+
+    <!-- SCHERMATA FINALE DI VITTORIA -->
+    <div id="victoryOverlay" class="overlay hidden">
+      <div class="overlay-content">
+        <h2 class="overlay-title manzonian-font">
+          La Provvidenza ti ha guidato:
+        </h2>
+        <p class="overlay-text manzonian-font">
+          coppie trovate, partita conquistata!
+        </p>
+        <button id="playAgainBtn">Gioca ancora</button>
+      </div>
+    </div>
+
+    <!-- SCHERMATA DI SCONFITTA A TEMPO SCADUTO -->
+    <div id="defeatOverlay" class="overlay hidden">
+      <div class="overlay-content">
+        <h2 class="overlay-title manzonian-font">
+          Il tempo è trascorso invano…
+        </h2>
+        <p class="overlay-text manzonian-font">
+          le carte restano sparse, e la storia incompiuta.
+        </p>
+        <button id="tryAgainBtn">Riprova la sorte</button>
+      </div>
+    </div>
+
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+
