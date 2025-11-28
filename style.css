@@ -225,9 +225,96 @@ body {
   margin-right: auto;
 }
 
-/* RESPONSIVE */
+/* Tablet / schermi medi */
 @media (max-width: 900px) {
+  .page {
+    padding: 20px;
+  }
+
   .game-board {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .card {
+    width: 120px;
+    height: 160px;
+  }
+
+  .info-bar {
+    gap: 20px;
+  }
+}
+
+/* Smartphone “standard” */
+@media (max-width: 600px) {
+  .page {
+    padding: 16px 10px 24px;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .info-bar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .game-board {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .card {
+    width: 110px;
+    height: 150px;
+  }
+
+  .message-panel {
+    margin-top: 20px;
+    padding: 14px 12px;
+  }
+
+  #message {
+    font-size: 0.9rem;
+  }
+}
+
+/* Smartphone piccoli (es. 4.7") */
+@media (max-width: 480px) {
+  .game-board {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .card {
+    width: 120px;
+    height: 150px;
+  }
+
+  .info-bar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .overlay-content {
+    width: 90vw;
+    padding: 20px 16px;
+  }
+
+  .overlay-title {
+    font-size: 1.2rem;
+  }
+
+  .overlay-text {
+    font-size: 1rem;
+  }
+}
+
 
 
 
