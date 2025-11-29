@@ -1,3 +1,7 @@
+box narratore
+ab3e3e2
+style.css
+@@ -1,194 +1,259 @@
 /* GENERALE */
 * {
   box-sizing: border-box;
@@ -116,8 +120,25 @@ body {
 }
 
 .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
 
-@@ -122,54 +136,105 @@
+/* CONTENUTO DELLA CARTA */
+.card .back {
+  display: none; /* non la usiamo, lasciata se vuoi rimettere il "?" */
+}
+
+.card .front {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.4) contrast(1.1) saturate(0.9);
+}
+
 /* STATO GIRATA */
 .card.flipped {
   background-image: none;
@@ -217,7 +238,8 @@ body {
   margin: 0 0 18px;
 }
 
-.overlay-image { max-width: 180px;
+.overlay-image {
+  max-width: 180px;
   height: auto;
   margin-bottom: 12px;
   display: block;
@@ -225,12 +247,8 @@ body {
   margin-right: auto;
 }
 
-/* Tablet / schermi medi */
+/* RESPONSIVE */
 @media (max-width: 900px) {
-  .page {
-    padding: 20px;
-  }
-
   .game-board {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -239,82 +257,17 @@ body {
     width: 120px;
     height: 160px;
   }
-
-  .info-bar {
-    gap: 20px;
-  }
 }
 
-/* Smartphone “standard” */
 @media (max-width: 600px) {
   .page {
-    padding: 16px 10px 24px;
-  }
-
-  .header h1 {
-    font-size: 1.5rem;
-  }
-
-  .subtitle {
-    font-size: 0.9rem;
-  }
-
-  .info-bar {
-    flex-wrap: wrap;
-    gap: 12px;
+    padding: 20px 12px 28px;
   }
 
   .game-board {
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-
-  .card {
-    width: 110px;
-    height: 150px;
-  }
-
-  .message-panel {
-    margin-top: 20px;
-    padding: 14px 12px;
-  }
-
-  #message {
-    font-size: 0.9rem;
   }
 }
-
-/* Smartphone piccoli (es. 4.7") */
-@media (max-width: 480px) {
-  .game-board {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  .card {
-    width: 120px;
-    height: 150px;
-  }
-
-  .info-bar {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .overlay-content {
-    width: 90vw;
-    padding: 20px 16px;
-  }
-
-  .overlay-title {
-    font-size: 1.2rem;
-  }
-
-  .overlay-text {
-    font-size: 1rem;
-  }
-}
-
 
 
 
