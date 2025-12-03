@@ -11,13 +11,12 @@ body {
   color: #2b1e16;
 }
 
-/* Font più "manzoniano" per titoli e frasi importanti */
 .manzonian-font {
   font-family: "Cormorant Garamond", "Crimson Text", serif;
   letter-spacing: 0.04em;
 }
 
-/* CONTENITORE TIPO "PAGINA" */
+/* CONTENITORE */
 .page {
   max-width: 1200px;
   margin: 0 auto;
@@ -29,7 +28,6 @@ body {
   position: relative;
 }
 
-/* Finta "decorazione" agli angoli */
 .page::before,
 .page::after {
   content: "";
@@ -61,14 +59,15 @@ body {
   color: #6b5842;
 }
 
-/* BARRA INFO (tentativi / coppie / tempo) */
+/* INFO BAR */
 .info-bar {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 34px;
   margin: 15px 0 25px;
   padding-bottom: 15px;
   border-bottom: 1px solid rgba(0,0,0,0.12);
+  flex-wrap: wrap;
 }
 
 .info-item {
@@ -90,10 +89,25 @@ body {
   font-size: 1.1rem;
 }
 
-/* GRIGLIA DEL GIOCO */
+#levelSelect {
+  font-family: "Cormorant Garamond", "Crimson Text", serif;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #7d5c3a;
+  background: #f7f0df;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+#levelSelect:focus {
+  outline: 2px solid rgba(125, 92, 58, 0.35);
+  outline-offset: 2px;
+}
+
+/* BOARD DINAMICA */
 .game-board {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(var(--cols, 6), 1fr);
   gap: 16px;
   justify-items: center;
 }
@@ -118,9 +132,9 @@ body {
   box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
-/* CONTENUTO DELLA CARTA */
+/* FRONT */
 .card .back {
-  display: none; /* non la usiamo, lasciata se vuoi rimettere il "?" */
+  display: none;
 }
 
 .card .front {
@@ -133,7 +147,6 @@ body {
   filter: sepia(0.4) contrast(1.1) saturate(0.9);
 }
 
-/* STATO GIRATA */
 .card.flipped {
   background-image: none;
 }
@@ -144,7 +157,6 @@ body {
 
 /* PANNELLO MESSAGGI */
 .message-panel {
-  margin-top: 30px;
   margin: 30px auto 0 auto;
   padding: 18px 16px;
   border-radius: 10px;
@@ -170,7 +182,7 @@ body {
   line-height: 1.5;
 }
 
-/* BOTTONE RESET / OVERLAY BUTTONS */
+/* BOTTONI */
 #resetBtn,
 #playAgainBtn,
 #tryAgainBtn {
@@ -191,7 +203,7 @@ body {
   background: #e7d7b8;
 }
 
-/* OVERLAY COMUNE (vittoria / sconfitta) */
+/* OVERLAY */
 .overlay {
   position: absolute;
   inset: 0;
@@ -202,7 +214,6 @@ body {
   z-index: 10;
 }
 
-/* Classe da usare per NASCONDERE l'overlay finché la partita non è finita */
 .hidden {
   display: none;
 }
@@ -227,21 +238,8 @@ body {
   margin: 0 0 18px;
 }
 
-.overlay-image {
-  max-width: 180px;
-  height: auto;
-  margin-bottom: 12px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 /* RESPONSIVE */
 @media (max-width: 900px) {
-  .game-board {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
   .card {
     width: 120px;
     height: 160px;
@@ -252,8 +250,6 @@ body {
   .page {
     padding: 20px 12px 28px;
   }
-
-  .game-board {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
+
+

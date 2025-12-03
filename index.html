@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Memory – I Promessi Sposi</title>
 
-  <!-- Font: stile più “manzoniano” -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
 
+<body>
   <div class="page">
     <header class="header">
       <h1>Memory – I Promessi Sposi</h1>
@@ -20,13 +18,24 @@
 
     <section class="info-bar">
       <div class="info-item">
+        <span class="label">Livello:</span>
+        <select id="levelSelect" aria-label="Seleziona livello">
+          <option value="easy">Facile</option>
+          <option value="medium" selected>Medio</option>
+          <option value="hard">Difficile</option>
+        </select>
+      </div>
+
+      <div class="info-item">
         <span class="label">Tentativi:</span>
         <span id="tries">0</span>
       </div>
+
       <div class="info-item">
         <span class="label">Coppie trovate:</span>
-        <span id="matches">0</span> / 12
+        <span id="matches">0</span> / <span id="totalPairs">12</span>
       </div>
+
       <div class="info-item">
         <span class="label">Tempo rimasto:</span>
         <span id="timer">03:00</span>
@@ -34,9 +43,7 @@
     </section>
 
     <main>
-      <div class="game-board">
-        <!-- Le carte saranno create via JavaScript -->
-      </div>
+      <div class="game-board" aria-label="Tavolo di gioco"></div>
     </main>
 
     <section class="message-panel">
@@ -48,35 +55,28 @@
       <button id="resetBtn">Ricomincia la partita</button>
     </section>
 
-    <!-- SCHERMATA FINALE DI VITTORIA -->
-    <div id="victoryOverlay" class="overlay hidden">
+    <!-- VITTORIA -->
+    <div id="victoryOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Vittoria">
       <div class="overlay-content">
-        <h2 class="overlay-title manzonian-font">
-          La Provvidenza ti ha guidato:
-        </h2>
-        <p class="overlay-text manzonian-font">
-          coppie trovate, partita conquistata!
-        </p>
-        <button id="playAgainBtn">Gioca ancora</button>
+        <h2 class="overlay-title manzonian-font">La Provvidenza ti ha guidato:</h2>
+        <p class="overlay-text manzonian-font">coppie trovate, partita conquistata!</p>
+        <button id="playAgainBtn">Prosegui</button>
       </div>
     </div>
 
-    <!-- SCHERMATA DI SCONFITTA A TEMPO SCADUTO -->
-    <div id="defeatOverlay" class="overlay hidden">
+    <!-- SCONFITTA -->
+    <div id="defeatOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Sconfitta">
       <div class="overlay-content">
-        <h2 class="overlay-title manzonian-font">
-          Il tempo è trascorso invano…
-        </h2>
-        <p class="overlay-text manzonian-font">
-          le carte restano sparse, e la storia incompiuta.
-        </p>
+        <h2 class="overlay-title manzonian-font">Il tempo è trascorso invano…</h2>
+        <p class="overlay-text manzonian-font">le carte restano sparse, e la storia incompiuta.</p>
         <button id="tryAgainBtn">Riprova la sorte</button>
       </div>
     </div>
-
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+
+
 
