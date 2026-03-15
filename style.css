@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Pinyon+Script&display=swap');
 
-/* EFFETTO INTRO (MANOSCRITTO) */
 .intro-overlay {
     position: fixed;
     inset: 0;
@@ -9,45 +8,70 @@
     align-items: center;
     justify-content: center;
     z-index: 2000;
-    transition: transform 1s ease-in-out, opacity 0.8s;
+    perspective: 1500px; /* Necessario per l'effetto 3D */
+    transition: opacity 1s ease;
+}
+
+.book-container {
+    width: 450px;
+    height: 600px;
+    position: relative;
+    transform-style: preserve-3d;
 }
 
 .book {
-    width: 500px;
-    height: 600px;
-    background: #fdfaf3;
-    background-image: url("https://www.transparenttextures.com/patterns/old-paper.png");
-    border: 1px solid #d3c3a3;
-    box-shadow: 20px 0 50px rgba(0,0,0,0.5), inset 5px 0 15px rgba(0,0,0,0.2);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transform-origin: left center;
+}
+
+/* Quando aggiungiamo la classe .open, il libro ruota */
+.book.open {
+    transform: rotateY(-160deg);
+}
+
+.book-page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.3);
     padding: 40px;
-    text-align: center;
-    border-radius: 5px 15px 15px 5px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    border-radius: 5px 15px 15px 5px;
 }
 
-.setup-area { margin-top: 30px; border-top: 1px solid #d3c3a3; padding-top: 20px; }
-
-/* PANNELLO NARRATORE (RIDOTTO) */
-.small-panel {
-    min-height: 80px !important;
-    padding: 10px 20px !important;
-    margin: 15px auto !important;
-    max-width: 900px;
-    background: rgba(125, 92, 58, 0.03) !important;
+.front-cover {
+    background-size: cover;
+    background-position: center;
+    z-index: 2;
+    color: #fdfaf3;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
 }
 
-#message-top, #message-bottom {
-    font-size: 1.6rem !important; /* Più piccolo e leggibile */
+.back-page {
+    background: #fdfaf3;
+    background-image: url("https://www.transparenttextures.com/patterns/old-paper.png");
+    transform: rotateY(180deg); /* Dietro la copertina */
+    z-index: 1;
 }
 
-/* NASCONDI GIOCO ALL'INIZIO */
+.cover-content {
+    background: rgba(0, 0, 0, 0.4); /* Rende leggibile il testo sopra back.png */
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+}
+
+/* Utility */
 .hidden { display: none !important; }
-.fade-out { transform: scale(1.5); opacity: 0; pointer-events: none; }
-
-/* ALONE DORATO */
-.card.matched .inner {
-    box-shadow: 0 0 25px #d4af37 !important;
-    border: 2px solid #d4af37 !important;
-}
+.fade-out-overlay { opacity: 0; pointer-events: none; }
