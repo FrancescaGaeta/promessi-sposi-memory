@@ -1,80 +1,75 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Memory – I Promessi Sposi</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory – I Promessi Sposi</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div class="page">
-    <header class="header">
-      <h1>Memory – I Promessi Sposi</h1>
-      <p class="subtitle">Riconosci i personaggi del romanzo di Alessandro Manzoni.</p>
-    </header>
 
-    <section class="info-bar">
-      <div class="info-item">
-        <span class="label">Livello:</span>
-        <select id="levelSelect" aria-label="Seleziona livello">
-          <option value="easy">Facile</option>
-          <option value="medium" selected>Medio</option>
-          <option value="hard">Difficile</option>
-        </select>
-      </div>
-
-      <div class="info-item">
-        <span class="label">Tentativi:</span>
-        <span id="tries">0</span>
-      </div>
-
-      <div class="info-item">
-        <span class="label">Coppie trovate:</span>
-        <span id="matches">0</span> / <span id="totalPairs">12</span>
-      </div>
-
-      <div class="info-item">
-        <span class="label">Tempo rimasto:</span>
-        <span id="timer">03:00</span>
-      </div>
-    </section>
-
-    <main>
-      <div class="game-board" aria-label="Tavolo di gioco"></div>
-    </main>
-
-    <section class="message-panel">
-      <h2>Voce del Narratore</h2>
-      <p id="message">
-        «Quel ramo del lago di Como…»<br>
-        Comincia il gioco, e con esso le vicende dei nostri promessi.
-      </p>
-      <button id="resetBtn">Ricomincia la partita</button>
-    </section>
-
-    <!-- VITTORIA -->
-    <div id="victoryOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Vittoria">
-      <div class="overlay-content">
-        <h2 class="overlay-title manzonian-font">La Provvidenza ti ha guidato:</h2>
-        <p class="overlay-text manzonian-font">coppie trovate, partita conquistata!</p>
-        <button id="playAgainBtn">Prosegui</button>
-      </div>
+    <div id="intro-screen" class="intro-overlay">
+        <div class="book-cover">
+            <div class="parchment-page">
+                <h1 class="manzonian-font">I Promessi Sposi</h1>
+                <p class="script-font">« Benvenuti, viandanti, in questa ricerca tra i ricordi del passato... »</p>
+                
+                <div class="setup-area">
+                    <label for="levelSelectIntro" class="manzonian-font">Scegliete la difficoltà:</label>
+                    <select id="levelSelectIntro">
+                        <option value="easy">Facile (6 coppie)</option>
+                        <option value="medium" selected>Medio (10 coppie)</option>
+                        <option value="hard">Difficile (12 coppie)</option>
+                    </select>
+                    <button id="startGameBtn">Aprite il Manoscritto</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- SCONFITTA -->
-    <div id="defeatOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Sconfitta">
-      <div class="overlay-content">
-        <h2 class="overlay-title manzonian-font">Il tempo è trascorso invano…</h2>
-        <p class="overlay-text manzonian-font">le carte restano sparse, e la storia incompiuta.</p>
-        <button id="tryAgainBtn">Riprova la sorte</button>
-      </div>
-    </div>
-  </div>
+    <div class="page hidden" id="main-game">
+        <header class="header">
+            <h1 class="manzonian-font">Memory – I Promessi Sposi</h1>
+        </header>
 
-  <script src="script.js"></script>
+        <section class="info-bar">
+            <div class="info-item"><span class="label">Tempo:</span> <span id="timer">03:00</span></div>
+            <div class="info-item"><span class="label">Mosse:</span> <span id="tries">0</span></div>
+            <div class="info-item"><span class="label">Coppie:</span> <span id="matches">0</span> / <span id="totalPairs">10</span></div>
+        </section>
+
+        <div class="message-panel small-panel">
+            <div id="message-top" class="script-font">« Si riapre il capitolo... »</div>
+        </div>
+
+        <main>
+            <div class="game-board" id="board"></div>
+        </main>
+
+        <div class="message-panel small-panel">
+            <div id="message-bottom" class="script-font">« Trova le coppie per proseguire la storia. »</div>
+        </div>
+
+        <div class="actions">
+            <button id="resetBtn">Ricomincia la partita</button>
+        </div>
+
+        <div id="victoryOverlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 class="manzonian-font">La Provvidenza ti ha guidato!</h2>
+                <button id="playAgainBtn">Prosegui</button>
+            </div>
+        </div>
+
+        <div id="defeatOverlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 class="manzonian-font">Il tempo è trascorso invano...</h2>
+                <button id="tryAgainBtn">Riprova la sorte</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
 
