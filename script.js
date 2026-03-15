@@ -1,139 +1,36 @@
-const originalCards = [
-    { name: "Renzo", img: "renzo.png" }, { name: "Lucia", img: "lucia.png" },
-    { name: "Don Rodrigo", img: "don-rodrigo.png" }, { name: "Fra Cristoforo", img: "fra-cristoforo.png" },
-    { name: "Agnese", img: "agnese.png" }, { name: "Azzeccagarbugli", img: "azzeccagarbugli.png" },
-    { name: "I Bravi", img: "bravi.png" }, { name: "Don Abbondio", img: "don-abbondio.png" },
-    { name: "Gertrude", img: "gertrude.png" }, { name: "L'Innominato", img: "innominato.png" },
-    { name: "Madre Cecilia", img: "madre-cecilia.png" }, { name: "Perpetua", img: "perpetua.png" }
-];
+// Aggiungiamo i listener per l'apertura
+document.getElementById("startGameBtn").addEventListener("click", openManuscript);
 
-const manzonianQuotes = {
-    "Renzo": "«Renzo, di professione filatore di seta…»",
-    "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
-    "Don Rodrigo": "«Questo matrimonio non s'ha da fare.»",
-    "Fra Cristoforo": "«Un frate che ha deposto la spada, non il coraggio.»",
-    "Agnese": "«Agnese, madre pratica e di buon senso.»",
-    "Azzeccagarbugli": "«L'avvocato che confonde più che chiarire.»",
-    "I Bravi": "«Oscure figure, braccia al soldo del potente.»",
-    "Don Abbondio": "«Il coraggio, uno, se non ce l'ha, mica se lo può dare.»",
-    "Gertrude": "«La 'sventurata rispose'.»",
-    "L'Innominato": "«Un animo grande traviato, in cerca di redenzione.»",
-    "Madre Cecilia": "«La peste miete, ma la carità consola.»",
-    "Perpetua": "«Perpetua, serva franca e di lingua sciolta.»"
-};
-
-const LEVEL_SETS = {
-    easy: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua"],
-    medium: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude"],
-    hard: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude", "L'Innominato", "Madre Cecilia"]
-};
-
-let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
-let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0;
-let timerInterval = null, currentTime = 180;
-
-const board = document.getElementById("board");
-const msgTop = document.getElementById("message-top");
-const msgBottom = document.getElementById("message-bottom");
-
-// APERTURA AUTOMATICA
-document.getElementById("startGameBtn").addEventListener("click", () => {
+function openManuscript() {
     const level = document.getElementById("levelSelectIntro").value;
-    document.getElementById("levelSelectBar").value = level;
     document.getElementById("intro-screen").classList.add("fade-out");
-    setTimeout(() => {
-        document.getElementById("main-game").classList.remove("hidden");
-        initGame(level);
-    }, 1000);
-});
+    document.getElementById("main-game").classList.remove("hidden");
+    initGame(level);
+}
 
+// Funzione aggiornata per scrivere in ENTRAMBI i pannelli
 function updateNarrator(title, quote) {
-    const content = quote ? `<span style="font-family:'IM Fell English SC'; font-size:1.1rem; display:block; color:#7d5c3a">${title}</span> ${quote}` : title;
-    [msgTop, msgBottom].forEach(el => {
-        el.innerHTML = content;
+    const content = `<span class="char-title" style="font-size:0.9rem">${title}</span> ${quote}`;
+    
+    [document.getElementById("message-top"), document.getElementById("message-bottom")].forEach(el => {
         el.classList.remove("fade-in");
         void el.offsetWidth;
+        el.innerHTML = content;
         el.classList.add("fade-in");
     });
 }
 
-function initGame(levelKey) {
-    currentLevel = levelKey;
-    const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
-    totalPairs = selected.length;
-    document.getElementById("totalPairs").textContent = totalPairs;
-    const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
-    board.innerHTML = "";
-    board.style.setProperty("--cols", totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6));
+// Modifica nella funzione checkForMatch
+function disableCards() {
+    matches++;
+    document.getElementById("matches").textContent = matches;
+    const name = firstCard.dataset.name;
+    
+    // Aggiorna entrambi i box contemporaneamente
+    updateNarrator(name, manzonianQuotes[name]);
 
-    deck.forEach(data => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.dataset.name = data.name;
-        card.innerHTML = `<div class="inner"><div class="back"></div><div class="front"><img src="img/${data.img}"></div></div>`;
-        card.addEventListener("click", flipCard);
-        board.appendChild(card);
-    });
-    resetState();
-    startTimer();
-    updateNarrator("«Si riapre il capitolo... Trova le coppie.»", "");
+    firstCard.classList.add("matched");
+    secondCard.classList.add("matched");
+    resetTurn();
+    if (matches === totalPairs) handleVictory();
 }
-
-function flipCard() {
-    if (lockBoard || this === firstCard || this.classList.contains("matched")) return;
-    this.classList.add("flipped");
-    if (!hasFlipped) { hasFlipped = true; firstCard = this; return; }
-    secondCard = this;
-    checkForMatch();
-}
-
-function checkForMatch() {
-    tries++;
-    document.getElementById("tries").textContent = tries;
-    if (firstCard.dataset.name === secondCard.dataset.name) {
-        matches++;
-        document.getElementById("matches").textContent = matches;
-        updateNarrator(firstCard.dataset.name, manzonianQuotes[firstCard.dataset.name]);
-        firstCard.classList.add("matched");
-        secondCard.classList.add("matched");
-        resetTurn();
-        if (matches === totalPairs) handleVictory();
-    } else {
-        lockBoard = true;
-        setTimeout(() => {
-            firstCard.classList.remove("flipped");
-            secondCard.classList.remove("flipped");
-            resetTurn();
-        }, 1000);
-    }
-}
-
-function resetTurn() { [hasFlipped, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
-
-function resetState() {
-    matches = 0; tries = 0;
-    document.getElementById("matches").textContent = "0";
-    document.getElementById("tries").textContent = "0";
-    clearInterval(timerInterval);
-    currentTime = currentLevel === "easy" ? 120 : 180;
-    updateTimerDisplay();
-}
-
-function startTimer() {
-    timerInterval = setInterval(() => {
-        currentTime--;
-        updateTimerDisplay();
-        if (currentTime <= 0) { clearInterval(timerInterval); alert("Tempo scaduto!"); }
-    }, 1000);
-}
-
-function updateTimerDisplay() {
-    const min = Math.floor(currentTime / 60);
-    const sec = currentTime % 60;
-    document.getElementById("timer").textContent = `${min}:${sec.toString().padStart(2, '0')}`;
-}
-
-function handleVictory() { clearInterval(timerInterval); setTimeout(() => alert("Vittoria!"), 500); }
-
-document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
-document.getElementById("levelSelectBar").addEventListener("change", (e) => initGame(e.target.value));
