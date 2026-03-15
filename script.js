@@ -42,22 +42,27 @@ let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0;
 let timerInterval = null, currentTime = 180;
 
 const board = document.querySelector(".game-board");
+const triesSpan = document.getElementById("tries");
+const matchesSpan = document.getElementById("matches");
 const messageEl = document.getElementById("message");
+const timerSpan = document.getElementById("timer");
+const victoryOverlay = document.getElementById("victoryOverlay");
+const defeatOverlay = document.getElementById("defeatOverlay");
 
 // =======================
 // LOGICA NARRATORE
 // =======================
-function updateNarrator(htmlContent) {
+function updateNarrator(text) {
   messageEl.classList.remove("fade-in");
-  void messageEl.offsetWidth; // Trigger reflow
-  messageEl.innerHTML = htmlContent;
+  void messageEl.offsetWidth; 
+  messageEl.innerHTML = text;
   messageEl.classList.add("fade-in");
 }
 
 // =======================
 // GESTIONE GIOCO
 // =======================
-function initGame(levelKey = document.getElementById("levelSelect").value) {
+function initGame(levelKey = currentLevel) {
   currentLevel = levelKey;
   const setNames = LEVEL_SETS[levelKey];
   const selected = setNames.map(name => originalCards.find(c => c.name === name));
@@ -66,9 +71,10 @@ function initGame(levelKey = document.getElementById("levelSelect").value) {
   document.getElementById("totalPairs").textContent = totalPairs;
   
   board.innerHTML = "";
-  const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
+  const deck = shuffle([...selected, ...selected]);
   
-  board.style.setProperty("--cols", totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6));
+  const cols = totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6);
+  board.style.setProperty("--cols", cols);
 
   deck.forEach(cardData => {
     const card = document.createElement("div");
@@ -77,15 +83,18 @@ function initGame(levelKey = document.getElementById("levelSelect").value) {
     card.innerHTML = `
       <div class="inner">
         <div class="back"></div>
-        <div class="front"><img src="img/${cardData.img}"></div>
-      </div>`;
+        <div class="front">
+          <img src="img/${cardData.img}" alt="${cardData.name}">
+        </div>
+      </div>
+    `;
     card.addEventListener("click", flipCard);
     board.appendChild(card);
   });
 
   resetState();
   startTimer();
-  updateNarrator("«Si riapre il capitolo…»");
+  updateNarrator("«Si riapre il capitolo…»<br>Trova le coppie per proseguire la storia.");
 }
 
 function flipCard() {
@@ -93,68 +102,81 @@ function flipCard() {
   this.classList.add("flipped");
   if (!hasFlipped) { hasFlipped = true; firstCard = this; return; }
   secondCard = this;
+  tries++;
+  triesSpan.textContent = tries;
   checkForMatch();
 }
 
 function checkForMatch() {
-  tries++;
-  document.getElementById("tries").textContent = tries;
-  
   if (firstCard.dataset.name === secondCard.dataset.name) {
-    matches++;
-    document.getElementById("matches").textContent = matches;
-    const name = firstCard.dataset.name;
-    
-    // Inseriamo il nome con font antico e citazione con font calligrafico
-    updateNarrator(`<span class="char-name-msg">${name}</span>${manzonianQuotes[name]}`);
-    
-    firstCard.classList.add("matched");
-    secondCard.classList.add("matched");
-    resetTurn();
-    if (matches === totalPairs) handleVictory();
+    disableCards();
   } else {
-    lockBoard = true;
-    updateNarrator("«Le trame si confondono…»");
-    setTimeout(() => {
-      firstCard.classList.remove("flipped");
-      secondCard.classList.remove("flipped");
-      resetTurn();
-    }, 1000);
+    unflipCards();
   }
 }
 
+function disableCards() {
+  matches++;
+  matchesSpan.textContent = matches;
+  const name = firstCard.dataset.name;
+  
+  // Modifica qui: aggiunta classe per il font del nome
+  updateNarrator(`<span class="char-title">${name}</span>${manzonianQuotes[name]}`);
+
+  firstCard.classList.add("matched");
+  secondCard.classList.add("matched");
+
+  resetTurn();
+  if (matches === totalPairs) handleVictory();
+}
+
+function unflipCards() {
+  lockBoard = true;
+  updateNarrator("«Le trame si confondono… non è questa la via.»");
+  setTimeout(() => {
+    firstCard.classList.remove("flipped");
+    secondCard.classList.remove("flipped");
+    resetTurn();
+  }, 1000);
+}
+
+function shuffle(array) { return array.sort(() => Math.random() - 0.5); }
 function resetTurn() { [hasFlipped, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
 
 function resetState() {
+  resetTurn();
   matches = 0; tries = 0;
-  document.getElementById("matches").textContent = "0";
-  document.getElementById("tries").textContent = "0";
+  triesSpan.textContent = "0";
+  matchesSpan.textContent = "0";
   clearInterval(timerInterval);
   currentTime = currentLevel === "easy" ? 120 : 180;
   updateTimerDisplay();
-  document.getElementById("victoryOverlay").classList.add("hidden");
-  document.getElementById("defeatOverlay").classList.add("hidden");
+  victoryOverlay.classList.add("hidden");
+  defeatOverlay.classList.add("hidden");
 }
 
 function startTimer() {
   timerInterval = setInterval(() => {
     currentTime--;
     updateTimerDisplay();
-    if (currentTime <= 0) { clearInterval(timerInterval); document.getElementById("defeatOverlay").classList.remove("hidden"); }
+    if (currentTime <= 0) { clearInterval(timerInterval); defeatOverlay.classList.remove("hidden"); }
   }, 1000);
 }
 
 function updateTimerDisplay() {
   const min = Math.floor(currentTime / 60);
   const sec = currentTime % 60;
-  document.getElementById("timer").textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+  timerSpan.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
 }
 
-function handleVictory() { clearInterval(timerInterval); setTimeout(() => document.getElementById("victoryOverlay").classList.remove("hidden"), 500); }
+function handleVictory() {
+  clearInterval(timerInterval);
+  setTimeout(() => victoryOverlay.classList.remove("hidden"), 500);
+}
 
-// Event Listeners
-document.getElementById("levelSelect").addEventListener("change", (e) => initGame(e.target.value));
+// Listeners
 document.getElementById("resetBtn").addEventListener("click", () => initGame());
+document.getElementById("levelSelect").addEventListener("change", (e) => initGame(e.target.value));
 document.getElementById("playAgainBtn").addEventListener("click", () => initGame());
 document.getElementById("tryAgainBtn").addEventListener("click", () => initGame());
 
