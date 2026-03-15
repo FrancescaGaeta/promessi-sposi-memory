@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memoria Manzoniana</title>
+    <title>Memoria Manzoniana - Memory Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,13 +11,14 @@
 <div id="intro-screen" class="intro-overlay">
     <div class="book-container">
         <div id="book-element" class="book">
+            
             <div class="book-page front-cover" style="background-image: url('img/back.png');">
                 <div class="cover-content">
-                    <h1 class="manzonian-font" style="font-size: 3.5rem; margin-bottom: 0.5rem;">Memory</h1>
-                    <p class="script-font" style="color: #eee;">I Promessi Sposi</p>
+                    <h1 class="manzonian-font">Memory</h1>
+                    <p class="script-font">I Promessi Sposi</p>
                     
                     <div class="setup-area">
-                        <label for="levelSelectIntro" class="manzonian-font">Scegliete la difficoltà:</label>
+                        <label for="levelSelectIntro" class="manzonian-font">Difficoltà:</label>
                         <select id="levelSelectIntro">
                             <option value="easy">Facile (6 coppie)</option>
                             <option value="medium" selected>Medio (10 coppie)</option>
@@ -27,10 +28,13 @@
                     </div>
                 </div>
             </div>
+
             <div class="book-page back-page">
-                <div class="page-texture"></div>
-                <p class="script-font">« Benvenuti, viandanti, in questa ricerca tra i ricordi del passato... »</p>
+                <div class="page-content">
+                    <p class="script-font">« Quel ramo del lago di Como... »</p>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
