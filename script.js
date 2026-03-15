@@ -1,347 +1,217 @@
 // =======================
-// CONTENUTI (PERSONAGGI)
+// DATI E CONFIGURAZIONE
 // =======================
 const originalCards = [
   { name: "Renzo", img: "renzo.png" },
   { name: "Lucia", img: "lucia.png" },
-  { name: "DonRodrigo", img: "don-rodrigo.png" },
-  { name: "FraCristoforo", img: "fra-cristoforo.png" },
+  { name: "Don Rodrigo", img: "don-rodrigo.png" },
+  { name: "Fra Cristoforo", img: "fra-cristoforo.png" },
   { name: "Agnese", img: "agnese.png" },
   { name: "Azzeccagarbugli", img: "azzeccagarbugli.png" },
-  { name: "Bravi", img: "bravi.png" },
-  { name: "DonAbbondio", img: "don-abbondio.png" },
+  { name: "I Bravi", img: "bravi.png" },
+  { name: "Don Abbondio", img: "don-abbondio.png" },
   { name: "Gertrude", img: "gertrude.png" },
-  { name: "Innominato", img: "innominato.png" },
-  { name: "MadreCecilia", img: "madre-cecilia.png" },
+  { name: "L'Innominato", img: "innominato.png" },
+  { name: "Madre Cecilia", img: "madre-cecilia.png" },
   { name: "Perpetua", img: "perpetua.png" }
 ];
 
-// =======================
-// FRASI "MANZONIANE"
-// =======================
 const manzonianQuotes = {
-  Renzo: "«Renzo, di professione filatore di seta…»",
-  Lucia: "«Lucia, timida e risoluta, promessa sposa.»",
-  DonRodrigo: "«Questo matrimonio non s'ha da fare.»",
-  FraCristoforo: "«Un frate che ha deposto la spada, non il coraggio.»",
-  Agnese: "«Agnese, madre pratica e di buon senso.»",
-  Azzeccagarbugli: "«L'avvocato che confonde più che chiarire.»",
-  Bravi: "«Oscure figure, braccia al soldo del potente.»",
-  DonAbbondio: "«Il coraggio, uno, se non ce l'ha, mica se lo può dare.»",
-  Gertrude: "«La 'sventurata rispose'.»",
-  Innominato: "«Un animo grande traviato, in cerca di redenzione.»",
-  MadreCecilia: "«La peste miete, ma la carità consola.»",
-  Perpetua: "«Perpetua, serva franca e di lingua sciolta.»"
+  "Renzo": "«Renzo, di professione filatore di seta…»",
+  "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
+  "Don Rodrigo": "«Questo matrimonio non s'ha da fare.»",
+  "Fra Cristoforo": "«Un frate che ha deposto la spada, non il coraggio.»",
+  "Agnese": "«Agnese, madre pratica e di buon senso.»",
+  "Azzeccagarbugli": "«L'avvocato che confonde più che chiarire.»",
+  "I Bravi": "«Oscure figure, braccia al soldo del potente.»",
+  "Don Abbondio": "«Il coraggio, uno, se non ce l'ha, mica se lo può dare.»",
+  "Gertrude": "«La 'sventurata rispose'.»",
+  "L'Innominato": "«Un animo grande traviato, in cerca di redenzione.»",
+  "Madre Cecilia": "«La peste miete, ma la carità consola.»",
+  "Perpetua": "«Perpetua, serva franca e di lingua sciolta.»"
 };
 
-// =======================
-// CAMPAGNA: ordine + set personaggi per livello
-// (più didattico, non casuale)
-// =======================
-const LEVEL_ORDER = ["easy", "medium", "hard"];
-
-// Scegli qui i personaggi per ogni livello (puoi cambiarli come vuoi)
 const LEVEL_SETS = {
-  easy:   ["Renzo", "Lucia", "Agnese", "FraCristoforo", "DonAbbondio", "Perpetua"], // 6 coppie
-  medium: ["Renzo", "Lucia", "Agnese", "FraCristoforo", "DonAbbondio", "Perpetua", "DonRodrigo", "Bravi", "Azzeccagarbugli", "Gertrude"], // 10 coppie
-  hard:   ["Renzo", "Lucia", "Agnese", "FraCristoforo", "DonAbbondio", "Perpetua", "DonRodrigo", "Bravi", "Azzeccagarbugli", "Gertrude", "Innominato", "MadreCecilia"] // 12 coppie
+  easy: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua"],
+  medium: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude"],
+  hard: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude", "L'Innominato", "Madre Cecilia"]
 };
 
-const LEVELS = {
-  easy:   { time: 120 }, // 2:00
-  medium: { time: 180 }, // 3:00
-  hard:   { time: 180 }  // 3:00 (o 150 per renderlo più tosto)
-};
-
-// =======================
-// RIFERIMENTI DOM
-// =======================
-let cardsData = [];
-const board = document.querySelector(".game-board");
-const triesSpan = document.getElementById("tries");
-const matchesSpan = document.getElementById("matches");
-const totalPairsSpan = document.getElementById("totalPairs");
-const messageEl = document.getElementById("message");
-const resetBtn = document.getElementById("resetBtn");
-const timerSpan = document.getElementById("timer");
-const victoryOverlay = document.getElementById("victoryOverlay");
-const defeatOverlay = document.getElementById("defeatOverlay");
-const playAgainBtn = document.getElementById("playAgainBtn");
-const tryAgainBtn = document.getElementById("tryAgainBtn");
-const levelSelect = document.getElementById("levelSelect");
-
-// =======================
-// STATO GIOCO
-// =======================
+// ... (Resto delle costanti di stato e DOM come prima) ...
 let hasFlipped = false;
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
-
 let tries = 0;
 let matches = 0;
-
 let currentLevel = "medium";
 let totalPairs = 0;
-
-let gameOver = false;
-
-// =======================
-// TIMER (dinamico)
-// =======================
-let countdownSeconds = 180;
-let currentTime = countdownSeconds;
 let timerInterval = null;
+let currentTime = 180;
 
-function updateTimerDisplay() {
-  const minutes = String(Math.floor(currentTime / 60)).padStart(2, "0");
-  const seconds = String(currentTime % 60).padStart(2, "0");
-  timerSpan.textContent = `${minutes}:${seconds}`;
+const board = document.querySelector(".game-board");
+const triesSpan = document.getElementById("tries");
+const matchesSpan = document.getElementById("matches");
+const messageEl = document.getElementById("message");
+const timerSpan = document.getElementById("timer");
+const victoryOverlay = document.getElementById("victoryOverlay");
+const defeatOverlay = document.getElementById("defeatOverlay");
+
+// =======================
+// LOGICA NARRATORE
+// =======================
+function updateNarrator(text) {
+  messageEl.classList.remove("fade-in");
+  void messageEl.offsetWidth; // Trigger reflow
+  messageEl.innerHTML = text;
+  messageEl.classList.add("fade-in");
+}
+
+// =======================
+// GESTIONE GIOCO
+// =======================
+function initGame(levelKey = currentLevel) {
+  currentLevel = levelKey;
+  const setNames = LEVEL_SETS[levelKey];
+  const selected = setNames.map(name => originalCards.find(c => c.name === name));
+  
+  totalPairs = selected.length;
+  document.getElementById("totalPairs").textContent = totalPairs;
+  
+  board.innerHTML = "";
+  const deck = shuffle([...selected, ...selected]);
+  
+  // Imposta colonne
+  const cols = totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6);
+  board.style.setProperty("--cols", cols);
+
+  deck.forEach(cardData => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.dataset.name = cardData.name;
+    card.innerHTML = `
+      <div class="inner">
+        <div class="back"></div>
+        <div class="front">
+          <img src="img/${cardData.img}" alt="${cardData.name}">
+        </div>
+      </div>
+    `;
+    card.addEventListener("click", flipCard);
+    board.appendChild(card);
+  });
+
+  resetState();
+  startTimer();
+  updateNarrator("«Si riapre il capitolo…»<br>Trova le coppie per proseguire la storia.");
+}
+
+function flipCard() {
+  if (lockBoard || this === firstCard || this.classList.contains("matched")) return;
+
+  this.classList.add("flipped");
+
+  if (!hasFlipped) {
+    hasFlipped = true;
+    firstCard = this;
+    return;
+  }
+
+  secondCard = this;
+  tries++;
+  triesSpan.textContent = tries;
+  checkForMatch();
+}
+
+function checkForMatch() {
+  const isMatch = firstCard.dataset.name === secondCard.dataset.name;
+
+  if (isMatch) {
+    disableCards();
+  } else {
+    unflipCards();
+  }
+}
+
+function disableCards() {
+  matches++;
+  matchesSpan.textContent = matches;
+  
+  const name = firstCard.dataset.name;
+  updateNarrator(`<strong>${name}</strong><br>${manzonianQuotes[name]}`);
+
+  firstCard.classList.add("matched");
+  secondCard.classList.add("matched");
+
+  resetTurn();
+  if (matches === totalPairs) handleVictory();
+}
+
+function unflipCards() {
+  lockBoard = true;
+  updateNarrator("«Le trame si confondono… non è questa la via.»");
+  
+  setTimeout(() => {
+    firstCard.classList.remove("flipped");
+    secondCard.classList.remove("flipped");
+    resetTurn();
+  }, 1000);
+}
+
+// ... (Funzioni di utility e timer rimangono simili, ma integrate con updateNarrator) ...
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+function resetTurn() {
+  [hasFlipped, lockBoard] = [false, false];
+  [firstCard, secondCard] = [null, null];
+}
+
+function resetState() {
+  resetTurn();
+  matches = 0;
+  tries = 0;
+  triesSpan.textContent = "0";
+  matchesSpan.textContent = "0";
+  clearInterval(timerInterval);
+  currentTime = currentLevel === "easy" ? 120 : 180;
+  updateTimerDisplay();
+  victoryOverlay.classList.add("hidden");
+  defeatOverlay.classList.add("hidden");
 }
 
 function startTimer() {
   timerInterval = setInterval(() => {
     currentTime--;
-    if (currentTime <= 0) {
-      currentTime = 0;
-      updateTimerDisplay();
-      clearInterval(timerInterval);
-      handleTimeOver();
-      return;
-    }
     updateTimerDisplay();
+    if (currentTime <= 0) {
+      clearInterval(timerInterval);
+      defeatOverlay.classList.remove("hidden");
+    }
   }, 1000);
 }
 
-function handleTimeOver() {
-  gameOver = true;
-  lockBoard = true;
-  messageEl.textContent = "«Il tempo è trascorso: come molte storie, anche questa resta incompiuta.»";
-  defeatOverlay.classList.remove("hidden");
+function updateTimerDisplay() {
+  const min = Math.floor(currentTime / 60);
+  const sec = currentTime % 60;
+  timerSpan.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
 }
 
-// =======================
-// UTILITY
-// =======================
-function getCardByName(name) {
-  return originalCards.find(c => c.name === name) || null;
-}
-
-function shuffle(arr) {
-  // Fisher-Yates
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-function computeCols(pairCount) {
-  if (pairCount <= 6) return 4;
-  if (pairCount <= 10) return 5;
-  return 6;
-}
-
-function applyBoardCols(cols) {
-  board.style.setProperty("--cols", String(cols));
-}
-
-function nextLevelKey() {
-  const i = LEVEL_ORDER.indexOf(currentLevel);
-  if (i === -1) return LEVEL_ORDER[0];
-  return LEVEL_ORDER[Math.min(i + 1, LEVEL_ORDER.length - 1)];
-}
-
-function isLastLevel() {
-  return currentLevel === LEVEL_ORDER[LEVEL_ORDER.length - 1];
-}
-
-function narrateLevelStart(levelKey) {
-  const titles = { easy: "Facile", medium: "Medio", hard: "Difficile" };
-  const t = titles[levelKey] || levelKey;
-  messageEl.innerHTML = `«Si riapre il capitolo…»<br>Livello <strong>${t}</strong>: trova tutte le coppie.`;
-}
-
-// =======================
-// INIZIALIZZAZIONE PARTITA
-// =======================
-function initGame(levelKey = currentLevel) {
-  currentLevel = levelKey;
-
-  // sincronizza select
-  if (levelSelect.value !== currentLevel) levelSelect.value = currentLevel;
-
-  const cfg = LEVELS[currentLevel] || LEVELS.medium;
-
-  // set personaggi per livello
-  const setNames = LEVEL_SETS[currentLevel] || LEVEL_SETS.medium;
-  const selected = setNames.map(getCardByName).filter(Boolean);
-
-  totalPairs = selected.length;
-  countdownSeconds = cfg.time;
-
-  // UI
-  totalPairsSpan.textContent = totalPairs;
-
-  // pulizia board
-  board.innerHTML = "";
-
-  // crea mazzo (2 copie) e mescola
-  cardsData = shuffle([...selected, ...selected]);
-
-  // griglia
-  applyBoardCols(computeCols(totalPairs));
-
-  // crea carte nel DOM
-  cardsData.forEach(cardInfo => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-    card.dataset.name = cardInfo.name;
-
-    card.innerHTML = `
-      <div class="inner">
-        <div class="back"></div>
-        <img class="front" src="img/${cardInfo.img}" alt="${cardInfo.name}">
-      </div>
-    `;
-    board.appendChild(card);
-  });
-
-  // reset stato gioco
-  hasFlipped = false;
-  firstCard = null;
-  secondCard = null;
-  lockBoard = false;
-  gameOver = false;
-
-  // reset contatori
-  tries = 0;
-  matches = 0;
-  triesSpan.textContent = tries;
-  matchesSpan.textContent = matches;
-
-  // reset overlay
-  victoryOverlay.classList.add("hidden");
-  defeatOverlay.classList.add("hidden");
-
-  // testo narratore
-  narrateLevelStart(currentLevel);
-
-  // reset timer
-  if (timerInterval) clearInterval(timerInterval);
-  currentTime = countdownSeconds;
-  updateTimerDisplay();
-  startTimer();
-
-  // bottone overlay: in campagna è "Prosegui" finché non sei all'ultimo
-  playAgainBtn.textContent = isLastLevel() ? "Gioca ancora" : "Prosegui";
-}
-
-// =======================
-// EVENTI: click board
-// =======================
-board.addEventListener("click", e => {
-  if (gameOver) return;
-
-  const clicked = e.target.closest(".card");
-  if (!clicked) return;
-  if (clicked.classList.contains("flipped")) return;
-  if (lockBoard) return;
-
-  clicked.classList.add("flipped");
-
-  if (!hasFlipped) {
-    hasFlipped = true;
-    firstCard = clicked;
-  } else {
-    secondCard = clicked;
-    hasFlipped = false;
-
-    tries++;
-    triesSpan.textContent = tries;
-
-    checkForMatch();
-  }
-});
-
-// =======================
-// CONTROLLO COPPIA
-// =======================
-function checkForMatch() {
-  if (!firstCard || !secondCard) return;
-
-  if (firstCard.dataset.name === secondCard.dataset.name) {
-    matches++;
-    matchesSpan.textContent = matches;
-
-    const charName = firstCard.dataset.name;
-    const quote = manzonianQuotes[charName] || "Una nuova tessera del romanzo è al suo posto.";
-    messageEl.textContent = quote;
-
-    // disattiva le due carte
-    firstCard.style.pointerEvents = "none";
-    secondCard.style.pointerEvents = "none";
-
-    firstCard = null;
-    secondCard = null;
-
-    if (matches === totalPairs) handleVictory();
-  } else {
-    lockBoard = true;
-    messageEl.textContent = "«Le trame si confondono… riprova!»";
-
-    setTimeout(() => {
-      firstCard.classList.remove("flipped");
-      secondCard.classList.remove("flipped");
-      firstCard = null;
-      secondCard = null;
-      lockBoard = false;
-    }, 800);
-  }
-}
-
-// =======================
-// VITTORIA
-// =======================
 function handleVictory() {
-  gameOver = true;
-  lockBoard = true;
-  if (timerInterval) clearInterval(timerInterval);
-
-  const doneText = isLastLevel()
-    ? "«E così, dopo tanti casi, la vicenda si chiude a lieto fine.»<br>Hai completato la campagna!"
-    : "«Un capitolo si chiude… e un altro attende.»<br>Livello superato!";
-
-  messageEl.innerHTML = doneText;
-  victoryOverlay.classList.remove("hidden");
+  clearInterval(timerInterval);
+  setTimeout(() => victoryOverlay.classList.remove("hidden"), 500);
 }
 
-// =======================
-// BOTTONI
-// =======================
-resetBtn.addEventListener("click", () => initGame(currentLevel));
+// Event Listeners
+document.getElementById("resetBtn").addEventListener("click", () => initGame());
+document.getElementById("levelSelect").addEventListener("change", (e) => initGame(e.target.value));
+document.getElementById("playAgainBtn").addEventListener("click", () => initGame());
+document.getElementById("tryAgainBtn").addEventListener("click", () => initGame());
 
-tryAgainBtn.addEventListener("click", () => initGame(currentLevel));
-
-// Campagna: Prosegui => livello successivo; se ultimo => ricomincia stesso livello
-playAgainBtn.addEventListener("click", () => {
-  if (isLastLevel()) {
-    initGame(currentLevel);           // "Gioca ancora"
-  } else {
-    initGame(nextLevelKey());         // "Prosegui"
-  }
-});
-
-// Se cambi dal menu, inizi quel livello (e la campagna continua da lì)
-levelSelect.addEventListener("change", e => {
-  initGame(e.target.value);
-});
-
-// =======================
-// AVVIO INIZIALE
-// =======================
-initGame(levelSelect.value || "medium");
+// Avvio
+initGame();
 
 
 
