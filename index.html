@@ -1,79 +1,45 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Memory – I Promessi Sposi</title>
-    <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-
-    <div id="intro-screen" class="intro-overlay">
-        <div class="book-container" id="bookContainer">
-            <div class="book-cover" id="bookCover">
-                <div class="cover-front">
-                    <div class="spine-mimic">
-                        <div class="spine-label">I Promessi Sposi</div>
-                    </div>
-                    <div class="marble-plate"></div>
-                </div>
-                <div class="cover-back"></div>
-            </div>
+<div id="intro-screen" class="intro-overlay">
+    <div class="book">
+        <div class="book-page">
+            <h1 class="manzonian-font">I Promessi Sposi</h1>
+            <p class="script-font">« Benvenuti, viandanti, in questa ricerca tra i ricordi del passato... »</p>
             
-            <div class="book-page parchment">
-                <h1 class="manzonian-font">I Promessi Sposi</h1>
-                <p class="script-font">« Benvenuti, viandanti... Scegliete il vostro percorso. »</p>
-                <div class="setup-area">
-                    <select id="levelSelectIntro">
-                        <option value="easy">Facile (6 coppie)</option>
-                        <option value="medium" selected>Medio (10 coppie)</option>
-                        <option value="hard">Difficile (12 coppie)</option>
-                    </select>
-                    <button id="startGameBtn">Aprite il Volume</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="page hidden parchment" id="main-game">
-        <header class="header">
-            <h1 class="manzonian-font">Memory – I Promessi Sposi</h1>
-        </header>
-
-        <section class="info-bar">
-            <div class="info-item">
-                <span class="label">Livello:</span>
-                <select id="levelSelectBar">
-                    <option value="easy">Facile</option>
-                    <option value="medium">Medio</option>
-                    <option value="hard">Difficile</option>
+            <div class="setup-area">
+                <label for="levelSelectIntro" class="manzonian-font">Scegliete la difficoltà:</label>
+                <select id="levelSelectIntro">
+                    <option value="easy">Facile (6 coppie)</option>
+                    <option value="medium" selected>Medio (10 coppie)</option>
+                    <option value="hard">Difficile (12 coppie)</option>
                 </select>
+                <button id="startGameBtn">Aprite il Manoscritto</button>
             </div>
-            <div class="info-item"><span class="label">Tempo:</span> <span id="timer">03:00</span></div>
-            <div class="info-item"><span class="label">Mosse:</span> <span id="tries">0</span></div>
-            <div class="info-item"><span class="label">Coppie:</span> <span id="matches">0</span> / <span id="totalPairs">10</span></div>
-        </section>
-
-        <div class="message-panel small-panel">
-            <div id="message-top" class="script-font"></div>
         </div>
+    </div>
+</div>
 
-        <main><div class="game-board" id="board"></div></main>
-
-        <div class="message-panel small-panel">
-            <div id="message-bottom" class="script-font"></div>
-        </div>
-
-        <div class="actions"><button id="resetBtn">Ricomincia</button></div>
+<div class="page hidden" id="main-game">
+    <div class="header">
+        <h1 class="manzonian-font">Memoria Manzoniana</h1>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <div class="info-bar">
+        <div><span class="label">Tempo</span><span id="timer">03:00</span></div>
+        <div><span class="label">Mosse</span><span id="tries">0</span></div>
+        <div><span class="label">Coppie</span><span id="matches">0</span>/<span id="totalPairs">10</span></div>
+    </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <div class="message-panel small-panel">
+        <div id="message-top" class="script-font">« Sfogliate con cura... »</div>
+    </div>
+
+    <div class="game-board"></div>
+
+    <div class="message-panel small-panel">
+        <div id="message-bottom" class="script-font">« La storia attende. »</div>
+    </div>
+    
+    <button id="resetBtn" style="margin: 20px auto; display: block;">Ricomincia</button>
+</div>
 
 
 
