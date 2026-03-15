@@ -1,9 +1,21 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memoria Manzoniana</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
 <div id="intro-screen" class="intro-overlay">
     <div class="book-container">
         <div id="book-element" class="book">
             <div class="book-page front-cover" style="background-image: url('img/back.png');">
                 <div class="cover-content">
-                    <h1 class="manzonian-font">Memory</h1>
+                    <h1 class="manzonian-font" style="font-size: 3.5rem; margin-bottom: 0.5rem;">Memory</h1>
+                    <p class="script-font" style="color: #eee;">I Promessi Sposi</p>
+                    
                     <div class="setup-area">
                         <label for="levelSelectIntro" class="manzonian-font">Scegliete la difficoltà:</label>
                         <select id="levelSelectIntro">
@@ -11,19 +23,44 @@
                             <option value="medium" selected>Medio (10 coppie)</option>
                             <option value="hard">Difficile (12 coppie)</option>
                         </select>
-                        <button id="startGameBtn">Sfogliate il Manoscritto</button>
+                        <button id="startGameBtn">Aprite il Manoscritto</button>
                     </div>
                 </div>
             </div>
             <div class="book-page back-page">
-                <p class="script-font">« Quel ramo del lago di Como... »</p>
+                <div class="page-texture"></div>
+                <p class="script-font">« Benvenuti, viandanti, in questa ricerca tra i ricordi del passato... »</p>
             </div>
         </div>
     </div>
 </div>
 
 <div class="page hidden" id="main-game">
+    <div class="header">
+        <h1 class="manzonian-font">Memoria Manzoniana</h1>
     </div>
 
+    <div class="info-bar">
+        <div><span class="label">Tempo</span><span id="timer">03:00</span></div>
+        <div><span class="label">Mosse</span><span id="tries">0</span></div>
+        <div><span class="label">Coppie</span><span id="matches">0</span>/<span id="totalPairs">10</span></div>
+    </div>
+
+    <div class="message-panel small-panel">
+        <div id="message-top" class="script-font">« Sfogliate con cura... »</div>
+    </div>
+
+    <div class="game-board"></div>
+
+    <div class="message-panel small-panel">
+        <div id="message-bottom" class="script-font">« La storia attende. »</div>
+    </div>
+    
+    <button id="resetBtn" class="manzonian-font">Ricomincia</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
 
 
