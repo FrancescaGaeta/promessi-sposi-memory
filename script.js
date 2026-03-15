@@ -1,58 +1,61 @@
 const originalCards = [
-  { name: "Renzo", img: "renzo.png" },
-  { name: "Lucia", img: "lucia.png" },
-  { name: "Don Rodrigo", img: "don-rodrigo.png" },
-  { name: "Fra Cristoforo", img: "fra-cristoforo.png" },
-  { name: "Agnese", img: "agnese.png" },
-  { name: "Azzeccagarbugli", img: "azzeccagarbugli.png" },
-  { name: "I Bravi", img: "bravi.png" },
-  { name: "Don Abbondio", img: "don-abbondio.png" },
-  { name: "Gertrude", img: "gertrude.png" },
-  { name: "L'Innominato", img: "innominato.png" },
-  { name: "Madre Cecilia", img: "madre-cecilia.png" },
-  { name: "Perpetua", img: "perpetua.png" }
+    { name: "Renzo", img: "renzo.png" }, { name: "Lucia", img: "lucia.png" },
+    { name: "Don Rodrigo", img: "don-rodrigo.png" }, { name: "Fra Cristoforo", img: "fra-cristoforo.png" },
+    { name: "Agnese", img: "agnese.png" }, { name: "Azzeccagarbugli", img: "azzeccagarbugli.png" },
+    { name: "I Bravi", img: "bravi.png" }, { name: "Don Abbondio", img: "don-abbondio.png" },
+    { name: "Gertrude", img: "gertrude.png" }, { name: "L'Innominato", img: "innominato.png" },
+    { name: "Madre Cecilia", img: "madre-cecilia.png" }, { name: "Perpetua", img: "perpetua.png" }
 ];
 
 const manzonianQuotes = {
-  "Renzo": "«Renzo, di professione filatore di seta…»",
-  "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
-  "Don Rodrigo": "«Questo matrimonio non s'ha da fare.»",
-  "Fra Cristoforo": "«Un frate che ha deposto la spada, non il coraggio.»",
-  "Agnese": "«Agnese, madre pratica e di buon senso.»",
-  "Azzeccagarbugli": "«L'avvocato che confonde più che chiarire.»",
-  "I Bravi": "«Oscure figure, braccia al soldo del potente.»",
-  "Don Abbondio": "«Il coraggio, uno, se non ce l'ha, mica se lo può dare.»",
-  "Gertrude": "«La 'sventurata rispose'.»",
-  "L'Innominato": "«Un animo grande traviato, in cerca di redenzione.»",
-  "Madre Cecilia": "«La peste miete, ma la carità consola.»",
-  "Perpetua": "«Perpetua, serva franca e di lingua sciolta.»"
+    "Renzo": "«Renzo, di professione filatore di seta…»",
+    "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
+    "Don Rodrigo": "«Questo matrimonio non s'ha da fare.»",
+    "Fra Cristoforo": "«Un frate che ha deposto la spada, non il coraggio.»",
+    "Agnese": "«Agnese, madre pratica e di buon senso.»",
+    "Azzeccagarbugli": "«L'avvocato che confonde più che chiarire.»",
+    "I Bravi": "«Oscure figure, braccia al soldo del potente.»",
+    "Don Abbondio": "«Il coraggio, uno, se non ce l'ha, mica se lo può dare.»",
+    "Gertrude": "«La 'sventurata rispose'.»",
+    "L'Innominato": "«Un animo grande traviato, in cerca di redenzione.»",
+    "Madre Cecilia": "«La peste miete, ma la carità consola.»",
+    "Perpetua": "«Perpetua, serva franca e di lingua sciolta.»"
 };
 
 const LEVEL_SETS = {
-  easy: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua"],
-  medium: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude"],
-  hard: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude", "L'Innominato", "Madre Cecilia"]
+    easy: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua"],
+    medium: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude"],
+    hard: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude", "L'Innominato", "Madre Cecilia"]
 };
 
 let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0;
 let timerInterval = null, currentTime = 180;
 
-// ELEMENTS
 const board = document.getElementById("board");
 const msgTop = document.getElementById("message-top");
 const msgBottom = document.getElementById("message-bottom");
+const introOverlay = document.getElementById("intro-screen");
+const bookContainer = document.getElementById("bookContainer");
 
-// GESTIONE APERTURA MANOSCRITTO
-document.getElementById("startGameBtn").addEventListener("click", () => {
-    const level = document.getElementById("levelSelectIntro").value;
-    document.getElementById("intro-screen").classList.add("fade-out");
-    document.getElementById("main-game").classList.remove("hidden");
-    initGame(level);
+// 1. GESTIONE ANIMAZIONE LIBRO
+document.getElementById("bookCover").addEventListener("click", () => {
+    bookContainer.classList.add("open");
 });
 
+document.getElementById("startGameBtn").addEventListener("click", () => {
+    const level = document.getElementById("levelSelectIntro").value;
+    document.getElementById("levelSelectBar").value = level; // Sincronizza la barra
+    introOverlay.classList.add("fade-out");
+    setTimeout(() => {
+        document.getElementById("main-game").classList.remove("hidden");
+        initGame(level);
+    }, 800);
+});
+
+// 2. LOGICA NARRATORE
 function updateNarrator(title, quote) {
-    const content = `<span class="char-title">${title}</span> ${quote}`;
+    const content = quote ? `<span class="char-title">${title}</span> ${quote}` : title;
     [msgTop, msgBottom].forEach(el => {
         el.innerHTML = content;
         el.classList.remove("fade-in");
@@ -61,6 +64,7 @@ function updateNarrator(title, quote) {
     });
 }
 
+// 3. LOGICA GIOCO
 function initGame(levelKey) {
     currentLevel = levelKey;
     const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
@@ -86,7 +90,7 @@ function initGame(levelKey) {
 
     resetState();
     startTimer();
-    updateNarrator("Il Narratore", "«Si riapre il capitolo... Trova le coppie.»");
+    updateNarrator("«Si riapre il capitolo... Trova le coppie.»", "");
 }
 
 function flipCard() {
@@ -149,6 +153,12 @@ function handleVictory() {
     clearInterval(timerInterval); 
     setTimeout(() => document.getElementById("victoryOverlay").classList.remove("hidden"), 500); 
 }
+
+// LISTENERS
+document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
+document.getElementById("levelSelectBar").addEventListener("change", (e) => initGame(e.target.value));
+document.getElementById("playAgainBtn").addEventListener("click", () => location.reload());
+document.getElementById("tryAgainBtn").addEventListener("click", () => initGame(currentLevel));
 
 // LISTENERS RESET
 document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
