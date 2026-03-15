@@ -1,332 +1,191 @@
 /* =========================================
-   CARICAMENTO FONT SPECIALI (Google Fonts)
+   FONT E TEMA
    ========================================= */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=IM+Fell+English+SC&family=Pinyon+Script&display=swap');
-
-/* =========================================
-   RESET E TEMA GENERALE
-   ========================================= */
-* {
-  box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=IM+Fell+English+SC&family=Pinyon+Script&display=swap');
 
 body {
-  margin: 0;
-  padding: 20px;
-  /* FONT BASE: Elegante ma leggibile */
-  font-family: "Cormorant Garamond", serif;
-  background-color: #d2b48c; /* Colore base cuoio */
-  color: #3e2723;
-  
-  /* TEXTURE PERGAMENA ANTICA SU TUTTO IL BODY */
-  background-image: url("https://www.transparenttextures.com/patterns/dark-leather.png");
-  background-attachment: fixed;
-}
-
-/* FONT SPECIALE: Per titoli e nomi personaggi */
-.manzonian-font {
-  font-family: "IM Fell English SC", serif;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #5d4037;
-}
-
-/* FONT CALLIGRAFICO: Per le citazioni del narratore */
-.script-font {
-  font-family: "Pinyon Script", cursive;
-  font-size: 1.6rem;
-  color: #2b1e16;
+    margin: 0;
+    padding: 10px;
+    background-color: #2b1e16; /* Sfondo scuro per far risaltare la pergamena */
+    background-image: url("https://www.transparenttextures.com/patterns/dark-leather.png");
+    display: flex;
+    justify-content: center;
+    font-family: "Cormorant Garamond", serif;
 }
 
 /* =========================================
-   CONTENITORE PAGINA (Effetto Manoscritto)
+   LA PERGAMENA (Contenitore Principale)
    ========================================= */
 .page {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 50px 40px;
-  background-color: #fdf7e6; /* Colore carta invecchiata */
-  
-  /* TEXTURE CARTA ANTICA INTERNA */
-  background-image: url("https://www.transparenttextures.com/patterns/old-paper.png");
-  
-  border-radius: 2px;
-  
-  /* EFFETTO BORDI PERGAMENA ROVINATI */
-  border: 1px solid #d3c3a3;
-  box-shadow: 
-    0 10px 30px rgba(0,0,0,0.3),
-    inset 0 0 50px rgba(125, 92, 58, 0.2); /* Ombra interna invecchiante */
+    max-width: 1000px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 40px;
+    position: relative;
     
-  position: relative;
-}
-
-/* Decorazione angoli stile antico */
-.page::before {
-  content: "";
-  position: absolute;
-  inset: 15px;
-  border: 2px solid #e0d1b1;
-  border-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0V0zm1 1v18h18V1H1z' fill='%23e0d1b1'/%3E%3C/svg%3E") 1 stretch;
-  pointer-events: none;
-}
-
-/* =========================================
-   HEADER E INFO BAR
-   ========================================= */
-.header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.header h1 {
-  font-family: "IM Fell English SC", serif;
-  font-size: 3.2rem;
-  margin: 0;
-  color: #4e342e;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-}
-
-.subtitle {
-  font-family: "Pinyon Script", cursive;
-  font-size: 1.4rem;
-  color: #7d5c3a;
-  margin-top: -10px;
-}
-
-.info-bar {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  margin-bottom: 35px;
-  padding: 15px;
-  background: rgba(125, 92, 58, 0.08);
-  border-radius: 4px;
-  border: 1px solid #d3c3a3;
-  flex-wrap: wrap;
-}
-
-.info-item {
-  text-align: center;
-}
-
-.label {
-  display: block;
-  font-family: "IM Fell English SC", serif;
-  font-size: 0.85rem;
-  color: #8c735c;
-  margin-bottom: 3px;
-}
-
-.info-item span {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #3e2723;
+    /* EFFETTO CARTA ANTICA */
+    background: #e9d1a9;
+    background-image: url("https://www.transparenttextures.com/patterns/old-paper.png");
+    
+    /* BORDI ROVINATI E BRUCIATI */
+    box-shadow: 
+        0 0 0 2px #e9d1a9,
+        0 0 20px rgba(0,0,0,0.5),
+        inset 0 0 100px rgba(139, 69, 19, 0.3);
+    border: 1px solid #8b4513;
+    border-radius: 5px 15px 5px 25px / 15px 5px 25px 5px; /* Bordi asimmetrici */
 }
 
 /* =========================================
-   GRIGLIA & CARTE (CORREZIONE LEGGIBILITÀ)
-   ========================================= */
-.game-board {
-  display: grid;
-  grid-template-columns: repeat(var(--cols, 6), 1fr);
-  gap: 18px;
-  perspective: 1200px; /* Profondità per l'effetto 3D */
-}
-
-.card {
-  aspect-ratio: 3 / 4;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.2s;
-  background: none;
-}
-
-.card:hover {
-  transform: translateY(-5px); /* Sollevamento leggero */
-}
-
-.card .inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-style: preserve-3d;
-  border-radius: 4px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-/* Rotazione della carta */
-.card.flipped .inner {
-  transform: rotateY(180deg);
-}
-
-/* Facce della carta */
-.card .back, .card .front {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 4px;
-}
-
-/* RETRO: Cuoio scuro decorato */
-.card .back {
-  background: #5d4037 url("https://www.transparenttextures.com/patterns/dark-leather.png") center/cover;
-  border: 3px solid #3e2723;
-}
-
-/* FRONTE: CORREZIONE LEGGIBILITÀ */
-.card .front {
-  background-color: #fff; /* Sfondo bianco puro interno */
-  transform: rotateY(180deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  
-  /* NUOVA CORNICE ESTERNA: Non copre l'immagine */
-  border: 8px solid #5d4037; /* Cornice simile a legno brunito */
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-}
-
-/* IMMAGINE: Occupa tutto lo spazio interno alla cornice */
-.card img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Assicura che l'intera immagine sia visibile, con barre bianche se necessario */
-  background-color: white;
-  filter: sepia(0.2) contrast(1.1); /* Leggera patinatura antica */
-}
-
-/* Carta trovata: Effetto pergamena bruciata ai bordi */
-.card.matched .inner {
-  border: 2px solid #d4af37;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-}
-
-/* =========================================
-   PANNELLO MESSAGGI (VALORIZZATO)
+   VOCE DEL NARRATORE (SOPRA LE CARTE)
    ========================================= */
 .message-panel {
-  margin: 45px auto 0;
-  padding: 35px;
-  background: #fdf7e6 url("https://www.transparenttextures.com/patterns/old-paper.png");
-  border-radius: 2px;
-  border: 1px solid #d3c3a3;
-  border-left: 6px solid #7d5c3a;
-  max-width: 700px;
-  text-align: center;
-  box-shadow: 8px 8px 20px rgba(0,0,0,0.1);
-  position: relative;
+    margin-bottom: 30px;
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.03);
+    border-top: 1px solid rgba(139, 69, 19, 0.2);
+    border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+    text-align: center;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
 }
 
-.message-panel h2 {
-  font-family: "IM Fell English SC", serif;
-  color: #7d5c3a;
-  font-size: 0.95rem;
-  letter-spacing: 0.25em;
-  margin-bottom: 20px;
-  text-transform: uppercase;
+/* Decorazione laterale narratore */
+.message-panel::before, .message-panel::after {
+    content: "~";
+    font-family: "Pinyon Script";
+    font-size: 2rem;
+    color: #8b4513;
+    opacity: 0.5;
 }
 
 #message {
-  font-family: "Pinyon Script", cursive; /* Font calligrafico per le citazioni */
-  font-size: 1.8rem;
-  line-height: 1.5;
-  color: #3e2723;
-  min-height: 3.5em;
-  font-style: normal; /* Pinyon Script è già corsivo */
+    font-family: "Pinyon Script", cursive;
+    font-size: 1.9rem;
+    line-height: 1.3;
+    color: #3e2723;
+    margin-top: 10px;
 }
 
-/* Animazione per il testo del narratore */
-.fade-in {
-  animation: textReveal 0.6s ease-out forwards;
-}
-
-@keyframes textReveal {
-  from { opacity: 0; transform: translateY(15px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+.char-name {
+    font-family: "IM Fell English SC", serif;
+    font-size: 1.2rem;
+    color: #8b4513;
+    letter-spacing: 2px;
 }
 
 /* =========================================
-   PULSANTI E OVERLAYS
+   GRIGLIA E CARTE (IMMAGINI VALORIZZATE)
    ========================================= */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(43, 30, 22, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 6), 1fr);
+    gap: 15px;
+    perspective: 1000px;
 }
 
-.hidden { display: none; }
-
-.overlay-content {
-  background: #fdf7e6 url("https://www.transparenttextures.com/patterns/old-paper.png");
-  padding: 45px;
-  border: 2px solid #d4af37;
-  text-align: center;
-  max-width: 450px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+.card {
+    aspect-ratio: 3 / 4;
+    cursor: pointer;
 }
 
-.overlay-title {
-  font-family: "IM Fell English SC", serif;
-  font-size: 2.2rem;
-  color: #4e342e;
-  margin-bottom: 15px;
+.card .inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.card.flipped .inner {
+    transform: rotateY(180deg);
+}
+
+.card .back, .card .front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 3px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+/* RETRO: Classico ed elegante */
+.card .back {
+    background: #5d4037 url("img/back.png") center/cover;
+    border: 2px solid #3e2723;
+}
+
+/* FRONTE: Immagine piena come prima */
+.card .front {
+    background: white;
+    transform: rotateY(180deg);
+    border: 4px solid #fdf7e6; /* Cornice sottile che non copre */
+    overflow: hidden;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Torna a riempire la carta come volevi */
+    filter: sepia(0.2);
+}
+
+.card.matched .inner {
+    box-shadow: 0 0 15px #d4af37;
+}
+
+/* =========================================
+   INFO E BOTTONI
+   ========================================= */
+.header h1 {
+    font-family: "IM Fell English SC", serif;
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 0;
+    color: #3e2723;
+}
+
+.info-bar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-family: "IM Fell English SC", serif;
+    font-size: 0.9rem;
+    margin: 20px 0;
 }
 
 button {
-  font-family: "IM Fell English SC", serif;
-  background-color: #7d5c3a;
-  color: #fdf7e6;
-  border: 1px solid #5d4037;
-  padding: 12px 28px;
-  border-radius: 2px;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-size: 0.9rem;
-  transition: all 0.3s;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    font-family: "IM Fell English SC", serif;
+    background: #3e2723;
+    color: #e9d1a9;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-button:hover { 
-  background-color: #5d4037; 
-  box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
-  transform: translateY(-2px);
+button:hover {
+    background: #8b4513;
 }
 
-#levelSelect {
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1rem;
-  padding: 8px 12px;
-  background: #fdf7e6;
-  border: 1px solid #7d5c3a;
-  color: #3e2723;
-  border-radius: 2px;
+.fade-in {
+    animation: fadeIn 0.8s ease;
 }
 
-/* =========================================
-   RESPONSIVE (Ottimizzazione Mobile)
-   ========================================= */
-@media (max-width: 800px) {
-  .header h1 { font-size: 2.5rem; }
-  .script-font, #message { font-size: 1.5rem; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
+/* Mobile */
 @media (max-width: 600px) {
-  .game-board { --cols: 3 !important; gap: 10px; }
-  .header h1 { font-size: 2rem; }
-  .subtitle { font-size: 1.1rem; }
-  .card .front { border-width: 4px; } /* Cornice più sottile su mobile */
-  .page { padding: 30px 15px; }
-  .info-bar { gap: 15px; padding: 10px; }
-  .message-panel { padding: 25px; }
+    .game-board { --cols: 3 !important; }
+    .page { padding: 15px; }
+    #message { font-size: 1.4rem; }
 }
 
 
