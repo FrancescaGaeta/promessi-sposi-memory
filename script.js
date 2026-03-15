@@ -35,27 +35,20 @@ let timerInterval = null, currentTime = 180;
 const board = document.getElementById("board");
 const msgTop = document.getElementById("message-top");
 const msgBottom = document.getElementById("message-bottom");
-const introOverlay = document.getElementById("intro-screen");
-const bookContainer = document.getElementById("bookContainer");
 
-// 1. GESTIONE ANIMAZIONE LIBRO
-document.getElementById("bookCover").addEventListener("click", () => {
-    bookContainer.classList.add("open");
-});
-
+// APERTURA AUTOMATICA
 document.getElementById("startGameBtn").addEventListener("click", () => {
     const level = document.getElementById("levelSelectIntro").value;
-    document.getElementById("levelSelectBar").value = level; // Sincronizza la barra
-    introOverlay.classList.add("fade-out");
+    document.getElementById("levelSelectBar").value = level;
+    document.getElementById("intro-screen").classList.add("fade-out");
     setTimeout(() => {
         document.getElementById("main-game").classList.remove("hidden");
         initGame(level);
-    }, 800);
+    }, 1000);
 });
 
-// 2. LOGICA NARRATORE
 function updateNarrator(title, quote) {
-    const content = quote ? `<span class="char-title">${title}</span> ${quote}` : title;
+    const content = quote ? `<span style="font-family:'IM Fell English SC'; font-size:1.1rem; display:block; color:#7d5c3a">${title}</span> ${quote}` : title;
     [msgTop, msgBottom].forEach(el => {
         el.innerHTML = content;
         el.classList.remove("fade-in");
@@ -64,13 +57,11 @@ function updateNarrator(title, quote) {
     });
 }
 
-// 3. LOGICA GIOCO
 function initGame(levelKey) {
     currentLevel = levelKey;
     const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
     totalPairs = selected.length;
     document.getElementById("totalPairs").textContent = totalPairs;
-    
     const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
     board.innerHTML = "";
     board.style.setProperty("--cols", totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6));
@@ -79,15 +70,10 @@ function initGame(levelKey) {
         const card = document.createElement("div");
         card.className = "card";
         card.dataset.name = data.name;
-        card.innerHTML = `
-            <div class="inner">
-                <div class="back"></div>
-                <div class="front"><img src="img/${data.img}"></div>
-            </div>`;
+        card.innerHTML = `<div class="inner"><div class="back"></div><div class="front"><img src="img/${data.img}"></div></div>`;
         card.addEventListener("click", flipCard);
         board.appendChild(card);
     });
-
     resetState();
     startTimer();
     updateNarrator("«Si riapre il capitolo... Trova le coppie.»", "");
@@ -131,15 +117,13 @@ function resetState() {
     clearInterval(timerInterval);
     currentTime = currentLevel === "easy" ? 120 : 180;
     updateTimerDisplay();
-    document.getElementById("victoryOverlay").classList.add("hidden");
-    document.getElementById("defeatOverlay").classList.add("hidden");
 }
 
 function startTimer() {
     timerInterval = setInterval(() => {
         currentTime--;
         updateTimerDisplay();
-        if (currentTime <= 0) { clearInterval(timerInterval); document.getElementById("defeatOverlay").classList.remove("hidden"); }
+        if (currentTime <= 0) { clearInterval(timerInterval); alert("Tempo scaduto!"); }
     }, 1000);
 }
 
@@ -149,19 +133,7 @@ function updateTimerDisplay() {
     document.getElementById("timer").textContent = `${min}:${sec.toString().padStart(2, '0')}`;
 }
 
-function handleVictory() { 
-    clearInterval(timerInterval); 
-    setTimeout(() => document.getElementById("victoryOverlay").classList.remove("hidden"), 500); 
-}
+function handleVictory() { clearInterval(timerInterval); setTimeout(() => alert("Vittoria!"), 500); }
 
-// LISTENERS
 document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
 document.getElementById("levelSelectBar").addEventListener("change", (e) => initGame(e.target.value));
-document.getElementById("playAgainBtn").addEventListener("click", () => location.reload());
-document.getElementById("tryAgainBtn").addEventListener("click", () => initGame(currentLevel));
-
-// LISTENERS RESET
-document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
-document.getElementById("playAgainBtn").addEventListener("click", () => location.reload());
-document.getElementById("tryAgainBtn").addEventListener("click", () => initGame(currentLevel));
-
