@@ -1,6 +1,6 @@
-// =======================
-// DATI E CONFIGURAZIONE
-// =======================
+// ==========================================
+// CONFIGURAZIONE PERSONAGGI E CITAZIONI
+// ==========================================
 const originalCards = [
   { name: "Renzo", img: "renzo.png" },
   { name: "Lucia", img: "lucia.png" },
@@ -37,7 +37,9 @@ const LEVEL_SETS = {
   hard: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude", "L'Innominato", "Madre Cecilia"]
 };
 
-// ... (Resto delle costanti di stato e DOM come prima) ...
+// ==========================================
+// STATO DEL GIOCO E RIFERIMENTI DOM
+// ==========================================
 let hasFlipped = false;
 let firstCard = null;
 let secondCard = null;
@@ -56,21 +58,30 @@ const messageEl = document.getElementById("message");
 const timerSpan = document.getElementById("timer");
 const victoryOverlay = document.getElementById("victoryOverlay");
 const defeatOverlay = document.getElementById("defeatOverlay");
+const levelSelect = document.getElementById("levelSelect");
 
-// =======================
-// LOGICA NARRATORE
-// =======================
-function updateNarrator(text) {
-  messageEl.classList.remove("fade-in");
+// ==========================================
+// GESTIONE NARRATORE (Con Cambio Font)
+// ==========================================
+function updateNarrator(title, quote) {
+  // Rimuoviamo l'animazione per resettarla
+  messageEl.parentElement.classList.remove("fade-in");
   void messageEl.offsetWidth; // Trigger reflow
-  messageEl.innerHTML = text;
-  messageEl.classList.add("fade-in");
+
+  // Costruiamo il contenuto con le classi per i nuovi font
+  const html = `
+    <div class="manzonian-font" style="font-size: 1.1rem; color: #7d5c3a; margin-bottom: 5px;">${title}</div>
+    <div class="script-font">${quote}</div>
+  `;
+  
+  messageEl.innerHTML = html;
+  messageEl.parentElement.classList.add("fade-in");
 }
 
-// =======================
-// GESTIONE GIOCO
-// =======================
-function initGame(levelKey = currentLevel) {
+// ==========================================
+// INIZIALIZZAZIONE PARTITA
+// ==========================================
+function initGame(levelKey = levelSelect.value) {
   currentLevel = levelKey;
   const setNames = LEVEL_SETS[levelKey];
   const selected = setNames.map(name => originalCards.find(c => c.name === name));
@@ -78,17 +89,20 @@ function initGame(levelKey = currentLevel) {
   totalPairs = selected.length;
   document.getElementById("totalPairs").textContent = totalPairs;
   
-  board.innerHTML = "";
-  const deck = shuffle([...selected, ...selected]);
-  
-  // Imposta colonne
+  // Configurazione Griglia
   const cols = totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6);
   board.style.setProperty("--cols", cols);
+  board.innerHTML = "";
+
+  // Creazione Mazzo
+  const deck = shuffle([...selected, ...selected]);
 
   deck.forEach(cardData => {
     const card = document.createElement("div");
     card.classList.add("card");
     card.dataset.name = cardData.name;
+    
+    // Struttura HTML per effetto 3D e cornice esterna
     card.innerHTML = `
       <div class="inner">
         <div class="back"></div>
@@ -97,15 +111,19 @@ function initGame(levelKey = currentLevel) {
         </div>
       </div>
     `;
+    
     card.addEventListener("click", flipCard);
     board.appendChild(card);
   });
 
-  resetState();
+  resetGameState();
   startTimer();
-  updateNarrator("«Si riapre il capitolo…»<br>Trova le coppie per proseguire la storia.");
+  updateNarrator("L'Inizio", "«Quel ramo del lago di Como...»");
 }
 
+// ==========================================
+// LOGICA DI GIOCO
+// ==========================================
 function flipCard() {
   if (lockBoard || this === firstCard || this.classList.contains("matched")) return;
 
@@ -138,30 +156,39 @@ function disableCards() {
   matchesSpan.textContent = matches;
   
   const name = firstCard.dataset.name;
-  updateNarrator(`<strong>${name}</strong><br>${manzonianQuotes[name]}`);
+  updateNarrator(name, manzonianQuotes[name]);
 
   firstCard.classList.add("matched");
   secondCard.classList.add("matched");
 
   resetTurn();
-  if (matches === totalPairs) handleVictory();
+  if (matches === totalPairs) {
+    setTimeout(handleVictory, 800);
+  }
 }
 
 function unflipCards() {
   lockBoard = true;
-  updateNarrator("«Le trame si confondono… non è questa la via.»");
+  updateNarrator("Il Caso", "«Le trame si confondono… cercate ancora.»");
   
   setTimeout(() => {
     firstCard.classList.remove("flipped");
     secondCard.classList.remove("flipped");
     resetTurn();
-  }, 1000);
+  }, 1200);
 }
 
-// ... (Funzioni di utility e timer rimangono simili, ma integrate con updateNarrator) ...
-
+// ==========================================
+// UTILITY
+// ==========================================
 function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
 }
 
 function resetTurn() {
@@ -169,26 +196,32 @@ function resetTurn() {
   [firstCard, secondCard] = [null, null];
 }
 
-function resetState() {
+function resetGameState() {
   resetTurn();
   matches = 0;
   tries = 0;
   triesSpan.textContent = "0";
   matchesSpan.textContent = "0";
+  
   clearInterval(timerInterval);
-  currentTime = currentLevel === "easy" ? 120 : 180;
+  // Tempo variabile per livello
+  currentTime = currentLevel === "easy" ? 120 : (currentLevel === "medium" ? 180 : 240);
   updateTimerDisplay();
+  
   victoryOverlay.classList.add("hidden");
   defeatOverlay.classList.add("hidden");
 }
 
+// ==========================================
+// TIMER E OVERLAYS
+// ==========================================
 function startTimer() {
   timerInterval = setInterval(() => {
     currentTime--;
     updateTimerDisplay();
     if (currentTime <= 0) {
       clearInterval(timerInterval);
-      defeatOverlay.classList.remove("hidden");
+      handleDefeat();
     }
   }, 1000);
 }
@@ -201,17 +234,23 @@ function updateTimerDisplay() {
 
 function handleVictory() {
   clearInterval(timerInterval);
-  setTimeout(() => victoryOverlay.classList.remove("hidden"), 500);
+  victoryOverlay.classList.remove("hidden");
 }
 
-// Event Listeners
+function handleDefeat() {
+  lockBoard = true;
+  defeatOverlay.classList.remove("hidden");
+}
+
+// ==========================================
+// EVENT LISTENERS
+// ==========================================
 document.getElementById("resetBtn").addEventListener("click", () => initGame());
-document.getElementById("levelSelect").addEventListener("change", (e) => initGame(e.target.value));
 document.getElementById("playAgainBtn").addEventListener("click", () => initGame());
 document.getElementById("tryAgainBtn").addEventListener("click", () => initGame());
+levelSelect.addEventListener("change", (e) => initGame(e.target.value));
 
-// Avvio
-initGame();
-
+// AVVIO INIZIALE
+window.onload = () => initGame();
 
 
