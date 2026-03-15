@@ -1,111 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Pinyon+Script&family=Crimson+Text:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Pinyon+Script&display=swap');
 
-body { background-color: #1a100a; margin: 0; font-family: "Crimson Text", serif; }
-.manzonian-font { font-family: 'IM Fell English SC', serif; }
-.script-font { font-family: 'Pinyon Script', cursive; }
-
-/* UTILITY: Effetto Pergamena Universale */
-.parchment {
-    background: #fdfaf3 url("https://www.transparenttextures.com/patterns/old-paper.png");
-    box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.1);
-}
-
-/* INTRO LIBRO (RIPRODUZIONE CSS) */
+/* EFFETTO INTRO (MANOSCRITTO) */
 .intro-overlay {
-    position: fixed; inset: 0; z-index: 2000;
-    background: radial-gradient(circle, #2c1e14 0%, #000 100%);
-    display: flex; justify-content: center; align-items: center;
-    perspective: 2000px; transition: opacity 1s;
-}
-
-.book-container { width: 500px; height: 650px; position: relative; transform-style: preserve-3d; }
-
-.book-cover {
-    width: 100%; height: 100%; position: absolute; z-index: 10;
-    transform-origin: left; transform-style: preserve-3d;
-    animation: openBookAuto 2.5s ease-in-out forwards; animation-delay: 0.5s;
-}
-
-/* Costruzione Copertina Frontale */
-.cover-front {
-    position: absolute; width: 100%; height: 100%;
-    backface-visibility: hidden; border-radius: 4px 10px 10px 4px;
+    position: fixed;
+    inset: 0;
+    background: #1a100a;
     display: flex;
-    overflow: hidden;
-    box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    transition: transform 1s ease-in-out, opacity 0.8s;
 }
 
-/* Dorso in finta pergamena */
-.spine-mimic {
-    width: 25%;
-    height: 100%;
-    background: linear-gradient(90deg, #e7ddc5 0%, #d3c3a3 50%, #e7ddc5 100%); /* Simula volume dorso */
-    border-right: 2px solid #a69a7c;
-    display: flex; justify-content: center; align-items: center;
-    position: relative;
+.book {
+    width: 500px;
+    height: 600px;
+    background: #fdfaf3;
+    background-image: url("https://www.transparenttextures.com/patterns/old-paper.png");
+    border: 1px solid #d3c3a3;
+    box-shadow: 20px 0 50px rgba(0,0,0,0.5), inset 5px 0 15px rgba(0,0,0,0.2);
+    padding: 40px;
+    text-align: center;
+    border-radius: 5px 15px 15px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.spine-mimic::before {
-    content: ""; position: absolute; inset: 10px 0;
-    border-top: 1px solid #a69a7c; border-bottom: 1px solid #a69a7c; opacity: 0.5;
+.setup-area { margin-top: 30px; border-top: 1px solid #d3c3a3; padding-top: 20px; }
+
+/* PANNELLO NARRATORE (RIDOTTO) */
+.small-panel {
+    min-height: 80px !important;
+    padding: 10px 20px !important;
+    margin: 15px auto !important;
+    max-width: 900px;
+    background: rgba(125, 92, 58, 0.03) !important;
 }
 
-.spine-label {
-    transform: rotate(-90deg);
-    font-family: 'IM Fell English SC', serif;
-    color: #5d4037; font-size: 1.2rem;
-    white-space: nowrap;
+#message-top, #message-bottom {
+    font-size: 1.6rem !important; /* Più piccolo e leggibile */
 }
 
-/* Piatto in finta carta marmorizzata */
-.marble-plate {
-    width: 75%;
-    height: 100%;
-    /* Gradienti complessi per simulare le macchie marmorizzate (rosso e verde) */
-    background: 
-        radial-gradient(circle at 30% 20%, rgba(139,0,0,0.1) 0%, transparent 20%),
-        radial-gradient(circle at 70% 40%, rgba(0,100,0,0.08) 0%, transparent 25%),
-        radial-gradient(circle at 10% 80%, rgba(139,0,0,0.08) 0%, transparent 15%),
-        radial-gradient(circle at 80% 90%, rgba(0,100,0,0.06) 0%, transparent 20%),
-        #f5eeda; /* Colore base carta */
-    border-radius: 0 10px 10px 0;
-}
-
-.cover-back {
-    position: absolute; width: 100%; height: 100%;
-    background: #3e2723; transform: rotateY(180deg); backface-visibility: hidden;
-    border-radius: 10px 4px 4px 10px;
-}
-
-@keyframes openBookAuto { 100% { transform: rotateY(-145deg); } }
-
-/* Pagina interna */
-.book-page {
-    width: 98%; height: 98%; position: absolute; top: 1%; left: 1%;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 50px; text-align: center; border-radius: 0 5px 5px 0;
-    box-shadow: inset 10px 0 20px rgba(0,0,0,0.1);
-}
-
-/* LAYOUT GIOCO */
-.page { max-width: 1000px; margin: 20px auto; padding: 40px; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+/* NASCONDI GIOCO ALL'INIZIO */
 .hidden { display: none !important; }
-.fade-out { opacity: 0; pointer-events: none; }
+.fade-out { transform: scale(1.5); opacity: 0; pointer-events: none; }
 
-.info-bar { display: flex; justify-content: space-around; padding: 15px; background: rgba(125,92,58,0.05); margin-bottom: 20px; }
-.label { display: block; font-size: 0.8rem; text-transform: uppercase; color: #8c735c; }
-
-.small-panel { border-top: 1px solid #7d5c3a; border-bottom: 1px solid #7d5c3a; padding: 10px; text-align: center; margin: 10px 0; min-height: 80px; }
-#message-top, #message-bottom { font-size: 1.8rem; color: #3e2723; }
-
-.game-board { display: grid; grid-template-columns: repeat(var(--cols, 6), 1fr); gap: 15px; }
-.card { aspect-ratio: 3/4; cursor: pointer; }
-.card .inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
-.card.flipped .inner { transform: rotateY(180deg); }
-.card .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: url("img/back.png") center/cover; border: 2px solid #5d4037; }
-.card .front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; transform: rotateY(180deg); background: white; border: 2px solid #5d4037; }
-.card img { width: 100%; height: 100%; object-fit: cover; }
-.card.matched .inner { box-shadow: 0 0 20px #d4af37; border: 2px solid #d4af37; }
-
-button { background: #5d4037; color: white; padding: 10px 20px; border: none; cursor: pointer; font-family: 'IM Fell English SC', serif; }
-.actions { text-align: center; margin-top: 20px; }
+/* ALONE DORATO */
+.card.matched .inner {
+    box-shadow: 0 0 25px #d4af37 !important;
+    border: 2px solid #d4af37 !important;
+}
