@@ -1,64 +1,52 @@
-// --- CONFIGURAZIONE E LISTENER ---
-document.getElementById("startGameBtn").addEventListener("click", openManuscript);
-
-// Funzione per aprire il libro
-function openManuscript() {
+ document.addEventListener("DOMContentLoaded", () => {
+    const startBtn = document.getElementById("startGameBtn");
     const book = document.getElementById("book-element");
     const introOverlay = document.getElementById("intro-screen");
     const mainGame = document.getElementById("main-game");
-    const level = document.getElementById("levelSelectIntro").value;
 
-    // 1. Inizia l'animazione di rotazione 3D
-    book.classList.add("open");
-
-    // 2. Aspetta che il libro sia quasi aperto prima di sfumare l'overlay
-    setTimeout(() => {
-        introOverlay.classList.add("fade-out-overlay");
+    // GESTORE CLICK INIZIALE
+    startBtn.addEventListener("click", () => {
+        const level = document.getElementById("levelSelectIntro").value;
         
-        // 3. Mostra la sezione gioco e inizializza
+        // 1. Animazione apertura libro
+        book.classList.add("open");
+
+        // 2. Dissolvenza graduale dopo l'inizio dell'animazione
         setTimeout(() => {
-            introOverlay.classList.add("hidden");
-            mainGame.classList.remove("hidden");
-            initGame(level); // Assicurati di avere questa funzione definita nel tuo script principale
-        }, 800);
-    }, 1000);
-}
+            introOverlay.classList.add("fade-out");
+            
+            // 3. Mostra il gioco
+            setTimeout(() => {
+                introOverlay.classList.add("hidden");
+                mainGame.classList.remove("hidden");
+                
+                // Inizializza il tuo gioco (passando il livello scelto)
+                if (typeof initGame === "function") {
+                    initGame(level);
+                }
+            }, 800);
+        }, 1000);
+    });
+});
 
-// --- LOGICA GESTIONE TESTI (Dalle tue specifiche) ---
-
+// Funzione Narratore (aggiornata con la tua logica)
 function updateNarrator(title, quote) {
-    const content = `<span class="char-title" style="font-size:0.9rem; color: #d4af37; display:block;">${title}</span> « ${quote} »`;
+    const content = `<span style="color: #d4af37; font-size: 0.9rem;">${title}</span><br>« ${quote} »`;
+    const panels = [document.getElementById("message-top"), document.getElementById("message-bottom")];
     
-    const targets = [document.getElementById("message-top"), document.getElementById("message-bottom")];
-    
-    targets.forEach(el => {
-        if(!el) return;
-        el.style.opacity = 0; // Semplice effetto transizione
+    panels.forEach(el => {
+        if (!el) return;
+        el.style.transition = "opacity 0.4s";
+        el.style.opacity = 0;
         setTimeout(() => {
             el.innerHTML = content;
             el.style.opacity = 1;
-        }, 300);
+        }, 400);
     });
 }
 
-// Da inserire all'interno della tua funzione checkForMatch quando trovi una coppia
-function handleMatchFound(name, quoteMap) {
-    matches++;
-    document.getElementById("matches").textContent = matches;
-    
-    // Aggiorna i pannelli con la citazione del personaggio
-    updateNarrator(name, quoteMap[name] || "Un incontro memorabile...");
-
-    // Logica per bloccare le carte (assumendo che firstCard e secondCard siano globali)
-    firstCard.classList.add("matched");
-    secondCard.classList.add("matched");
-    
-    if (matches === totalPairs) handleVictory();
-    resetTurn();
-}
-
-// Funzione fittizia per evitare errori nel test del codice sopra
+// Esempio della tua funzione initGame (da completare con la tua logica di carte)
 function initGame(level) {
-    console.log("Gioco inizializzato con livello:", level);
-    // Qui andrà la tua logica esistente di generazione carte
+    console.log("Gioco avviato a livello: " + level);
+    // Qui inserisci il codice per generare la griglia del memory
 }
