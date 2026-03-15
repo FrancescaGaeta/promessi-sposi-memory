@@ -1,6 +1,3 @@
-// =======================
-// DATI E CONFIGURAZIONE
-// =======================
 const originalCards = [
   { name: "Renzo", img: "renzo.png" },
   { name: "Lucia", img: "lucia.png" },
@@ -41,145 +38,120 @@ let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0;
 let timerInterval = null, currentTime = 180;
 
-const board = document.querySelector(".game-board");
-const triesSpan = document.getElementById("tries");
-const matchesSpan = document.getElementById("matches");
-const messageEl = document.getElementById("message");
-const timerSpan = document.getElementById("timer");
-const victoryOverlay = document.getElementById("victoryOverlay");
-const defeatOverlay = document.getElementById("defeatOverlay");
+// ELEMENTS
+const board = document.getElementById("board");
+const msgTop = document.getElementById("message-top");
+const msgBottom = document.getElementById("message-bottom");
 
-// =======================
-// LOGICA NARRATORE
-// =======================
-function updateNarrator(text) {
-  messageEl.classList.remove("fade-in");
-  void messageEl.offsetWidth; 
-  messageEl.innerHTML = text;
-  messageEl.classList.add("fade-in");
+// GESTIONE APERTURA MANOSCRITTO
+document.getElementById("startGameBtn").addEventListener("click", () => {
+    const level = document.getElementById("levelSelectIntro").value;
+    document.getElementById("intro-screen").classList.add("fade-out");
+    document.getElementById("main-game").classList.remove("hidden");
+    initGame(level);
+});
+
+function updateNarrator(title, quote) {
+    const content = `<span class="char-title">${title}</span> ${quote}`;
+    [msgTop, msgBottom].forEach(el => {
+        el.innerHTML = content;
+        el.classList.remove("fade-in");
+        void el.offsetWidth;
+        el.classList.add("fade-in");
+    });
 }
 
-// =======================
-// GESTIONE GIOCO
-// =======================
-function initGame(levelKey = currentLevel) {
-  currentLevel = levelKey;
-  const setNames = LEVEL_SETS[levelKey];
-  const selected = setNames.map(name => originalCards.find(c => c.name === name));
-  
-  totalPairs = selected.length;
-  document.getElementById("totalPairs").textContent = totalPairs;
-  
-  board.innerHTML = "";
-  const deck = shuffle([...selected, ...selected]);
-  
-  const cols = totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6);
-  board.style.setProperty("--cols", cols);
+function initGame(levelKey) {
+    currentLevel = levelKey;
+    const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
+    totalPairs = selected.length;
+    document.getElementById("totalPairs").textContent = totalPairs;
+    
+    const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
+    board.innerHTML = "";
+    board.style.setProperty("--cols", totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6));
 
-  deck.forEach(cardData => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-    card.dataset.name = cardData.name;
-    card.innerHTML = `
-      <div class="inner">
-        <div class="back"></div>
-        <div class="front">
-          <img src="img/${cardData.img}" alt="${cardData.name}">
-        </div>
-      </div>
-    `;
-    card.addEventListener("click", flipCard);
-    board.appendChild(card);
-  });
+    deck.forEach(data => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.dataset.name = data.name;
+        card.innerHTML = `
+            <div class="inner">
+                <div class="back"></div>
+                <div class="front"><img src="img/${data.img}"></div>
+            </div>`;
+        card.addEventListener("click", flipCard);
+        board.appendChild(card);
+    });
 
-  resetState();
-  startTimer();
-  updateNarrator("«Si riapre il capitolo…»<br>Trova le coppie per proseguire la storia.");
+    resetState();
+    startTimer();
+    updateNarrator("Il Narratore", "«Si riapre il capitolo... Trova le coppie.»");
 }
 
 function flipCard() {
-  if (lockBoard || this === firstCard || this.classList.contains("matched")) return;
-  this.classList.add("flipped");
-  if (!hasFlipped) { hasFlipped = true; firstCard = this; return; }
-  secondCard = this;
-  tries++;
-  triesSpan.textContent = tries;
-  checkForMatch();
+    if (lockBoard || this === firstCard || this.classList.contains("matched")) return;
+    this.classList.add("flipped");
+    if (!hasFlipped) { hasFlipped = true; firstCard = this; return; }
+    secondCard = this;
+    checkForMatch();
 }
 
 function checkForMatch() {
-  if (firstCard.dataset.name === secondCard.dataset.name) {
-    disableCards();
-  } else {
-    unflipCards();
-  }
+    tries++;
+    document.getElementById("tries").textContent = tries;
+    if (firstCard.dataset.name === secondCard.dataset.name) {
+        matches++;
+        document.getElementById("matches").textContent = matches;
+        updateNarrator(firstCard.dataset.name, manzonianQuotes[firstCard.dataset.name]);
+        firstCard.classList.add("matched");
+        secondCard.classList.add("matched");
+        resetTurn();
+        if (matches === totalPairs) handleVictory();
+    } else {
+        lockBoard = true;
+        setTimeout(() => {
+            firstCard.classList.remove("flipped");
+            secondCard.classList.remove("flipped");
+            resetTurn();
+        }, 1000);
+    }
 }
 
-function disableCards() {
-  matches++;
-  matchesSpan.textContent = matches;
-  const name = firstCard.dataset.name;
-  
-  // Modifica qui: aggiunta classe per il font del nome
-  updateNarrator(`<span class="char-title">${name}</span>${manzonianQuotes[name]}`);
-
-  firstCard.classList.add("matched");
-  secondCard.classList.add("matched");
-
-  resetTurn();
-  if (matches === totalPairs) handleVictory();
-}
-
-function unflipCards() {
-  lockBoard = true;
-  updateNarrator("«Le trame si confondono… non è questa la via.»");
-  setTimeout(() => {
-    firstCard.classList.remove("flipped");
-    secondCard.classList.remove("flipped");
-    resetTurn();
-  }, 1000);
-}
-
-function shuffle(array) { return array.sort(() => Math.random() - 0.5); }
 function resetTurn() { [hasFlipped, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
 
 function resetState() {
-  resetTurn();
-  matches = 0; tries = 0;
-  triesSpan.textContent = "0";
-  matchesSpan.textContent = "0";
-  clearInterval(timerInterval);
-  currentTime = currentLevel === "easy" ? 120 : 180;
-  updateTimerDisplay();
-  victoryOverlay.classList.add("hidden");
-  defeatOverlay.classList.add("hidden");
+    matches = 0; tries = 0;
+    document.getElementById("matches").textContent = "0";
+    document.getElementById("tries").textContent = "0";
+    clearInterval(timerInterval);
+    currentTime = currentLevel === "easy" ? 120 : 180;
+    updateTimerDisplay();
+    document.getElementById("victoryOverlay").classList.add("hidden");
+    document.getElementById("defeatOverlay").classList.add("hidden");
 }
 
 function startTimer() {
-  timerInterval = setInterval(() => {
-    currentTime--;
-    updateTimerDisplay();
-    if (currentTime <= 0) { clearInterval(timerInterval); defeatOverlay.classList.remove("hidden"); }
-  }, 1000);
+    timerInterval = setInterval(() => {
+        currentTime--;
+        updateTimerDisplay();
+        if (currentTime <= 0) { clearInterval(timerInterval); document.getElementById("defeatOverlay").classList.remove("hidden"); }
+    }, 1000);
 }
 
 function updateTimerDisplay() {
-  const min = Math.floor(currentTime / 60);
-  const sec = currentTime % 60;
-  timerSpan.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+    const min = Math.floor(currentTime / 60);
+    const sec = currentTime % 60;
+    document.getElementById("timer").textContent = `${min}:${sec.toString().padStart(2, '0')}`;
 }
 
-function handleVictory() {
-  clearInterval(timerInterval);
-  setTimeout(() => victoryOverlay.classList.remove("hidden"), 500);
+function handleVictory() { 
+    clearInterval(timerInterval); 
+    setTimeout(() => document.getElementById("victoryOverlay").classList.remove("hidden"), 500); 
 }
 
-// Listeners
-document.getElementById("resetBtn").addEventListener("click", () => initGame());
-document.getElementById("levelSelect").addEventListener("change", (e) => initGame(e.target.value));
-document.getElementById("playAgainBtn").addEventListener("click", () => initGame());
-document.getElementById("tryAgainBtn").addEventListener("click", () => initGame());
-
-initGame();
-
+// LISTENERS RESET
+document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
+document.getElementById("playAgainBtn").addEventListener("click", () => location.reload());
+document.getElementById("tryAgainBtn").addEventListener("click", () => initGame(currentLevel));
 
