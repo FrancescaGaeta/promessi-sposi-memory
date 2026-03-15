@@ -12,31 +12,30 @@
         <div class="book-container" id="bookContainer">
             <div class="book-cover" id="bookCover">
                 <div class="cover-front">
-                    <h1 class="manzonian-font">I Promessi Sposi</h1>
-                    <div class="decoration">❧</div>
-                    <p class="click-hint">Clicca per aprire</p>
+                    <div class="spine-mimic">
+                        <div class="spine-label">I Promessi Sposi</div>
+                    </div>
+                    <div class="marble-plate"></div>
                 </div>
                 <div class="cover-back"></div>
             </div>
             
-            <div class="book-page">
-                <h2 class="manzonian-font">Introduzione</h2>
-                <p class="script-font">« Benvenuti, viandanti, in questa ricerca tra i ricordi del passato. Scegliete il vostro cammino... »</p>
-                
+            <div class="book-page parchment">
+                <h1 class="manzonian-font">I Promessi Sposi</h1>
+                <p class="script-font">« Benvenuti, viandanti... Scegliete il vostro percorso. »</p>
                 <div class="setup-area">
-                    <label class="manzonian-font">Difficoltà:</label>
                     <select id="levelSelectIntro">
                         <option value="easy">Facile (6 coppie)</option>
                         <option value="medium" selected>Medio (10 coppie)</option>
                         <option value="hard">Difficile (12 coppie)</option>
                     </select>
-                    <button id="startGameBtn">Inizia la Storia</button>
+                    <button id="startGameBtn">Aprite il Volume</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="page hidden" id="main-game">
+    <div class="page hidden parchment" id="main-game">
         <header class="header">
             <h1 class="manzonian-font">Memory – I Promessi Sposi</h1>
         </header>
@@ -67,6 +66,10 @@
 
         <div class="actions"><button id="resetBtn">Ricomincia</button></div>
     </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
 
     <script src="script.js"></script>
 </body>
