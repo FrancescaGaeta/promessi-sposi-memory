@@ -1,3 +1,6 @@
+// =======================
+// DATI E CONFIGURAZIONE
+// =======================
 const originalCards = [
   { name: "Renzo", img: "renzo.png" },
   { name: "Lucia", img: "lucia.png" },
@@ -35,102 +38,125 @@ const LEVEL_SETS = {
 };
 
 let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
-let tries = 0, matches = 0, currentTime = 180, timerInterval = null;
+let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0;
+let timerInterval = null, currentTime = 180;
 
 const board = document.querySelector(".game-board");
 const messageEl = document.getElementById("message");
 
-function updateNarrator(title, quote) {
-    messageEl.classList.remove("fade-in");
-    void messageEl.offsetWidth;
-    messageEl.innerHTML = `<div class="char-name">${title}</div>${quote}`;
-    messageEl.classList.add("fade-in");
+// =======================
+// LOGICA NARRATORE
+// =======================
+function updateNarrator(htmlContent) {
+  messageEl.classList.remove("fade-in");
+  void messageEl.offsetWidth; // Trigger reflow
+  messageEl.innerHTML = htmlContent;
+  messageEl.classList.add("fade-in");
 }
 
-function initGame() {
-    const levelKey = document.getElementById("levelSelect").value;
-    const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
-    const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
-    
-    board.style.setProperty("--cols", selected.length <= 6 ? 4 : (selected.length <= 10 ? 5 : 6));
-    board.innerHTML = "";
-    
-    deck.forEach(data => {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.dataset.name = data.name;
-        card.innerHTML = `
-            <div class="inner">
-                <div class="back"></div>
-                <div class="front"><img src="img/${data.img}"></div>
-            </div>`;
-        card.addEventListener("click", flipCard);
-        board.appendChild(card);
-    });
+// =======================
+// GESTIONE GIOCO
+// =======================
+function initGame(levelKey = document.getElementById("levelSelect").value) {
+  currentLevel = levelKey;
+  const setNames = LEVEL_SETS[levelKey];
+  const selected = setNames.map(name => originalCards.find(c => c.name === name));
+  
+  totalPairs = selected.length;
+  document.getElementById("totalPairs").textContent = totalPairs;
+  
+  board.innerHTML = "";
+  const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
+  
+  board.style.setProperty("--cols", totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6));
 
-    resetStats(levelKey);
-    updateNarrator("Il Narratore", "«Quel ramo del lago di Como...»");
+  deck.forEach(cardData => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.dataset.name = cardData.name;
+    card.innerHTML = `
+      <div class="inner">
+        <div class="back"></div>
+        <div class="front"><img src="img/${cardData.img}"></div>
+      </div>`;
+    card.addEventListener("click", flipCard);
+    board.appendChild(card);
+  });
+
+  resetState();
+  startTimer();
+  updateNarrator("«Si riapre il capitolo…»");
 }
 
 function flipCard() {
-    if (lockBoard || this === firstCard || this.classList.contains("matched")) return;
-    this.classList.add("flipped");
-    if (!hasFlipped) { hasFlipped = true; firstCard = this; return; }
-    secondCard = this;
-    checkForMatch();
+  if (lockBoard || this === firstCard || this.classList.contains("matched")) return;
+  this.classList.add("flipped");
+  if (!hasFlipped) { hasFlipped = true; firstCard = this; return; }
+  secondCard = this;
+  checkForMatch();
 }
 
 function checkForMatch() {
-    const isMatch = firstCard.dataset.name === secondCard.dataset.name;
-    if (isMatch) {
-        matches++;
-        document.getElementById("matches").textContent = matches;
-        const name = firstCard.dataset.name;
-        updateNarrator(name, manzonianQuotes[name]);
-        firstCard.classList.add("matched");
-        secondCard.classList.add("matched");
-        resetTurn();
-        if (matches === parseInt(document.getElementById("totalPairs").textContent)) handleVictory();
-    } else {
-        lockBoard = true;
-        setTimeout(() => {
-            firstCard.classList.remove("flipped");
-            secondCard.classList.remove("flipped");
-            resetTurn();
-        }, 1000);
-    }
-    tries++;
-    document.getElementById("tries").textContent = tries;
+  tries++;
+  document.getElementById("tries").textContent = tries;
+  
+  if (firstCard.dataset.name === secondCard.dataset.name) {
+    matches++;
+    document.getElementById("matches").textContent = matches;
+    const name = firstCard.dataset.name;
+    
+    // Inseriamo il nome con font antico e citazione con font calligrafico
+    updateNarrator(`<span class="char-name-msg">${name}</span>${manzonianQuotes[name]}`);
+    
+    firstCard.classList.add("matched");
+    secondCard.classList.add("matched");
+    resetTurn();
+    if (matches === totalPairs) handleVictory();
+  } else {
+    lockBoard = true;
+    updateNarrator("«Le trame si confondono…»");
+    setTimeout(() => {
+      firstCard.classList.remove("flipped");
+      secondCard.classList.remove("flipped");
+      resetTurn();
+    }, 1000);
+  }
 }
 
 function resetTurn() { [hasFlipped, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
 
-function resetStats(level) {
-    matches = 0; tries = 0;
-    document.getElementById("matches").textContent = "0";
-    document.getElementById("tries").textContent = "0";
-    document.getElementById("totalPairs").textContent = LEVEL_SETS[level].length;
-    clearInterval(timerInterval);
-    currentTime = 180;
-    startTimer();
+function resetState() {
+  matches = 0; tries = 0;
+  document.getElementById("matches").textContent = "0";
+  document.getElementById("tries").textContent = "0";
+  clearInterval(timerInterval);
+  currentTime = currentLevel === "easy" ? 120 : 180;
+  updateTimerDisplay();
+  document.getElementById("victoryOverlay").classList.add("hidden");
+  document.getElementById("defeatOverlay").classList.add("hidden");
 }
 
 function startTimer() {
-    timerInterval = setInterval(() => {
-        currentTime--;
-        const min = Math.floor(currentTime / 60);
-        const sec = currentTime % 60;
-        document.getElementById("timer").textContent = `${min}:${sec.toString().padStart(2, '0')}`;
-        if (currentTime <= 0) { clearInterval(timerInterval); document.getElementById("defeatOverlay").classList.remove("hidden"); }
-    }, 1000);
+  timerInterval = setInterval(() => {
+    currentTime--;
+    updateTimerDisplay();
+    if (currentTime <= 0) { clearInterval(timerInterval); document.getElementById("defeatOverlay").classList.remove("hidden"); }
+  }, 1000);
 }
 
-function handleVictory() { clearInterval(timerInterval); document.getElementById("victoryOverlay").classList.remove("hidden"); }
+function updateTimerDisplay() {
+  const min = Math.floor(currentTime / 60);
+  const sec = currentTime % 60;
+  document.getElementById("timer").textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+}
 
-document.getElementById("levelSelect").addEventListener("change", initGame);
-document.getElementById("resetBtn").addEventListener("click", initGame);
-document.getElementById("playAgainBtn").addEventListener("click", () => { document.getElementById("victoryOverlay").classList.add("hidden"); initGame(); });
-document.getElementById("tryAgainBtn").addEventListener("click", () => { document.getElementById("defeatOverlay").classList.add("hidden"); initGame(); });
+function handleVictory() { clearInterval(timerInterval); setTimeout(() => document.getElementById("victoryOverlay").classList.remove("hidden"), 500); }
+
+// Event Listeners
+document.getElementById("levelSelect").addEventListener("change", (e) => initGame(e.target.value));
+document.getElementById("resetBtn").addEventListener("click", () => initGame());
+document.getElementById("playAgainBtn").addEventListener("click", () => initGame());
+document.getElementById("tryAgainBtn").addEventListener("click", () => initGame());
 
 initGame();
 
