@@ -37,17 +37,9 @@ const LEVEL_SETS = {
   hard: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude", "L'Innominato", "Madre Cecilia"]
 };
 
-// ... (Resto delle costanti di stato e DOM come prima) ...
-let hasFlipped = false;
-let firstCard = null;
-let secondCard = null;
-let lockBoard = false;
-let tries = 0;
-let matches = 0;
-let currentLevel = "medium";
-let totalPairs = 0;
-let timerInterval = null;
-let currentTime = 180;
+let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
+let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0;
+let timerInterval = null, currentTime = 180;
 
 const board = document.querySelector(".game-board");
 const triesSpan = document.getElementById("tries");
@@ -62,7 +54,7 @@ const defeatOverlay = document.getElementById("defeatOverlay");
 // =======================
 function updateNarrator(text) {
   messageEl.classList.remove("fade-in");
-  void messageEl.offsetWidth; // Trigger reflow
+  void messageEl.offsetWidth; 
   messageEl.innerHTML = text;
   messageEl.classList.add("fade-in");
 }
@@ -81,7 +73,6 @@ function initGame(levelKey = currentLevel) {
   board.innerHTML = "";
   const deck = shuffle([...selected, ...selected]);
   
-  // Imposta colonne
   const cols = totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6);
   board.style.setProperty("--cols", cols);
 
@@ -108,15 +99,8 @@ function initGame(levelKey = currentLevel) {
 
 function flipCard() {
   if (lockBoard || this === firstCard || this.classList.contains("matched")) return;
-
   this.classList.add("flipped");
-
-  if (!hasFlipped) {
-    hasFlipped = true;
-    firstCard = this;
-    return;
-  }
-
+  if (!hasFlipped) { hasFlipped = true; firstCard = this; return; }
   secondCard = this;
   tries++;
   triesSpan.textContent = tries;
@@ -124,9 +108,7 @@ function flipCard() {
 }
 
 function checkForMatch() {
-  const isMatch = firstCard.dataset.name === secondCard.dataset.name;
-
-  if (isMatch) {
+  if (firstCard.dataset.name === secondCard.dataset.name) {
     disableCards();
   } else {
     unflipCards();
@@ -136,9 +118,10 @@ function checkForMatch() {
 function disableCards() {
   matches++;
   matchesSpan.textContent = matches;
-  
   const name = firstCard.dataset.name;
-  updateNarrator(`<strong>${name}</strong><br>${manzonianQuotes[name]}`);
+  
+  // Modifica qui: aggiunta classe per il font del nome
+  updateNarrator(`<span class="char-title">${name}</span>${manzonianQuotes[name]}`);
 
   firstCard.classList.add("matched");
   secondCard.classList.add("matched");
@@ -150,7 +133,6 @@ function disableCards() {
 function unflipCards() {
   lockBoard = true;
   updateNarrator("«Le trame si confondono… non è questa la via.»");
-  
   setTimeout(() => {
     firstCard.classList.remove("flipped");
     secondCard.classList.remove("flipped");
@@ -158,21 +140,12 @@ function unflipCards() {
   }, 1000);
 }
 
-// ... (Funzioni di utility e timer rimangono simili, ma integrate con updateNarrator) ...
-
-function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
-
-function resetTurn() {
-  [hasFlipped, lockBoard] = [false, false];
-  [firstCard, secondCard] = [null, null];
-}
+function shuffle(array) { return array.sort(() => Math.random() - 0.5); }
+function resetTurn() { [hasFlipped, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
 
 function resetState() {
   resetTurn();
-  matches = 0;
-  tries = 0;
+  matches = 0; tries = 0;
   triesSpan.textContent = "0";
   matchesSpan.textContent = "0";
   clearInterval(timerInterval);
@@ -186,10 +159,7 @@ function startTimer() {
   timerInterval = setInterval(() => {
     currentTime--;
     updateTimerDisplay();
-    if (currentTime <= 0) {
-      clearInterval(timerInterval);
-      defeatOverlay.classList.remove("hidden");
-    }
+    if (currentTime <= 0) { clearInterval(timerInterval); defeatOverlay.classList.remove("hidden"); }
   }, 1000);
 }
 
@@ -204,13 +174,12 @@ function handleVictory() {
   setTimeout(() => victoryOverlay.classList.remove("hidden"), 500);
 }
 
-// Event Listeners
+// Listeners
 document.getElementById("resetBtn").addEventListener("click", () => initGame());
 document.getElementById("levelSelect").addEventListener("change", (e) => initGame(e.target.value));
 document.getElementById("playAgainBtn").addEventListener("click", () => initGame());
 document.getElementById("tryAgainBtn").addEventListener("click", () => initGame());
 
-// Avvio
 initGame();
 
 
