@@ -9,19 +9,20 @@
 <body>
 
     <div id="intro-screen" class="intro-overlay">
-        <div class="book-cover">
-            <div class="parchment-page">
+        <div class="book-container" id="bookContainer">
+            <div class="book-cover-front">
                 <h1 class="manzonian-font">I Promessi Sposi</h1>
-                <p class="script-font">« Benvenuti, viandanti, in questa ricerca tra i ricordi del passato... »</p>
-                
+                <p class="script-font">Manoscritto Ritrovato</p>
+            </div>
+            <div class="book-page-inside">
+                <h2 class="manzonian-font">Scegliete la difficoltà:</h2>
                 <div class="setup-area">
-                    <label for="levelSelectIntro" class="manzonian-font">Scegliete la difficoltà:</label>
                     <select id="levelSelectIntro">
                         <option value="easy">Facile (6 coppie)</option>
                         <option value="medium" selected>Medio (10 coppie)</option>
                         <option value="hard">Difficile (12 coppie)</option>
                     </select>
-                    <button id="startGameBtn">Aprite il Manoscritto</button>
+                    <button id="startGameBtn">Inizia la Storia</button>
                 </div>
             </div>
         </div>
@@ -33,6 +34,14 @@
         </header>
 
         <section class="info-bar">
+            <div class="info-item">
+                <span class="label">Livello:</span>
+                <select id="levelSelectGame">
+                    <option value="easy">Facile</option>
+                    <option value="medium">Medio</option>
+                    <option value="hard">Difficile</option>
+                </select>
+            </div>
             <div class="info-item"><span class="label">Tempo:</span> <span id="timer">03:00</span></div>
             <div class="info-item"><span class="label">Mosse:</span> <span id="tries">0</span></div>
             <div class="info-item"><span class="label">Coppie:</span> <span id="matches">0</span> / <span id="totalPairs">10</span></div>
