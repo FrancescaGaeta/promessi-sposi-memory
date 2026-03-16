@@ -38,28 +38,25 @@ let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0;
 let timerInterval = null, currentTime = 180;
 
-// ELEMENTS
-const board = document.getElementById("board");
-const msgTop = document.getElementById("message-top");
-const msgBottom = document.getElementById("message-bottom");
+// ANIMAZIONE INIZIALE AUTOMATICA
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('bookContainer').classList.add('open');
+    }, 1000); // Il libro si apre dopo 1 secondo
+});
 
-// GESTIONE APERTURA MANOSCRITTO
+// GESTIONE CAMBIO LIVELLO IN GIOCO
+document.getElementById("levelSelectGame").addEventListener("change", (e) => {
+    initGame(e.target.value);
+});
+
 document.getElementById("startGameBtn").addEventListener("click", () => {
     const level = document.getElementById("levelSelectIntro").value;
+    document.getElementById("levelSelectGame").value = level;
     document.getElementById("intro-screen").classList.add("fade-out");
     document.getElementById("main-game").classList.remove("hidden");
     initGame(level);
 });
-
-function updateNarrator(title, quote) {
-    const content = `<span class="char-title">${title}</span> ${quote}`;
-    [msgTop, msgBottom].forEach(el => {
-        el.innerHTML = content;
-        el.classList.remove("fade-in");
-        void el.offsetWidth;
-        el.classList.add("fade-in");
-    });
-}
 
 function initGame(levelKey) {
     currentLevel = levelKey;
@@ -68,6 +65,7 @@ function initGame(levelKey) {
     document.getElementById("totalPairs").textContent = totalPairs;
     
     const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
+    const board = document.getElementById("board");
     board.innerHTML = "";
     board.style.setProperty("--cols", totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6));
 
@@ -135,7 +133,10 @@ function startTimer() {
     timerInterval = setInterval(() => {
         currentTime--;
         updateTimerDisplay();
-        if (currentTime <= 0) { clearInterval(timerInterval); document.getElementById("defeatOverlay").classList.remove("hidden"); }
+        if (currentTime <= 0) { 
+            clearInterval(timerInterval); 
+            document.getElementById("defeatOverlay").classList.remove("hidden"); 
+        }
     }, 1000);
 }
 
@@ -145,12 +146,17 @@ function updateTimerDisplay() {
     document.getElementById("timer").textContent = `${min}:${sec.toString().padStart(2, '0')}`;
 }
 
+function updateNarrator(title, quote) {
+    const content = `<span class="char-title">${title}</span> ${quote}`;
+    document.getElementById("message-top").innerHTML = content;
+    document.getElementById("message-bottom").innerHTML = content;
+}
+
 function handleVictory() { 
     clearInterval(timerInterval); 
     setTimeout(() => document.getElementById("victoryOverlay").classList.remove("hidden"), 500); 
 }
 
-// LISTENERS RESET
 document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
 document.getElementById("playAgainBtn").addEventListener("click", () => location.reload());
 document.getElementById("tryAgainBtn").addEventListener("click", () => initGame(currentLevel));
