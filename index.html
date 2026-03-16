@@ -10,7 +10,6 @@
 
     <div id="intro-screen" class="intro-overlay">
         <div class="book-container" id="bookContainer">
-            
             <div class="book-content-inner" id="innerPages">
                 <div class="selection-side">
                     <h1 class="manzonian-font">Memory</h1>
@@ -40,16 +39,50 @@
         <header class="header">
             <h1 class="manzonian-font">Memory – I Promessi Sposi</h1>
         </header>
+
         <section class="info-bar">
-            <div class="info-item"><span class="label">Livello:</span> <select id="levelSelectGame"><option value="easy">Facile</option><option value="medium">Medio</option><option value="hard">Difficile</option></select></div>
+            <div class="info-item">
+                <span class="label">Livello:</span>
+                <select id="levelSelectGame">
+                    <option value="easy">Facile</option>
+                    <option value="medium">Medio</option>
+                    <option value="hard">Difficile</option>
+                </select>
+            </div>
             <div class="info-item"><span class="label">Tempo:</span> <span id="timer">03:00</span></div>
             <div class="info-item"><span class="label">Mosse:</span> <span id="tries">0</span></div>
             <div class="info-item"><span class="label">Coppie:</span> <span id="matches">0</span> / <span id="totalPairs">10</span></div>
         </section>
-        <div class="message-panel small-panel"><div id="message-top" class="script-font">« Si riapre il capitolo... »</div></div>
-        <main><div class="game-board" id="board"></div></main>
-        <div class="message-panel small-panel"><div id="message-bottom" class="script-font">« Trova le coppie per proseguire la storia. »</div></div>
-        <div class="actions"><button id="resetBtn">Ricomincia la partita</button></div>
+
+        <div class="message-panel small-panel">
+            <div id="message-top" class="script-font">« Si riapre il capitolo... »</div>
+        </div>
+
+        <main>
+            <div class="game-board" id="board"></div>
+        </main>
+
+        <div class="message-panel small-panel">
+            <div id="message-bottom" class="script-font">« Trova le coppie per proseguire la storia. »</div>
+        </div>
+
+        <div class="actions">
+            <button id="resetBtn">Ricomincia la partita</button>
+        </div>
+
+        <div id="victoryOverlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 class="manzonian-font">La Provvidenza ti ha guidato!</h2>
+                <button id="playAgainBtn">Prosegui</button>
+            </div>
+        </div>
+
+        <div id="defeatOverlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 class="manzonian-font">Il tempo è trascorso invano...</h2>
+                <button id="tryAgainBtn">Riprova la sorte</button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
