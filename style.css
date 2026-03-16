@@ -1,76 +1,166 @@
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Pinyon+Script&family=Crimson+Text:wght@400;600&display=swap');
 
+/* --- RESET E BASI --- */
 * { box-sizing: border-box; }
-body { font-family: "Crimson Text", serif; background-color: #1a100a; margin: 0; overflow-x: hidden; }
+body { 
+    font-family: "Crimson Text", serif; 
+    background-color: #1a100a; 
+    margin: 0; 
+    overflow-x: hidden; 
+}
+
 .manzonian-font { font-family: 'IM Fell English SC', serif; }
 .script-font { font-family: 'Pinyon Script', cursive; }
 
-/* --- INTRO --- */
+/* --- INTRO: ANIMAZIONE MANOSCRITTO --- */
 .intro-overlay { 
-    position: fixed; inset: 0; z-index: 2000; background: #1a100a; 
-    display: flex; justify-content: center; align-items: center; perspective: 2500px; 
+    position: fixed; 
+    inset: 0; 
+    z-index: 2000; 
+    background: #1a100a; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    perspective: 2500px; 
 }
 
 .book-container { 
-    width: 450px; height: 600px; position: relative; 
-    transform-style: preserve-3d; transition: transform 3s ease-in-out; 
+    width: 450px; 
+    height: 600px; 
+    position: relative; 
+    transform-style: preserve-3d; 
+    transition: transform 3s ease-in-out; 
 }
+
 .book-container.open { transform: translateX(225px); }
 
-/* COPERTINA ESTERNA (book.png) */
+/* --- COPERTINA ESTERNA (book.png) --- */
 .book-cover-front {
-    position: absolute; inset: 0; z-index: 50;
-    background: url("book.png") center/cover no-repeat;
+    position: absolute; 
+    inset: 0; 
+    z-index: 50;
+    /* Assicurati che book.png sia nella stessa cartella di style.css */
+    background: url("book.png") center/cover no-repeat; 
     box-shadow: 10px 0 30px rgba(0,0,0,0.5);
     transform-origin: left; 
     transition: transform 3s ease-in-out, visibility 0s 3s;
     backface-visibility: hidden;
     border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .book-container.open .book-cover-front { 
     transform: rotateY(-180deg); 
-    visibility: hidden; /* Permette di cliccare sotto dopo l'animazione */
+    visibility: hidden; 
 }
 
-/* INTERNO LIBRO (cover.png) */
+/* --- INTERNO DEL LIBRO (cover.png) --- */
 .book-content-inner {
-    position: absolute; width: 900px; height: 100%; left: 0; z-index: 10;
+    position: absolute; 
+    width: 900px; 
+    height: 100%; 
+    left: 0; 
+    z-index: 10;
     background: url("cover.png") center/cover no-repeat;
-    display: flex; transform: translateX(-450px) scaleX(0);
-    transform-origin: right; opacity: 0;
+    display: flex; 
+    transform: translateX(-450px) scaleX(0);
+    transform-origin: right; 
+    opacity: 0;
     transition: transform 3s ease-in-out, opacity 1.5s ease;
 }
-.book-container.open .book-content-inner { transform: translateX(-450px) scaleX(1); opacity: 1; }
 
-.selection-side, .image-side { 
-    width: 50%; height: 100%; display: flex; flex-direction: column; 
-    justify-content: center; align-items: center; padding: 40px; 
+.book-container.open .book-content-inner { 
+    transform: translateX(-450px) scaleX(1); 
+    opacity: 1; 
 }
 
+/* Lato sinistro (Selezione e Citazione) */
+.selection-side { 
+    width: 50%; 
+    height: 100%; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 40px; 
+    text-align: center;
+}
+
+.image-side { width: 50%; height: 100%; }
+
+/* --- STILE CITAZIONE INTRO --- */
 .intro-quote {
-    font-size: 1.25rem; line-height: 1.4; color: #3e2723; margin: 20px 0;
-    text-align: center; border-top: 1px solid rgba(139,69,19,0.2); 
-    border-bottom: 1px solid rgba(139,69,19,0.2); padding: 15px 0;
-    max-width: 90%;
+    font-size: 1.8rem; /* Più grande e leggibile */
+    line-height: 1.2;
+    color: #3e2723;
+    margin: 30px 0;
+    padding: 20px 10px;
+    border-top: 1px solid rgba(139, 69, 19, 0.2);
+    border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+    max-width: 95%;
+    font-weight: 400;
 }
 
-/* --- GIOCO --- */
+/* --- AREA SELEZIONE CENTRATA --- */
+.setup-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px; /* Spazio verticale tra elementi */
+    margin-top: 10px;
+    width: 100%;
+}
+
+.level-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+#levelSelectIntro {
+    padding: 8px 15px;
+    font-family: 'Crimson Text', serif;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid #b3a486;
+    color: #3e2723;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+/* --- SCHERMATA DI GIOCO --- */
 .page {
-    width: 95%; max-width: 1100px; margin: 20px auto; padding: 45px;
+    width: 95%; 
+    max-width: 1100px; 
+    margin: 20px auto; 
+    padding: 45px;
     background: #e8dcc4 url("https://www.transparenttextures.com/patterns/old-paper.png");
-    border: 1px solid #b3a486; outline: 5px double #b3a486; outline-offset: -18px;
-    box-shadow: 0 0 50px rgba(0,0,0,0.7); position: relative;
+    border: 1px solid #b3a486;
+    outline: 5px double #b3a486;
+    outline-offset: -18px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.7);
+    position: relative;
 }
 
-.title-center { text-align: center; font-size: 3rem; color: #5d4037; margin-bottom: 25px; }
+.title-center { 
+    text-align: center; 
+    font-size: 3rem; 
+    color: #5d4037; 
+    margin-bottom: 25px; 
+}
 
 .info-bar { 
-    display: flex; justify-content: space-around; padding: 15px; 
-    background: rgba(93,64,55,0.08); border: 1px solid #b3a486; margin-bottom: 15px; 
+    display: flex; 
+    justify-content: space-around; 
+    padding: 15px; 
+    background: rgba(93, 64, 55, 0.08); 
+    border: 1px solid #b3a486; 
+    margin-bottom: 15px; 
 }
 
-/* --- RIPRISTINO FONT CITAZIONI (CARTIGLI GIOCO) --- */
+/* CARTIGLI CITAZIONI GIOCO */
 .quote-box {
     background: rgba(255, 255, 255, 0.4);
     border-top: 2px solid #b3a486;
@@ -78,36 +168,44 @@ body { font-family: "Crimson Text", serif; background-color: #1a100a; margin: 0;
     padding: 20px; 
     text-align: center; 
     margin: 20px 0;
-    min-height: 90px; /* Leggermente più alto per il respiro del corsivo */
+    min-height: 90px;
     display: flex; 
     align-items: center; 
     justify-content: center;
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.05); /* Effetto profondità leggera */
 }
 
 .quote-box div { 
-    font-family: 'Pinyon Script', cursive; /* Forza il font corsivo */
-    font-size: 2rem; /* Dimensione aumentata per il Pinyon Script che è sottile */
+    font-family: 'Pinyon Script', cursive; 
+    font-size: 2.1rem; /* Corsivo grande nel gioco */
     color: #3e2723; 
     line-height: 1.1;
-    font-weight: 400;
 }
 
-/* Titolo del personaggio (es: Renzo:) un po' più leggibile */
 .char-title b {
     font-family: 'IM Fell English SC', serif;
     font-size: 1.3rem;
     color: #5d4037;
     margin-right: 10px;
-    letter-spacing: 1px;
 }
-.game-board { display: grid; grid-template-columns: repeat(var(--cols, 6), 1fr); gap: 15px; }
+
+/* --- CARTE E BORDO COPPIE --- */
+.game-board { 
+    display: grid; 
+    grid-template-columns: repeat(var(--cols, 6), 1fr); 
+    gap: 15px; 
+}
 
 .card { aspect-ratio: 3/4; cursor: pointer; }
-.card .inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+.card .inner { 
+    position: relative; 
+    width: 100%; 
+    height: 100%; 
+    transition: transform 0.6s; 
+    transform-style: preserve-3d; 
+}
+
 .card.flipped .inner { transform: rotateY(180deg); }
 
-/* BORDO DORATO SPESSO PER COPPIE */
 .card.matched .inner { 
     outline: 4px solid #d4af37; 
     outline-offset: 2px;
@@ -119,9 +217,24 @@ body { font-family: "Crimson Text", serif; background-color: #1a100a; margin: 0;
 .card img { width: 100%; height: 100%; object-fit: cover; }
 .card .back, .card .front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; }
 
-/* UTILITY */
+/* UTILITY E BOTTONI */
 .hidden { display: none !important; }
 .fade-out { opacity: 0; pointer-events: none; transition: 1.5s; }
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; display: flex; justify-content: center; align-items: center; color: white; }
-button { background: #5d4037; color: white; padding: 12px 30px; border: 1px solid #d4af37; cursor: pointer; font-family: 'IM Fell English SC', serif; }
+
+.overlay { 
+    position: fixed; inset: 0; background: rgba(0,0,0,0.85); 
+    z-index: 100; display: flex; justify-content: center; align-items: center; color: white; 
+}
+
+button { 
+    background: #5d4037; 
+    color: white; 
+    padding: 15px 40px; 
+    border: 1px solid #d4af37; 
+    cursor: pointer; 
+    font-family: 'IM Fell English SC', serif; 
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
 button:hover { background: #7d5c3a; }
