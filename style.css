@@ -1,60 +1,95 @@
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Pinyon+Script&family=Crimson+Text:wght@400;600&display=swap');
 
 * { box-sizing: border-box; }
-body { font-family: "Crimson Text", serif; background-color: #1a100a; margin: 0; overflow: hidden; }
+
+body {
+    font-family: "Crimson Text", serif;
+    background-color: #1a100a;
+    background-image: url("https://www.transparenttextures.com/patterns/dark-leather.png");
+    margin: 0;
+    overflow-x: hidden;
+}
 
 .manzonian-font { font-family: 'IM Fell English SC', serif; }
 .script-font { font-family: 'Pinyon Script', cursive; }
 
-.intro-overlay { position: fixed; inset: 0; z-index: 2000; background: #1a100a; display: flex; justify-content: center; align-items: center; perspective: 2500px; }
+/* --- INTRO ANIMAZIONE (RALLENTATA) --- */
+.intro-overlay {
+    position: fixed; inset: 0; z-index: 2000;
+    background: radial-gradient(circle, #3e2723 0%, #000 100%);
+    display: flex; justify-content: center; align-items: center;
+    perspective: 2500px;
+}
 
-/* Contenitore centrato sulla copertina */
-.book-container { width: 450px; height: 600px; position: relative; transform-style: preserve-3d; transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1); }
+.book-container {
+    width: 450px; height: 600px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1); /* Rallentato */
+}
 
-/* Sposta l'intero blocco a destra mentre si apre per bilanciare la rotazione */
 .book-container.open { transform: translateX(225px); }
 
-/* COPERTINA */
 .book-cover-front {
-    position: absolute; inset: 0; background: #5d4037; color: #d4af37;
-    border: 8px double #d4af37; z-index: 20; transform-origin: left;
-    transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute; inset: 0;
+    background: #5d4037; color: #d4af37;
+    border: 8px double #d4af37;
+    z-index: 20; transform-origin: left;
+    transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1); /* Rallentato */
     display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center; box-shadow: 10px 0 30px rgba(0,0,0,0.5); backface-visibility: hidden;
+    text-align: center; padding: 30px;
+    backface-visibility: hidden;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
 }
 
 .book-container.open .book-cover-front { transform: rotateY(-180deg); pointer-events: none; }
 
-/* INTERNO (cover.png) - L'ANIMAZIONE A COMPARSA DA DESTRA */
 .book-content-inner {
     position: absolute; width: 900px; height: 100%; left: 0;
-    background: url("cover.png") center/cover no-repeat;
+    background: url("cover.jpg") center/cover no-repeat;
     display: flex; z-index: 10;
-    /* Punto di aggancio a destra e inizialmente "schiacciato" */
-    transform: translateX(-450px) scaleX(0); 
-    transform-origin: right; 
+    transform: translateX(-450px) scaleX(0);
+    transform-origin: right;
     opacity: 0;
-    transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
-    box-shadow: 0 0 40px rgba(0,0,0,0.4);
+    transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s ease; /* Rallentato */
 }
 
-.book-container.open .book-content-inner {
-    transform: translateX(-450px) scaleX(1); /* Si srotola verso sinistra */
-    opacity: 1;
+.book-container.open .book-content-inner { transform: translateX(-450px) scaleX(1); opacity: 1; }
+
+.selection-side, .image-side { width: 50%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 40px; }
+
+/* --- CODICE GIOCO ORIGINALE (RIPRISTINATO) --- */
+.page {
+    width: 95%; max-width: 1100px; margin: 20px auto;
+    padding: 30px; border: 1px solid #d3c3a3;
+    background: #e8dcc4 url("https://www.transparenttextures.com/patterns/old-paper.png");
+    box-shadow: 0 0 50px rgba(0,0,0,0.7);
 }
 
-.selection-side, .image-side { width: 50%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; }
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 6), 1fr);
+    gap: 12px;
+}
 
-/* --- LOGICA GIOCO: RIPRISTINO ORIGINALE --- */
-.page { width: 95%; max-width: 1100px; margin: 20px auto; padding: 30px; background: #e8dcc4 url("https://www.transparenttextures.com/patterns/old-paper.png"); box-shadow: 0 0 50px rgba(0,0,0,0.7); position: relative; }
-.game-board { display: grid; grid-template-columns: repeat(var(--cols, 6), 1fr); gap: 12px; }
 .card { aspect-ratio: 3/4; cursor: pointer; }
-.card .inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+.card .inner {
+    position: relative; width: 100%; height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
 .card.flipped .inner { transform: rotateY(180deg); }
-.card .back, .card .front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border: 2px solid #5d4037; }
+
+.card .back, .card .front {
+    position: absolute; width: 100%; height: 100%;
+    backface-visibility: hidden; border: 2px solid #5d4037;
+}
+
 .card .back { background: #7d5c3a url("img/back.png") center/cover; }
 .card .front { background: white; transform: rotateY(180deg); }
 .card img { width: 100%; height: 100%; object-fit: cover; }
+
 .hidden { display: none !important; }
-.fade-out { opacity: 0; pointer-events: none; transition: 1s; }
-button { background: #5d4037; color: white; padding: 10px 20px; border: none; cursor: pointer; font-family: 'IM Fell English SC', serif; }
+.fade-out { opacity: 0; pointer-events: none; transition: 1.5s; }
+
+button { background: #5d4037; color: white; padding: 12px 24px; border: none; cursor: pointer; font-family: 'IM Fell English SC', serif; }
