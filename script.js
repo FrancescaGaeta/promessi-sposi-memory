@@ -42,15 +42,14 @@ let timerInterval = null, currentTime = 180;
 window.onload = () => {
     setTimeout(() => {
         document.getElementById("bookContainer").classList.add("open");
-    }, 800);
+    }, 1000);
 };
 
-// CAMBIO LIVELLO IN CORSO
+// GESTIONE LIVELLI
 document.getElementById("levelSelectGame").addEventListener("change", (e) => {
     initGame(e.target.value);
 });
 
-// START GAME
 document.getElementById("startGameBtn").addEventListener("click", () => {
     const level = document.getElementById("levelSelectIntro").value;
     document.getElementById("levelSelectGame").value = level;
@@ -59,6 +58,7 @@ document.getElementById("startGameBtn").addEventListener("click", () => {
     initGame(level);
 });
 
+// FUNZIONE DI INIZIALIZZAZIONE (Tua logica originale)
 function initGame(levelKey) {
     currentLevel = levelKey;
     const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
@@ -110,8 +110,8 @@ function checkForMatch() {
     } else {
         lockBoard = true;
         setTimeout(() => {
-            if(firstCard) firstCard.classList.remove("flipped");
-            if(secondCard) secondCard.classList.remove("flipped");
+            firstCard.classList.remove("flipped");
+            secondCard.classList.remove("flipped");
             resetTurn();
         }, 1000);
     }
