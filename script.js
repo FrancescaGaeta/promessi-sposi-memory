@@ -31,7 +31,7 @@ const LEVEL_SETS = {
 let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0, timerInterval = null, currentTime = 180;
 
-// Animazione apertura manoscritto
+// Apertura manoscritto
 window.onload = () => {
     setTimeout(() => { document.getElementById("bookContainer").classList.add("open"); }, 1000);
 };
@@ -66,7 +66,7 @@ function initGame(levelKey) {
 
     resetState();
     startTimer();
-    updateNarrator("Il Narratore", "« Si riapre il capitolo... Trova le coppie. »");
+    updateNarrator("Il Narratore", "« Si riapre il capitolo... Trova le coppie per proseguire la storia. »");
 }
 
 function flipCard() {
