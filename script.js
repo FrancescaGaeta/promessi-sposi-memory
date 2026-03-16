@@ -1,68 +1,66 @@
 const originalCards = [
-    { name: "Renzo", img: "renzo.png" },
-    { name: "Lucia", img: "lucia.png" },
-    { name: "Don Rodrigo", img: "don-rodrigo.png" },
-    { name: "Fra Cristoforo", img: "fra-cristoforo.png" },
-    { name: "Agnese", img: "agnese.png" },
-    { name: "Azzeccagarbugli", img: "azzeccagarbugli.png" },
-    { name: "I Bravi", img: "bravi.png" },
-    { name: "Don Abbondio", img: "don-abbondio.png" },
-    { name: "Gertrude", img: "gertrude.png" },
-    { name: "L'Innominato", img: "innominato.png" },
-    { name: "Madre Cecilia", img: "madre-cecilia.png" },
-    { name: "Perpetua", img: "perpetua.png" }
+  { name: "Renzo", img: "renzo.png" },
+  { name: "Lucia", img: "lucia.png" },
+  { name: "Don Rodrigo", img: "don-rodrigo.png" },
+  { name: "Fra Cristoforo", img: "fra-cristoforo.png" },
+  { name: "Agnese", img: "agnese.png" },
+  { name: "Azzeccagarbugli", img: "azzeccagarbugli.png" },
+  { name: "I Bravi", img: "bravi.png" },
+  { name: "Don Abbondio", img: "don-abbondio.png" },
+  { name: "Gertrude", img: "gertrude.png" },
+  { name: "L'Innominato", img: "innominato.png" },
+  { name: "Madre Cecilia", img: "madre-cecilia.png" },
+  { name: "Perpetua", img: "perpetua.png" }
 ];
 
 const manzonianQuotes = {
-    "Renzo": "«Renzo, di professione filatore di seta…»",
-    "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
-    "Don Rodrigo": "«Questo matrimonio non s'ha da fare.»",
-    "Fra Cristoforo": "«Un frate che ha deposto la spada, non il coraggio.»",
-    "Agnese": "«Agnese, madre pratica e di buon senso.»",
-    "Azzeccagarbugli": "«L'avvocato che confonde più che chiarire.»",
-    "I Bravi": "«Oscure figure, braccia al soldo del potente.»",
-    "Don Abbondio": "«Il coraggio, uno, se non ce l'ha, mica se lo può dare.»",
-    "Gertrude": "«La 'sventurata rispose'.»",
-    "L'Innominato": "«Un animo grande traviato, in cerca di redenzione.»",
-    "Madre Cecilia": "«La peste miete, ma la carità consola.»",
-    "Perpetua": "«Perpetua, serva franca e di lingua sciolta.»"
+  "Renzo": "«Renzo, di professione filatore di seta…»",
+  "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
+  "Don Rodrigo": "«Questo matrimonio non s'ha da fare.»",
+  "Fra Cristoforo": "«Un frate che ha deposto la spada, non il coraggio.»",
+  "Agnese": "«Agnese, madre pratica e di buon senso.»",
+  "Azzeccagarbugli": "«L'avvocato che confonde più che chiarire.»",
+  "I Bravi": "«Oscure figure, braccia al soldo del potente.»",
+  "Don Abbondio": "«Il coraggio, uno, se non ce l'ha, mica se lo può dare.»",
+  "Gertrude": "«La 'sventurata rispose'.»",
+  "L'Innominato": "«Un animo grande traviato, in cerca di redenzione.»",
+  "Madre Cecilia": "«La peste miete, ma la carità consola.»",
+  "Perpetua": "«Perpetua, serva franca e di lingua sciolta.»"
 };
 
 const LEVEL_SETS = {
-    easy: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua"],
-    medium: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude"],
-    hard: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude", "L'Innominato", "Madre Cecilia"]
+  easy: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua"],
+  medium: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude"],
+  hard: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude", "L'Innominato", "Madre Cecilia"]
 };
 
 let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0;
 let timerInterval = null, currentTime = 180;
 
+// ELEMENTS
 const board = document.getElementById("board");
 const msgTop = document.getElementById("message-top");
 const msgBottom = document.getElementById("message-bottom");
 
-// --- LOGICA APERTURA LIBRO ---
-window.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-        document.getElementById("main-book").classList.add("open");
-    }, 800);
-});
-
+// GESTIONE APERTURA MANOSCRITTO
 document.getElementById("startGameBtn").addEventListener("click", () => {
     const level = document.getElementById("levelSelectIntro").value;
-    const intro = document.getElementById("intro-screen");
-    
-    intro.style.opacity = "0";
-    setTimeout(() => {
-        intro.classList.add("hidden");
-        document.getElementById("main-game").classList.remove("hidden");
-        document.body.style.overflow = "auto";
-        initGame(level);
-    }, 1000);
+    document.getElementById("intro-screen").classList.add("fade-out");
+    document.getElementById("main-game").classList.remove("hidden");
+    initGame(level);
 });
 
-// --- LOGICA GIOCO ---
+function updateNarrator(title, quote) {
+    const content = `<span class="char-title">${title}</span> ${quote}`;
+    [msgTop, msgBottom].forEach(el => {
+        el.innerHTML = content;
+        el.classList.remove("fade-in");
+        void el.offsetWidth;
+        el.classList.add("fade-in");
+    });
+}
+
 function initGame(levelKey) {
     currentLevel = levelKey;
     const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
@@ -71,10 +69,7 @@ function initGame(levelKey) {
     
     const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
     board.innerHTML = "";
-    
-    // Calcolo colonne dinamico
-    let cols = totalPairs <= 6 ? 3 : (totalPairs <= 10 ? 4 : 6);
-    board.style.setProperty("--cols", cols);
+    board.style.setProperty("--cols", totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6));
 
     deck.forEach(data => {
         const card = document.createElement("div");
@@ -123,12 +118,6 @@ function checkForMatch() {
     }
 }
 
-function updateNarrator(title, quote) {
-    const content = `<span class="char-title"><strong>${title}</strong></span> ${quote}`;
-    msgTop.innerHTML = content;
-    msgBottom.innerHTML = content;
-}
-
 function resetTurn() { [hasFlipped, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
 
 function resetState() {
@@ -146,10 +135,7 @@ function startTimer() {
     timerInterval = setInterval(() => {
         currentTime--;
         updateTimerDisplay();
-        if (currentTime <= 0) { 
-            clearInterval(timerInterval); 
-            document.getElementById("defeatOverlay").classList.remove("hidden"); 
-        }
+        if (currentTime <= 0) { clearInterval(timerInterval); document.getElementById("defeatOverlay").classList.remove("hidden"); }
     }, 1000);
 }
 
@@ -164,6 +150,7 @@ function handleVictory() {
     setTimeout(() => document.getElementById("victoryOverlay").classList.remove("hidden"), 500); 
 }
 
+// LISTENERS RESET
 document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
 document.getElementById("playAgainBtn").addEventListener("click", () => location.reload());
 document.getElementById("tryAgainBtn").addEventListener("click", () => initGame(currentLevel));
