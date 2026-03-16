@@ -8,32 +8,37 @@
 </head>
 <body>
 
-    <div class="selection-side">
-    <h1 class="manzonian-font">Memory</h1>
-    
-    <p class="script-font intro-quote">
-        "L'imprese illustri e i casi memorabili si debbono trarre dall'oscurità dell'oblio. 
-        Aguzzate dunque l'ingegno, o Lettore: accoppiate i volti e le sventure, 
-        affinché la memoria non perda ciò che la Provvidenza ha scritto."
-    </p>
-
-    <div class="setup-area">
-        <label for="levelSelectIntro" class="manzonian-font">Difficoltà:</label>
-        <select id="levelSelectIntro">
-            <option value="easy">Facile (6 coppie)</option>
-            <option value="medium" selected>Medio (10 coppie)</option>
-            <option value="hard">Difficile (12 coppie)</option>
-        </select>
-        <button id="startGameBtn">Inizia la Storia</button>
-        </div>
-    </div>
+    <div id="intro-screen" class="intro-overlay">
+        <div class="book-container" id="bookContainer">
+            
+            <div class="book-content-inner">
+                <div class="selection-side">
+                    <h1 class="manzonian-font">Memory</h1>
+                    <p class="script-font intro-quote">
+                        "L'imprese illustri e i casi memorabili si debbono trarre dall'oscurità dell'oblio. 
+                        Aguzzate dunque l'ingegno, o Lettore: accoppiate i volti e le sventure, 
+                        affinché la memoria non perda ciò che la Provvidenza ha scritto."
+                    </p>
+                    <div class="setup-area">
+                        <label for="levelSelectIntro" class="manzonian-font">Difficoltà:</label>
+                        <select id="levelSelectIntro">
+                            <option value="easy">Facile (6 coppie)</option>
+                            <option value="medium" selected>Medio (10 coppie)</option>
+                            <option value="hard">Difficile (12 coppie)</option>
+                        </select>
+                        <button id="startGameBtn">Inizia la Storia</button>
+                    </div>
+                </div>
+                <div class="image-side"></div>
+            </div>
 
             <div class="book-cover-front" id="bookCover">
                 <div class="cover-design">
                     <h1 class="manzonian-font">I Promessi Sposi</h1>
-                    <p class="script-font">Manoscritto Ritrovato</p>
+                    <p class="script-font" style="font-size: 2rem;">Manoscritto Ritrovato</p>
                 </div>
             </div>
+            
         </div>
     </div>
 
@@ -43,47 +48,19 @@
         </header>
 
         <section class="info-bar">
-            <div class="info-item">
-                <span class="label">Livello:</span>
-                <select id="levelSelectGame">
-                    <option value="easy">Facile</option>
-                    <option value="medium">Medio</option>
-                    <option value="hard">Difficile</option>
-                </select>
-            </div>
+            <div class="info-item"><span class="label">Livello:</span> <select id="levelSelectGame"><option value="easy">Facile</option><option value="medium">Medio</option><option value="hard">Difficile</option></select></div>
             <div class="info-item"><span class="label">Tempo:</span> <span id="timer">03:00</span></div>
             <div class="info-item"><span class="label">Mosse:</span> <span id="tries">0</span></div>
             <div class="info-item"><span class="label">Coppie:</span> <span id="matches">0</span> / <span id="totalPairs">10</span></div>
         </section>
 
-        <div class="quote-box">
-            <div id="message-top" class="script-font">« Si riapre il capitolo... »</div>
-        </div>
+        <div class="quote-box"><div id="message-top" class="script-font">« Si riapre il capitolo... »</div></div>
+        <main><div class="game-board" id="board"></div></main>
+        <div class="quote-box"><div id="message-bottom" class="script-font">« Trova le coppie per proseguire la storia. »</div></div>
+        <div class="actions"><button id="resetBtn">Ricomincia la partita</button></div>
 
-        <main>
-            <div class="game-board" id="board"></div>
-        </main>
-
-        <div class="quote-box">
-            <div id="message-bottom" class="script-font">« Trova le coppie per proseguire la storia. »</div>
-        </div>
-
-        <div class="actions">
-            <button id="resetBtn">Ricomincia la partita</button>
-        </div>
-
-        <div id="victoryOverlay" class="overlay hidden">
-            <div class="overlay-content">
-                <h2 class="manzonian-font">La Provvidenza ti ha guidato!</h2>
-                <button id="playAgainBtn">Prosegui</button>
-            </div>
-        </div>
-        <div id="defeatOverlay" class="overlay hidden">
-            <div class="overlay-content">
-                <h2 class="manzonian-font">Il tempo è trascorso invano...</h2>
-                <button id="tryAgainBtn">Riprova la sorte</button>
-            </div>
-        </div>
+        <div id="victoryOverlay" class="overlay hidden"><div class="overlay-content"><h2 class="manzonian-font">La Provvidenza ti ha guidato!</h2><button id="playAgainBtn">Prosegui</button></div></div>
+        <div id="defeatOverlay" class="overlay hidden"><div class="overlay-content"><h2 class="manzonian-font">Il tempo è trascorso invano...</h2><button id="tryAgainBtn">Riprova la sorte</button></div></div>
     </div>
 
     <script src="script.js"></script>
