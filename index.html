@@ -9,15 +9,8 @@
 <body>
 
     <div id="intro-screen" class="intro-overlay">
-        <div class="book-wrapper">
-            <div class="book-cover-flap" id="bookCover">
-                <div class="cover-content">
-                    <h1 class="manzonian-font">I Promessi Sposi</h1>
-                    <p class="script-font">Manoscritto Ritrovato</p>
-                </div>
-            </div>
-
-            <div class="book-base-open">
+        <div class="book-container" id="bookContainer">
+            <div class="book-content-inner">
                 <div class="selection-side">
                     <h1 class="manzonian-font">Memory</h1>
                     <div class="setup-area">
@@ -31,6 +24,13 @@
                     </div>
                 </div>
                 <div class="image-side"></div>
+            </div>
+
+            <div class="book-cover-front" id="bookCover">
+                <div class="cover-design">
+                    <h1 class="manzonian-font">I Promessi Sposi</h1>
+                    <p class="script-font">Manoscritto Ritrovato</p>
+                </div>
             </div>
         </div>
     </div>
@@ -76,7 +76,6 @@
                 <button id="playAgainBtn">Prosegui</button>
             </div>
         </div>
-
         <div id="defeatOverlay" class="overlay hidden">
             <div class="overlay-content">
                 <h2 class="manzonian-font">Il tempo è trascorso invano...</h2>
