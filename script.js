@@ -38,18 +38,19 @@ let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0;
 let timerInterval = null, currentTime = 180;
 
-// ANIMAZIONE INIZIALE AUTOMATICA
-window.addEventListener('load', () => {
+// ANIMAZIONE APERTURA AUTOMATICA
+window.onload = () => {
     setTimeout(() => {
-        document.getElementById('bookContainer').classList.add('open');
-    }, 1000); // Il libro si apre dopo 1 secondo
-});
+        document.getElementById("bookContainer").classList.add("open");
+    }, 800);
+};
 
-// GESTIONE CAMBIO LIVELLO IN GIOCO
+// CAMBIO LIVELLO IN CORSO
 document.getElementById("levelSelectGame").addEventListener("change", (e) => {
     initGame(e.target.value);
 });
 
+// START GAME
 document.getElementById("startGameBtn").addEventListener("click", () => {
     const level = document.getElementById("levelSelectIntro").value;
     document.getElementById("levelSelectGame").value = level;
@@ -109,8 +110,8 @@ function checkForMatch() {
     } else {
         lockBoard = true;
         setTimeout(() => {
-            firstCard.classList.remove("flipped");
-            secondCard.classList.remove("flipped");
+            if(firstCard) firstCard.classList.remove("flipped");
+            if(secondCard) secondCard.classList.remove("flipped");
             resetTurn();
         }, 1000);
     }
