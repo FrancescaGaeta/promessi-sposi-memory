@@ -9,26 +9,19 @@
 <body>
 
     <div id="intro-screen" class="intro-overlay">
-        <div class="book-container">
-            <div id="main-book" class="book">
-                <div class="book-cover-outer">
-                    <div class="cover-content">
-                        <h1 class="manzonian-font">I Promessi Sposi</h1>
-                        <div class="divider">❧</div>
-                        <p class="script-font">« Edizione illustrata »</p>
-                    </div>
-                </div>
-                <div class="book-page-inner">
-                    <h2 class="manzonian-font">Preparate il Manoscritto</h2>
-                    <div class="setup-area">
-                        <label for="levelSelectIntro" class="manzonian-font">Difficoltà:</label>
-                        <select id="levelSelectIntro">
-                            <option value="easy">Facile (6 coppie)</option>
-                            <option value="medium" selected>Medio (10 coppie)</option>
-                            <option value="hard">Difficile (12 coppie)</option>
-                        </select>
-                        <button id="startGameBtn">Iniziate la Storia</button>
-                    </div>
+        <div class="book-cover">
+            <div class="parchment-page">
+                <h1 class="manzonian-font">I Promessi Sposi</h1>
+                <p class="script-font">« Benvenuti, viandanti, in questa ricerca tra i ricordi del passato... »</p>
+                
+                <div class="setup-area">
+                    <label for="levelSelectIntro" class="manzonian-font">Scegliete la difficoltà:</label>
+                    <select id="levelSelectIntro">
+                        <option value="easy">Facile (6 coppie)</option>
+                        <option value="medium" selected>Medio (10 coppie)</option>
+                        <option value="hard">Difficile (12 coppie)</option>
+                    </select>
+                    <button id="startGameBtn">Aprite il Manoscritto</button>
                 </div>
             </div>
         </div>
@@ -79,4 +72,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
