@@ -38,14 +38,15 @@ let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0;
 let timerInterval = null, currentTime = 180;
 
-// ANIMAZIONE APERTURA AUTOMATICA
+// ANIMAZIONE APERTURA COPERTINA
 window.onload = () => {
     setTimeout(() => {
-        document.getElementById("bookContainer").classList.add("open");
+        const cover = document.getElementById("bookCover");
+        if(cover) cover.classList.add("open");
     }, 1000);
 };
 
-// GESTIONE LIVELLI
+// GESTIONE LIVELLI E START
 document.getElementById("levelSelectGame").addEventListener("change", (e) => {
     initGame(e.target.value);
 });
@@ -58,7 +59,7 @@ document.getElementById("startGameBtn").addEventListener("click", () => {
     initGame(level);
 });
 
-// FUNZIONE DI INIZIALIZZAZIONE (Tua logica originale)
+// LOGICA GIOCO ORIGINALE (Invariata)
 function initGame(levelKey) {
     currentLevel = levelKey;
     const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
