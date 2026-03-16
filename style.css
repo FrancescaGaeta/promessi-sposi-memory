@@ -126,3 +126,15 @@ body { font-family: "Crimson Text", serif; background-color: #1a100a; margin: 0;
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; display: flex; justify-content: center; align-items: center; color: white; }
 button { background: #5d4037; color: white; padding: 12px 30px; border: 1px solid #d4af37; cursor: pointer; font-family: 'IM Fell English SC', serif; }
 button:hover { background: #7d5c3a; }
+button#resetBtn {
+    padding: 15px 40px;      /* Più spazio interno */
+    font-size: 1.2rem;       /* Testo leggermente più grande */
+    transition: all 0.3s ease; /* Transizione fluida per il colore */
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2); /* Una leggera ombra */
+}
+
+button#resetBtn:hover {
+    background: #7d5c3a;
+    transform: scale(1.05);  /* Si ingrandisce leggermente quando ci passi sopra */
+    box-shadow: 4px 4px 15px rgba(0,0,0,0.3);
+}
