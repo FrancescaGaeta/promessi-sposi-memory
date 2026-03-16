@@ -31,12 +31,12 @@ const LEVEL_SETS = {
 let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0, timerInterval = null, currentTime = 180;
 
-// Apertura manoscritto
+// Animazione apertura manoscritto
 window.onload = () => {
     setTimeout(() => { document.getElementById("bookContainer").classList.add("open"); }, 1000);
 };
 
-// Inizio Gioco
+// Start Game
 document.getElementById("startGameBtn").addEventListener("click", () => {
     const lvl = document.getElementById("levelSelectIntro").value;
     document.getElementById("levelSelectGame").value = lvl;
