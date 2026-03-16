@@ -11,50 +11,11 @@ body { font-family: "Crimson Text", serif; background-color: #1a100a; margin: 0;
 .book-container.open { transform: translateX(225px); }
 
 .book-cover-front {
-    position: absolute;
-    inset: 0;
-    /* 1. SFONDO: Texture pergamena antica (sostituisce il marrone) */
-    background-color: #e8dcc4; /* Colore base pergamena */
-    background-image: 
-        url("https://www.transparenttextures.com/patterns/old-paper.png"), /* Texture carta vecchia */
-        radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, rgba(139,69,19,0.15) 100%); /* Sfumatura invecchiata */
-    
-    /* 2. COLORE TESTO: Marrone scuro inchiostro (sostituisce l'oro) */
-    color: #3e2723; 
-    
-    /* 3. BORDO: Rimosso il doppio dorato, messo uno scuro e consumato */
-    border: 1px solid #b3a486;
-    
-    /* 4. DETTAGLI USURA: Ombra interna per dare profondità e sporcizia sui bordi */
-    box-shadow: 
-        10px 0 30px rgba(0,0,0,0.5), /* Ombra esterna originale */
-        inset 0 0 50px rgba(139,69,19,0.3); /* Ombra interna invecchiata */
-    
-    /* Pulizia e posizionamento */
-    z-index: 20;
-    transform-origin: left;
-    transition: transform 3s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 30px; /* Aggiunto padding per il titolo grande */
-    backface-visibility: hidden;
-    border-radius: 2px 5px 5px 2px; /* Leggera curvatura per sembrare un foglio */
-}
-
-/* 3. GRANDEZZA TITOLO: Interveniamo sul font del titolo dentro la copertina */
-.book-cover-front .manzonian-font {
-    font-size: 4rem; /* Molto più grande (era circa 2rem o meno) */
-    margin-bottom: 10px;
-    line-height: 1.1;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.2); /* Leggero effetto inchiostro */
-}
-
-.book-cover-front .script-font {
-    font-size: 1.8rem;
-    opacity: 0.8;
+    position: absolute; inset: 0; background: #5d4037; color: #d4af37;
+    border: 8px double #d4af37; z-index: 20; transform-origin: left;
+    transition: transform 3s ease-in-out; display: flex; flex-direction: column; 
+    justify-content: center; align-items: center; text-align: center; 
+    backface-visibility: hidden; box-shadow: 10px 0 30px rgba(0,0,0,0.5);
 }
 .book-container.open .book-cover-front { transform: rotateY(-180deg); pointer-events: none; }
 
