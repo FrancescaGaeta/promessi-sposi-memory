@@ -15,196 +15,113 @@ body {
 .manzonian-font { font-family: 'IM Fell English SC', serif; }
 .script-font { font-family: 'Pinyon Script', cursive; }
 
-/* ANIMAZIONE MANOSCRITTO A DUE PAGINE */
+/* ANIMAZIONE MANOSCRITTO */
 .intro-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
+    position: fixed; inset: 0; z-index: 2000;
     background: radial-gradient(circle, #3e2723 0%, #000 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex; justify-content: center; align-items: center;
     perspective: 2000px;
 }
 
 .book-container {
-    width: 400px; /* Larghezza singola pagina */
-    height: 550px;
+    width: 450px; height: 600px;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 2s cubic-bezier(0.645, 0.045, 0.355, 1);
-    transform-origin: center;
+    transition: transform 2s ease-in-out;
 }
 
-/* Quando il libro è aperto, trasliamo tutto per centrare il "dito" del libro */
 .book-container.open {
-    transform: rotateY(0deg); /* La rotazione è gestita dalla copertina */
-    margin-left: -400px; /* Sposta il centro per bilanciare le due pagine (ora larghe 800px totali) */
+    transform: translateX(225px); /* Centra il libro aperto */
 }
 
-.book-cover-front, .book-page-left, .book-page-right {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    backface-visibility: hidden;
-    box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
-    padding: 40px;
-    border: 1px solid #d3c3a3;
-    background: #fdfaf3 url("https://www.transparenttextures.com/patterns/old-paper.png");
-}
-
-/* Copertina che ruota */
 .book-cover-front {
-    background: #5d4037;
-    color: #d4af37;
+    position: absolute; width: 100%; height: 100%;
+    background: #5d4037; color: #d4af37;
     border: 8px double #d4af37;
-    z-index: 5;
-    transform-origin: left;
-    transition: transform 2s;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    z-index: 5; transform-origin: left;
+    transition: transform 2s ease-in-out;
+    display: flex; flex-direction: column; justify-content: center;
+    align-items: center; text-align: center; padding: 20px;
 }
 
 .book-container.open .book-cover-front {
-    transform: rotateY(-160deg); /* Si apre verso sinistra */
+    transform: rotateY(-180deg);
 }
 
-/* Pagina sinistra (Sotto la copertina, ora contiene il MENU) */
-.book-page-left {
-    left: 0;
-    z-index: 1;
+.book-opened-content {
+    position: absolute; width: 900px; height: 600px;
+    left: 0; top: 0;
+    background-image: url("cover.png");
+    background-size: cover;
+    background-position: center;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    transform: translateX(-450px); /* Allinea l'interno con la copertina */
 }
 
-/* Pagina destra (Fissa, ora contiene l'IMMAGINE) */
-.book-page-right {
-    left: 100%; /* Si posiziona accanto alla sinistra */
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.selection-side, .image-side {
+    width: 50%;
+    height: 100%;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 40px;
 }
 
-.decorative-back {
-    width: 80%;
-    height: 80%;
-    background: url("img/back.png") center/contain no-repeat;
-    opacity: 0.8;
-    filter: sepia(0.5);
-}
+.setup-area { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+select { padding: 5px; font-family: inherit; }
 
-/* Stili specifici per l'area di setup */
-.setup-area {
-    margin-top: 30px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-select {
-    padding: 8px;
-    font-family: inherit;
-    margin: 10px 0;
-    width: 80%;
-    border: 1px solid #7d5c3a;
-}
-
-/* SFONDO GIOCO MANOSCRITTO (Invariato) */
+/* SCHERMATA GIOCO (Stile Manoscritto) */
 .page {
-    width: 95%;
-    max-width: 1100px;
-    margin: 20px auto;
-    padding: 30px;
+    width: 95%; max-width: 1100px; margin: 20px auto;
+    padding: 30px; border: 1px solid #d3c3a3;
     background: #fdfaf3 url("https://www.transparenttextures.com/patterns/old-paper.png");
     box-shadow: 0 0 50px rgba(0,0,0,0.7);
-    border: 1px solid #d3c3a3;
 }
 
-/* Barra info con selettore */
 .info-bar {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 15px;
-    background: rgba(125, 92, 58, 0.1);
-    border-radius: 5px;
-    margin-bottom: 20px;
-    border: 1px solid #d3c3a3;
+    display: flex; justify-content: space-around; align-items: center;
+    padding: 15px; background: rgba(125, 92, 58, 0.1);
+    margin-bottom: 20px; border: 1px solid #d3c3a3;
+    font-family: 'IM Fell English SC', serif;
 }
 
-#levelSelectGame {
-    background: white;
-    border: 1px solid #7d5c3a;
-    font-family: 'Crimson Text', serif;
-    padding: 3px;
-    color: #5d4037;
-}
-
-/* CARDS */
+/* CARTE (Logica originale ripristinata) */
 .game-board {
     display: grid;
     grid-template-columns: repeat(var(--cols, 6), 1fr);
-    gap: 12px;
+    gap: 15px;
+    perspective: 1000px;
 }
 
 .card { aspect-ratio: 3/4; cursor: pointer; }
 .card .inner {
     position: relative; width: 100%; height: 100%;
-    transition: transform 0.6s; transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
 }
 .card.flipped .inner { transform: rotateY(180deg); }
-.card .back { background: #7d5c3a url("img/back.png") center/cover; border: 2px solid #5d4037; }
-.card .front { background: white; transform: rotateY(180deg); border: 2px solid #5d4037; }
+
+.card .back, .card .front {
+    position: absolute; width: 100%; height: 100%;
+    backface-visibility: hidden; border-radius: 4px; border: 2px solid #5d4037;
+}
+
+.card .back { background: #7d5c3a url("img/back.png") center/cover; }
+.card .front { background: white; transform: rotateY(180deg); }
 .card img { width: 100%; height: 100%; object-fit: cover; }
 
+.card.matched .inner { box-shadow: 0 0 20px #d4af37; border: 2px solid #d4af37; }
+
 .small-panel {
-    background: rgba(253, 247, 230, 0.8);
-    border-top: 1px solid #7d5c3a;
-    border-bottom: 1px solid #7d5c3a;
-    padding: 10px;
-    margin: 10px 0;
-    text-align: center;
-}
-
-.char-title {
-    font-family: 'IM Fell English SC', serif;
-    font-size: 1.1rem;
-    display: block;
-    color: #7d5c3a;
-}
-
-#message-top, #message-bottom {
-    font-size: 1.6rem;
-    color: #3e2723;
+    background: #fdf7e6; border-top: 1px solid #7d5c3a;
+    border-bottom: 1px solid #7d5c3a; padding: 15px;
+    text-align: center; margin: 15px 0;
 }
 
 .hidden { display: none !important; }
 .fade-out { opacity: 0; pointer-events: none; transition: 1s; }
 
 button {
-    background: #5d4037; color: #fdfaf3;
-    padding: 12px 24px; border: none; cursor: pointer;
-    font-family: 'IM Fell English SC', serif;
-}
-button:hover { background: #3e2723; }
-.actions { text-align: center; margin-top: 30px; }
-
-.overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.8);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 3000;
-}
-.overlay-content {
-    background: #fdfaf3 url("https://www.transparenttextures.com/patterns/old-paper.png");
-    padding: 40px; border: 2px solid #d4af37; text-align: center;
+    background: #5d4037; color: white; padding: 12px 24px;
+    border: none; cursor: pointer; font-family: 'IM Fell English SC', serif;
 }
