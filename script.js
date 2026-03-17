@@ -32,22 +32,25 @@ let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0, timerInterval = null, currentTime = 180;
 
 window.onload = () => {
-    setTimeout(() => { document.getElementById("bookContainer").classList.add("open"); }, 1000);
+    document.getElementById("main-game").classList.add("hidden");
+    setTimeout(() => { document.getElementById("bookContainer").classList.add("open"); }, 500);
 };
 
 document.getElementById("startGameBtn").addEventListener("click", () => {
     const lvl = document.getElementById("levelSelectIntro").value;
     document.getElementById("levelSelectGame").value = lvl;
     document.getElementById("intro-screen").classList.add("fade-out");
-    document.getElementById("main-game").classList.remove("hidden");
-    initGame(lvl);
+    setTimeout(() => {
+        document.getElementById("intro-screen").classList.add("hidden");
+        document.getElementById("main-game").classList.remove("hidden");
+        initGame(lvl);
+    }, 1500);
 });
 
 function initGame(levelKey) {
     currentLevel = levelKey;
-    // Nascondi overlay in caso di riavvio
-    document.getElementById("victoryOverlay").classList.add("hidden");
-    document.getElementById("defeatOverlay").classList.add("hidden");
+    document.getElementById("finalOverlay").classList.add("hidden");
+    document.getElementById("finalBookContainer").classList.remove("open");
     
     const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
     totalPairs = selected.length;
@@ -89,7 +92,7 @@ function checkForMatch() {
         firstCard.classList.add("matched");
         secondCard.classList.add("matched");
         resetTurn();
-        if (matches === totalPairs) handleVictory();
+        if (matches === totalPairs) handleEndGame(true);
     } else {
         lockBoard = true;
         setTimeout(() => {
@@ -117,7 +120,7 @@ function startTimer() {
         updateTimerDisplay();
         if (currentTime <= 0) { 
             clearInterval(timerInterval); 
-            document.getElementById("defeatOverlay").classList.remove("hidden"); 
+            handleEndGame(false);
         }
     }, 1000);
 }
@@ -134,13 +137,32 @@ function updateNarrator(title, quote) {
     document.getElementById("message-bottom").innerHTML = content;
 }
 
-function handleVictory() { 
-    clearInterval(timerInterval); 
-    setTimeout(() => document.getElementById("victoryOverlay").classList.remove("hidden"), 500); 
+// GESTIONE FINALE CON ANIMAZIONE LIBRO
+function handleEndGame(isVictory) {
+    clearInterval(timerInterval);
+    const overlay = document.getElementById("finalOverlay");
+    const container = document.getElementById("finalBookContainer");
+    const img = document.getElementById("finalStatusImg");
+    const title = document.getElementById("finalTitle");
+    const text = document.getElementById("finalText");
+    const btn = document.getElementById("finalActionBtn");
+
+    if (isVictory) {
+        img.src = "vittoria.png";
+        title.textContent = "La Provvidenza vi ha guidato!";
+        text.innerHTML = "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.<br> La vostra memoria sia lodata.";
+        btn.textContent = "Rimescolar le carte";
+    } else {
+        img.src = "sconfitta.png";
+        title.textContent = "Il tempo è trascorso invano...";
+        text.innerHTML = "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: riprovate.";
+        btn.textContent = "Riprova la sorte";
+    }
+
+    overlay.classList.remove("hidden");
+    setTimeout(() => container.classList.add("open"), 100);
 }
 
-// Event Listeners corretti
+document.getElementById("finalActionBtn").addEventListener("click", () => initGame(currentLevel));
 document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
-document.getElementById("playAgainBtn").addEventListener("click", () => initGame(currentLevel));
-document.getElementById("tryAgainBtn").addEventListener("click", () => initGame(currentLevel));
 document.getElementById("levelSelectGame").addEventListener("change", (e) => initGame(e.target.value));
