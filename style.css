@@ -56,12 +56,14 @@ body {
 .book-container.open .book-content-inner { transform: translateX(-450px) scaleX(1); opacity: 1; }
 
 /* --- SPECIFICO FINALE: SROTOLAMENTO DAL CENTRO --- */
+/* Il contenitore finale non trasla */
 .book-container.final-book.open { transform: translateX(0); }
 
+/* Contenuto interno srotola dal centro */
 .final-book .book-content-inner {
     left: 50%;
     transform: translateX(-50%) scaleX(0);
-    transform-origin: center; /* Srotola dal centro verso i lati */
+    transform-origin: center; /* Punto di origine centrale per srotolamento */
     transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s;
 }
 
@@ -69,25 +71,34 @@ body {
     transform: translateX(-50%) scaleX(1);
 }
 
+/* Animazione cover finale */
 .final-cover {
     transition: transform 1s ease-in, opacity 0.5s 0.5s;
 }
 
 .book-container.final-book.open .final-cover {
-    transform: scale(1.2);
+    transform: scale(1.2); /* Effetto ingrandimento mentre sparisce */
     opacity: 0;
 }
 
+/* Posizionamento scritte finale */
 .final-text-side {
     padding-left: 60px; /* Sposta scritte più a destra */
     text-align: left;
     align-items: flex-start;
 }
 
+/* Area immagine finale */
 .image-side-final { 
     width: 50%; height: 100%; display: flex; 
     justify-content: center; align-items: center; padding: 20px;
     border-right: 1px solid rgba(0,0,0,0.1); 
+}
+
+/* --- MODIFICA RICHIESTA: Immagine finale più piccola --- */
+.image-side-final img {
+    max-width: 80%; /* Ridotta per essere simile a prima, ma nel nuovo layout */
+    height: auto;
 }
 
 /* --- AREA GIOCO --- */
