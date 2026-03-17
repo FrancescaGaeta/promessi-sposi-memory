@@ -15,15 +15,14 @@
                     <h1 class="manzonian-font">Memory Game</h1>
                     <p class="script-font intro-quote">
                         "L'imprese illustri e i casi memorabili si debbono trarre dall'oscurità dell'oblio. <br>
-                        Aguzzate dunque l'ingegno, o Lettore: accoppiate i volti e le sventure, 
-                        affinché la memoria non perda ciò che la Provvidenza ha scritto."
+                        Aguzzate dunque l'ingegno, o Lettore: accoppiate i volti e le sventure."
                     </p>
                     <div class="setup-area">
                         <label for="levelSelectIntro" class="manzonian-font">Difficoltà:</label>
                         <select id="levelSelectIntro">
-                            <option value="easy" selected>Facile (6 coppie)</option>
-                            <option value="medium">Medio (10 coppie)</option>
-                            <option value="hard">Difficile (12 coppie)</option>
+                            <option value="easy" selected>Facile</option>
+                            <option value="medium">Medio</option>
+                            <option value="hard">Difficile</option>
                         </select>
                         <button id="startGameBtn">Inizia</button>
                     </div>
@@ -40,21 +39,13 @@
         </header>
 
         <section class="info-bar">
-            <div class="info-item">
-                <span class="label">Livello:</span>
-                <select id="levelSelectGame">
-                    <option value="easy">Facile</option>
-                    <option value="medium">Medio</option>
-                    <option value="hard">Difficile</option>
-                </select>
-            </div>
             <div class="info-item"><span class="label">Tempo:</span> <span id="timer">03:00</span></div>
             <div class="info-item"><span class="label">Mosse:</span> <span id="tries">0</span></div>
             <div class="info-item"><span class="label">Coppie:</span> <span id="matches">0</span> / <span id="totalPairs">10</span></div>
         </section>
 
         <div class="quote-box">
-            <div id="message-top" class="script-font">« Tutte quelle immagini gli si affollavano alla mente," »</div>
+            <div id="message-top" class="script-font">« Tutte quelle immagini gli si affollavano alla mente, »</div>
         </div>
 
         <main>
@@ -71,15 +62,13 @@
 
         <div id="finalOverlay" class="final-overlay hidden">
             <div class="final-book-content" id="finalBookContent">
-                
                 <div class="final-page-left">
-                    <img id="finalStatusImg" src="" alt="Stato Finale">
+                    <img id="finalStatusImg" src="" alt="Esito">
                 </div>
-                
                 <div class="final-page-right">
-                    <div class="final-text-container script-font">
+                    <div class="final-text-container">
                         <h2 id="finalTitle" class="manzonian-font"></h2>
-                        <p id="finalText"></p>
+                        <p id="finalText" class="script-font"></p>
                         <button id="finalActionBtn"></button>
                     </div>
                 </div>
