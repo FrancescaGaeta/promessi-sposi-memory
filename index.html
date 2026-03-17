@@ -10,17 +10,14 @@
 
     <div id="intro-screen" class="intro-overlay">
         <div class="book-container" id="bookContainer">
-            
             <div class="book-content-inner">
                 <div class="selection-side">
                     <h1 class="manzonian-font">Memory Game</h1>
-                    
                     <p class="script-font intro-quote">
                         "L'imprese illustri e i casi memorabili si debbono trarre dall'oscurità dell'oblio. <br>
                         Aguzzate dunque l'ingegno, o Lettore: accoppiate i volti e le sventure, 
                         affinché la memoria non perda ciò che la Provvidenza ha scritto."
                     </p>
-
                     <div class="setup-area">
                         <label for="levelSelectIntro" class="manzonian-font">Difficoltà:</label>
                         <select id="levelSelectIntro">
@@ -33,15 +30,11 @@
                 </div>
                 <div class="image-side"></div>
             </div>
-
-            <div class="book-cover-front" id="bookCover">
-                </div>
-            
+            <div class="book-cover-front" id="bookCover"></div>
         </div>
     </div>
 
-    <div class="page hidden" id="main-game">
-        <header class="header">
+    <div class="page" id="main-game"> <header class="header">
             <h1 class="manzonian-font title-center">Memory – I promessi sposi</h1>
         </header>
 
@@ -75,18 +68,19 @@
             <button id="resetBtn">Ricomincia la partita</button>
         </div>
 
-        <div id="victoryOverlay" class="overlay hidden">
-            <div class="overlay-content">
-                <h2 class="manzonian-font">La Provvidenza vi ha guidato!</h2>
-                <h1 class="script-font">L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.<br> La vostra memoria sia lodata, come un'istoria ben scritta.</h1>
-                <button id="playAgainBtn">Rimescolar le carte</button>
-            </div>
-        </div>
-        <div id="defeatOverlay" class="overlay hidden">
-            <div class="overlay-content">
-                <h2 class="manzonian-font">Il tempo è trascorso invano...</h2>
-                <h1 class="script-font">Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: aguzzate l'ingegno e riprovate.</h1>
-                <button id="tryAgainBtn">Riprova la sorte</button>
+        <div id="finalOverlay" class="intro-overlay hidden">
+            <div class="book-container" id="finalBookContainer">
+                <div class="book-content-inner">
+                    <div class="image-side-final">
+                        <img id="finalStatusImg" src="" alt="Stato Finale" style="max-width: 80%; border-radius: 5px;">
+                    </div>
+                    <div class="selection-side">
+                        <h2 id="finalTitle" class="manzonian-font"></h2>
+                        <p id="finalText" class="script-font intro-quote"></p>
+                        <button id="finalActionBtn"></button>
+                    </div>
+                </div>
+                <div class="book-cover-front" style="background-image: url('fine.png');"></div>
             </div>
         </div>
     </div>
