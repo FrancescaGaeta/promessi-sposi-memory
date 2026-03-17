@@ -1,4 +1,4 @@
-const originalCards = [
+ const originalCards = [
     { name: "Renzo", img: "renzo.png" }, { name: "Lucia", img: "lucia.png" },
     { name: "Don Rodrigo", img: "don-rodrigo.png" }, { name: "Fra Cristoforo", img: "fra-cristoforo.png" },
     { name: "Agnese", img: "agnese.png" }, { name: "Azzeccagarbugli", img: "azzeccagarbugli.png" },
@@ -137,7 +137,6 @@ function updateNarrator(title, quote) {
     document.getElementById("message-bottom").innerHTML = content;
 }
 
-// GESTIONE FINALE CON ANIMAZIONE LIBRO
 function handleEndGame(isVictory) {
     clearInterval(timerInterval);
     const overlay = document.getElementById("finalOverlay");
