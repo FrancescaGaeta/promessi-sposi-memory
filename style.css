@@ -150,8 +150,8 @@
 }
 
 .image-side-final img {
-    width: 65%;           /* Dimensione bilanciata */
-    max-width: 200px;     /* Limite massimo per non coprire troppo */
+    width: 65%;           /* Larghezza relativa al contenitore */
+    max-width: 200px;     /* Limite massimo per evitare che siano giganti */
     height: auto;
     border-radius: 8px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* Effetto profondità */
