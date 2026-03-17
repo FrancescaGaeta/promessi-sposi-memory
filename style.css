@@ -27,7 +27,9 @@ body {
     width: 450px; height: 600px; position: relative; 
     transform-style: preserve-3d; transition: transform 2.5s ease-in-out; 
 }
-.book-container.open { transform: translateX(225px); }
+
+/* Intro specifica */
+.book-container.open:not(.final-book) { transform: translateX(225px); }
 
 .book-cover-front {
     position: absolute; inset: 0; z-index: 50;
@@ -50,19 +52,42 @@ body {
     transform-origin: right; opacity: 0;
     transition: transform 2.5s ease-in-out, opacity 1s ease;
 }
+
 .book-container.open .book-content-inner { transform: translateX(-450px) scaleX(1); opacity: 1; }
 
-.selection-side, .image-side, .image-side-final { 
-    width: 50%; height: 100%; display: flex; flex-direction: column; 
-    justify-content: center; align-items: center; padding: 40px; 
+/* --- SPECIFICO FINALE: SROTOLAMENTO DAL CENTRO --- */
+.book-container.final-book.open { transform: translateX(0); }
+
+.final-book .book-content-inner {
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center; /* Srotola dal centro verso i lati */
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s;
 }
 
-.image-side-final { border-right: 1px solid rgba(0,0,0,0.1); }
+.book-container.final-book.open .book-content-inner {
+    transform: translateX(-50%) scaleX(1);
+}
 
-.intro-quote {
-    font-size: 1.2rem; line-height: 1.4; color: #3e2723; margin: 20px 0;
-    text-align: center; border-top: 1px solid rgba(139,69,19,0.2); 
-    border-bottom: 1px solid rgba(139,69,19,0.2); padding: 15px 0;
+.final-cover {
+    transition: transform 1s ease-in, opacity 0.5s 0.5s;
+}
+
+.book-container.final-book.open .final-cover {
+    transform: scale(1.2);
+    opacity: 0;
+}
+
+.final-text-side {
+    padding-left: 60px; /* Sposta scritte più a destra */
+    text-align: left;
+    align-items: flex-start;
+}
+
+.image-side-final { 
+    width: 50%; height: 100%; display: flex; 
+    justify-content: center; align-items: center; padding: 20px;
+    border-right: 1px solid rgba(0,0,0,0.1); 
 }
 
 /* --- AREA GIOCO --- */
@@ -89,7 +114,6 @@ body {
 
 .quote-box div { font-size: 1.8rem; color: #3e2723; line-height: 1.1; }
 
-/* --- BOARD --- */
 .game-board { display: grid; grid-template-columns: repeat(var(--cols, 6), 1fr); gap: 10px; }
 .card { aspect-ratio: 3/4; cursor: pointer; }
 .card .inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
@@ -100,11 +124,7 @@ body {
 .card img { width: 100%; height: 100%; object-fit: cover; }
 .card .back, .card .front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; }
 
-/* --- BOTTONI E AZIONI MODIFICATO --- */
-.actions { 
-    display: flex; justify-content: center; /* Centra orizzontalmente il pulsante */
-    margin-top: 30px; 
-}
+.actions { display: flex; justify-content: center; margin-top: 30px; }
 
 button { 
     background: #5d4037; color: white; padding: 10px 25px; 
@@ -113,6 +133,14 @@ button {
 }
 button:hover { background: #7d5c3a; transform: scale(1.05); }
 
-/* --- UTILITY --- */
+.intro-quote {
+    font-size: 1.2rem; line-height: 1.4; color: #3e2723; margin: 20px 0;
+    text-align: center; border-top: 1px solid rgba(139,69,19,0.2); 
+    border-bottom: 1px solid rgba(139,69,19,0.2); padding: 15px 0;
+}
+
+.selection-side { width: 50%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; }
+.image-side { width: 50%; height: 100%; }
+
 .hidden { display: none !important; }
 .fade-out { opacity: 0; pointer-events: none; transition: 1s; }
