@@ -86,7 +86,7 @@ body {
 }
 
 /* --- FORZATURA GRANDEZZA TESTI (Intro e Finale) --- */
-/* Uso selettori più specifici per assicurarmi che vincano */
+
 
 /* Testo Intro (Citazione Manzoniana) */
 .selection-side .intro-text {
@@ -101,7 +101,7 @@ body {
     border-bottom: 1px solid rgba(139,69,19,0.2);
 }
 
-/* Allineamento Finale: Reset e testi più grandi */
+/* Allineamento Finale */
 .final-text-side {
     padding: 20px; /* Ridotto padding per dare spazio ai testi grandi */
     text-align: center;
@@ -109,22 +109,22 @@ body {
     justify-content: center; 
 }
 
-/* Titolo Finale (Vittoria/Sconfitta) più grande e in alto */
+/* Titolo Finale (Vittoria/Sconfitta)  */
 .final-text-side .final-title {
     margin-top: 0; 
-    font-size: 2.2rem !important; /* Ingrandito e forzato */
+    font-size: 2.2rem !important; 
     margin-bottom: 15px;
 }
 
-/* Testo Finale (Vittoria/Sconfitta) più grande e centrato */
+/* Testo Finale (Vittoria/Sconfitta)  */
 .final-text-side .final-text {
     font-size: 1.6rem !important; /* Ingrandito e forzato */
     margin: 15px auto; /* Centrato orizzontalmente */
 }
 
-/* --- CORREZIONE RICHIESTA: Immagine finale molto più piccola --- */
+/* ---  Immagine finale  --- */
 .image-side-final { 
-    width: 50%; height: 100%; display: flex; 
+    width: 80%; height: 100%; display: flex; 
     justify-content: center; align-items: center; padding: 20px;
     border-right: 1px solid rgba(0,0,0,0.1); 
 }
