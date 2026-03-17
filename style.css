@@ -56,14 +56,12 @@ body {
 .book-container.open .book-content-inner { transform: translateX(-450px) scaleX(1); opacity: 1; }
 
 /* --- SPECIFICO FINALE: SROTOLAMENTO DAL CENTRO --- */
-/* Il contenitore finale non trasla */
 .book-container.final-book.open { transform: translateX(0); }
 
-/* Contenuto interno srotola dal centro */
 .final-book .book-content-inner {
     left: 50%;
     transform: translateX(-50%) scaleX(0);
-    transform-origin: center; /* Punto di origine centrale per srotolamento */
+    transform-origin: center; 
     transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s;
 }
 
@@ -71,33 +69,63 @@ body {
     transform: translateX(-50%) scaleX(1);
 }
 
-/* Animazione cover finale */
 .final-cover {
     transition: transform 1s ease-in, opacity 0.5s 0.5s;
 }
 
 .book-container.final-book.open .final-cover {
-    transform: scale(1.2); /* Effetto ingrandimento mentre sparisce */
+    transform: scale(1.2); 
     opacity: 0;
 }
 
-/* Posizionamento scritte finale */
-.final-text-side {
-    padding-left: 60px; /* Sposta scritte più a destra */
-    text-align: left;
-    align-items: flex-start;
+/* --- MODIFICHE RICHIESTE: Posizionamento e Grandezze Testi --- */
+
+/* Intro: Titolo più in alto */
+.selection-side h1 {
+    margin-top: 10px; /* Ridotto il margine superiore */
 }
 
-/* Area immagine finale */
+/* Testo Intro e Finale più grande e centrato */
+.intro-text {
+    font-size: 1.5rem !important; /* Ingrandito e forzato per sovrascrivere regole generali */
+    line-height: 1.4;
+    color: #3e2723;
+    text-align: center;
+    margin: 20px auto; /* Centrato orizzontalmente */
+    max-width: 90%; /* Per non toccare i bordi */
+}
+
+/* Allineamento Finale: Centrato e testi più grandi */
+.final-text-side {
+    padding: 40px; /* Reset padding per centrare */
+    text-align: center;
+    align-items: center; /* Centra orizzontalmente i figli flex */
+    justify-content: center; /* Centra verticalmente */
+}
+
+/* Titolo Finale più in alto e grande */
+.final-title {
+    margin-top: 0; /* Spostato in alto */
+    font-size: 2rem; /* Ingrandito */
+    margin-bottom: 10px;
+}
+
+/* Testo Finale specifico centrato */
+.final-text {
+    /* Eredita .intro-text, aggiungiamo solo correzioni se serve */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- MODIFICA RICHIESTA: Immagini Vittoria/Sconfitta più piccole --- */
 .image-side-final { 
     width: 50%; height: 100%; display: flex; 
     justify-content: center; align-items: center; padding: 20px;
     border-right: 1px solid rgba(0,0,0,0.1); 
 }
 
-/* --- MODIFICA RICHIESTA: Immagine finale più piccola --- */
 .image-side-final img {
-    max-width: 80%; /* Ridotta per essere simile a prima, ma nel nuovo layout */
+    max-width: 60%; /* Ridotta drasticamente come richiesto */
     height: auto;
 }
 
@@ -116,6 +144,7 @@ body {
     background: rgba(93,64,55,0.08); border: 1px solid #b3a486; margin-bottom: 10px; 
 }
 
+/* --- GRANDEZZA CITAZIONI INVARIATA --- */
 .quote-box {
     background: rgba(255, 255, 255, 0.4);
     border-top: 2px solid #b3a486; border-bottom: 2px solid #b3a486;
@@ -123,7 +152,7 @@ body {
     min-height: 80px; display: flex; align-items: center; justify-content: center;
 }
 
-.quote-box div { font-size: 1.8rem; color: #3e2723; line-height: 1.1; }
+.quote-box div { font-size: 1.8rem; color: #3e2723; line-height: 1.1; } /* Non modificato */
 
 .game-board { display: grid; grid-template-columns: repeat(var(--cols, 6), 1fr); gap: 10px; }
 .card { aspect-ratio: 3/4; cursor: pointer; }
@@ -144,6 +173,7 @@ button {
 }
 button:hover { background: #7d5c3a; transform: scale(1.05); }
 
+/* Regola generale per intro-quote mantenuta per altri scopi, sovrascritta da .intro-text */
 .intro-quote {
     font-size: 1.2rem; line-height: 1.4; color: #3e2723; margin: 20px 0;
     text-align: center; border-top: 1px solid rgba(139,69,19,0.2); 
