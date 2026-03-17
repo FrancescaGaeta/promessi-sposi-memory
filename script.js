@@ -32,23 +32,25 @@ let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0, timerInterval = null, currentTime = 180;
 
 window.onload = () => {
-    setTimeout(() => { document.getElementById("bookContainer").classList.add("open"); }, 1000);
+    document.getElementById("main-game").classList.add("hidden");
+    setTimeout(() => { document.getElementById("bookContainer").classList.add("open"); }, 500);
 };
 
 document.getElementById("startGameBtn").addEventListener("click", () => {
     const lvl = document.getElementById("levelSelectIntro").value;
+    document.getElementById("levelSelectGame").value = lvl;
     document.getElementById("intro-screen").classList.add("fade-out");
     setTimeout(() => {
         document.getElementById("intro-screen").classList.add("hidden");
         document.getElementById("main-game").classList.remove("hidden");
         initGame(lvl);
-    }, 1000);
+    }, 1500);
 });
 
 function initGame(levelKey) {
     currentLevel = levelKey;
     document.getElementById("finalOverlay").classList.add("hidden");
-    document.getElementById("finalBookContent").classList.remove("open");
+    document.getElementById("finalBookContainer").classList.remove("open");
     
     const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
     totalPairs = selected.length;
@@ -62,7 +64,6 @@ function initGame(levelKey) {
         const card = document.createElement("div");
         card.className = "card";
         card.dataset.name = data.name;
-        // Percorso img/ per i personaggi
         card.innerHTML = `<div class="inner"><div class="back"></div><div class="front"><img src="img/${data.img}"></div></div>`;
         card.addEventListener("click", flipCard);
         board.appendChild(card);
@@ -70,7 +71,7 @@ function initGame(levelKey) {
 
     resetState();
     startTimer();
-    updateNarrator("Il Narratore", "« Tutte quelle immagini gli si affollavano alla mente, »");
+    updateNarrator("Il Narratore", "« Si riapre il capitolo... Trova le coppie per proseguire la storia. »");
 }
 
 function flipCard() {
@@ -109,7 +110,7 @@ function resetState() {
     document.getElementById("matches").textContent = "0";
     document.getElementById("tries").textContent = "0";
     clearInterval(timerInterval);
-    currentTime = 180;
+    currentTime = currentLevel === "easy" ? 120 : (currentLevel === "medium" ? 180 : 240);
     updateTimerDisplay();
 }
 
@@ -117,7 +118,10 @@ function startTimer() {
     timerInterval = setInterval(() => {
         currentTime--;
         updateTimerDisplay();
-        if (currentTime <= 0) { clearInterval(timerInterval); handleEndGame(false); }
+        if (currentTime <= 0) { 
+            clearInterval(timerInterval); 
+            handleEndGame(false);
+        }
     }, 1000);
 }
 
@@ -128,34 +132,37 @@ function updateTimerDisplay() {
 }
 
 function updateNarrator(title, quote) {
-    const content = `<b>${title}:</b> ${quote}`;
+    const content = `<span class="char-title"><b>${title}:</b></span> ${quote}`;
     document.getElementById("message-top").innerHTML = content;
     document.getElementById("message-bottom").innerHTML = content;
 }
 
+// GESTIONE FINALE CON ANIMAZIONE LIBRO
 function handleEndGame(isVictory) {
     clearInterval(timerInterval);
+    const overlay = document.getElementById("finalOverlay");
+    const container = document.getElementById("finalBookContainer");
     const img = document.getElementById("finalStatusImg");
     const title = document.getElementById("finalTitle");
     const text = document.getElementById("finalText");
     const btn = document.getElementById("finalActionBtn");
 
-    // Percorso root per vittoria/sconfitta
     if (isVictory) {
         img.src = "vittoria.png";
-        title.textContent = "Vittoria!";
-        text.innerHTML = "La Provvidenza vi ha guidato a sciogliere l'intreccio.";
-        btn.textContent = "Gioca Ancora";
+        title.textContent = "La Provvidenza vi ha guidato!";
+        text.innerHTML = "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.<br> La vostra memoria sia lodata.";
+        btn.textContent = "Rimescolar le carte";
     } else {
         img.src = "sconfitta.png";
-        title.textContent = "Sconfitta";
-        text.innerHTML = "Il tempo è fuggito, lasciando le memorie confuse.";
-        btn.textContent = "Riprova";
+        title.textContent = "Il tempo è trascorso invano...";
+        text.innerHTML = "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: riprovate.";
+        btn.textContent = "Riprova la sorte";
     }
 
-    document.getElementById("finalOverlay").classList.remove("hidden");
-    setTimeout(() => document.getElementById("finalBookContent").classList.add("open"), 100);
+    overlay.classList.remove("hidden");
+    setTimeout(() => container.classList.add("open"), 100);
 }
 
-document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
 document.getElementById("finalActionBtn").addEventListener("click", () => initGame(currentLevel));
+document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
+document.getElementById("levelSelectGame").addEventListener("change", (e) => initGame(e.target.value));
