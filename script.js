@@ -71,7 +71,7 @@ function initGame(levelKey) {
 
     resetState();
     startTimer();
-    updateNarrator("Il Narratore", "« Si riapre il capitolo... Trova le coppie per proseguire la storia. »");
+    updateNarrator("« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano »");
 }
 
 function flipCard() {
