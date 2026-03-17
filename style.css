@@ -133,8 +133,8 @@ body {
 }
 
 .image-side-final img {
-    width: 70% !important; /* Ingrandita quasi al massimo della sua metà */
-    max-width: none !important;
+    width: 50%;           /* più piccola */
+    max-width: 250px;     /* limite massimo */
     height: auto;
     border-radius: 5px;
 }
