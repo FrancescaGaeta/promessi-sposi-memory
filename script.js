@@ -31,12 +31,10 @@ const LEVEL_SETS = {
 let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0, timerInterval = null, currentTime = 180;
 
-// Animazione apertura manoscritto
 window.onload = () => {
     setTimeout(() => { document.getElementById("bookContainer").classList.add("open"); }, 1000);
 };
 
-// Start Game
 document.getElementById("startGameBtn").addEventListener("click", () => {
     const lvl = document.getElementById("levelSelectIntro").value;
     document.getElementById("levelSelectGame").value = lvl;
@@ -47,6 +45,10 @@ document.getElementById("startGameBtn").addEventListener("click", () => {
 
 function initGame(levelKey) {
     currentLevel = levelKey;
+    // Nascondi overlay in caso di riavvio
+    document.getElementById("victoryOverlay").classList.add("hidden");
+    document.getElementById("defeatOverlay").classList.add("hidden");
+    
     const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
     totalPairs = selected.length;
     document.getElementById("totalPairs").textContent = totalPairs;
@@ -113,7 +115,10 @@ function startTimer() {
     timerInterval = setInterval(() => {
         currentTime--;
         updateTimerDisplay();
-        if (currentTime <= 0) { clearInterval(timerInterval); document.getElementById("defeatOverlay").classList.remove("hidden"); }
+        if (currentTime <= 0) { 
+            clearInterval(timerInterval); 
+            document.getElementById("defeatOverlay").classList.remove("hidden"); 
+        }
     }, 1000);
 }
 
@@ -129,9 +134,13 @@ function updateNarrator(title, quote) {
     document.getElementById("message-bottom").innerHTML = content;
 }
 
-function handleVictory() { clearInterval(timerInterval); setTimeout(() => document.getElementById("victoryOverlay").classList.remove("hidden"), 500); }
+function handleVictory() { 
+    clearInterval(timerInterval); 
+    setTimeout(() => document.getElementById("victoryOverlay").classList.remove("hidden"), 500); 
+}
 
+// Event Listeners corretti
 document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
-document.getElementById("playAgainBtn").addEventListener("click", () => location.reload());
+document.getElementById("playAgainBtn").addEventListener("click", () => initGame(currentLevel));
 document.getElementById("tryAgainBtn").addEventListener("click", () => initGame(currentLevel));
 document.getElementById("levelSelectGame").addEventListener("change", (e) => initGame(e.target.value));
