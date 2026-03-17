@@ -48,8 +48,9 @@ document.getElementById("startGameBtn").addEventListener("click", () => {
 
 function initGame(levelKey) {
     currentLevel = levelKey;
+    // CORREZIONE: Gestisce il nuovo overlay finale e l'animazione
     document.getElementById("finalOverlay").classList.add("hidden");
-    document.getElementById("bookOpener").classList.remove("open");
+    document.getElementById("finalBookContent").classList.remove("open");
     
     const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
     totalPairs = selected.length;
@@ -70,6 +71,7 @@ function initGame(levelKey) {
 
     resetState();
     startTimer();
+    // CORREZIONE: Testo narratore all'avvio corretto
     updateNarrator("Il Narratore", "« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano. »");
 }
 
@@ -136,24 +138,31 @@ function updateNarrator(title, quote) {
     document.getElementById("message-bottom").innerHTML = content;
 }
 
+// CORREZIONE: GESTIONE FINALE CON IMMAGINE FINE.PNG E TESTO CENTRATO A DESTRA
 function handleEndGame(isVictory) {
     clearInterval(timerInterval);
+    const overlay = document.getElementById("finalOverlay");
+    const bookContent = document.getElementById("finalBookContent");
+    const img = document.getElementById("finalStatusImg");
     const title = document.getElementById("finalTitle");
     const text = document.getElementById("finalText");
     const btn = document.getElementById("finalActionBtn");
 
     if (isVictory) {
+        img.src = "img/vittoria.png"; // Percorso immagine vittoria
         title.textContent = "La Provvidenza vi ha guidato!";
         text.innerHTML = "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.<br> La vostra memoria sia lodata.";
         btn.textContent = "Rimescolar le carte";
     } else {
+        img.src = "img/sconfitta.png"; // Percorso immagine sconfitta
         title.textContent = "Il tempo è trascorso invano...";
         text.innerHTML = "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: riprovate.";
         btn.textContent = "Riprova la sorte";
     }
 
-    document.getElementById("finalOverlay").classList.remove("hidden");
-    setTimeout(() => document.getElementById("bookOpener").classList.add("open"), 100);
+    // Mostra l'overlay e avvia l'animazione di dispiegamento
+    overlay.classList.remove("hidden");
+    setTimeout(() => bookContent.classList.add("open"), 100);
 }
 
 document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
