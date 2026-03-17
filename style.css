@@ -124,13 +124,13 @@ body {
 
 /* ---  Immagine finale  --- */
 .image-side-final { 
-    width: 130%; height: 100%; display: flex; 
+    width: 80%; height: 100%; display: flex; 
     justify-content: center; align-items: center; padding: 20px;
     border-right: 1px solid rgba(0,0,0,0.1); 
 }
 
 .image-side-final img {
-    max-width: 50%; /* Ridotta ulteriormente al 50% */
+    max-width: 90%; /* Ridotta ulteriormente al 50% */
     height: auto;
 }
 
