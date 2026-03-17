@@ -1,4 +1,4 @@
- const originalCards = [
+const originalCards = [
     { name: "Renzo", img: "renzo.png" }, { name: "Lucia", img: "lucia.png" },
     { name: "Don Rodrigo", img: "don-rodrigo.png" }, { name: "Fra Cristoforo", img: "fra-cristoforo.png" },
     { name: "Agnese", img: "agnese.png" }, { name: "Azzeccagarbugli", img: "azzeccagarbugli.png" },
@@ -71,7 +71,8 @@ function initGame(levelKey) {
 
     resetState();
     startTimer();
-    updateNarrator("« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano »");
+    // Chiamata iniziale senza titolo per evitare undefined
+    updateNarrator(null, "« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano »");
 }
 
 function flipCard() {
@@ -131,8 +132,16 @@ function updateTimerDisplay() {
     document.getElementById("timer").textContent = `${min}:${sec.toString().padStart(2, '0')}`;
 }
 
+// --- MODIFICA RICHIESTA: Correzione undefined ---
 function updateNarrator(title, quote) {
-    const content = `<span class="char-title"><b>${title}:</b></span> ${quote}`;
+    let content;
+    if (title) {
+        // Se c'è un titolo (es: nome personaggio), mostralo in grassetto
+        content = `<span class="char-title"><b>${title}:</b></span> ${quote}`;
+    } else {
+        // Altrimenti (es: inizio gioco), mostra solo la citazione
+        content = quote;
+    }
     document.getElementById("message-top").innerHTML = content;
     document.getElementById("message-bottom").innerHTML = content;
 }
