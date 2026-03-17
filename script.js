@@ -71,7 +71,6 @@ function initGame(levelKey) {
 
     resetState();
     startTimer();
-    // Chiamata iniziale senza titolo per evitare undefined
     updateNarrator(null, "« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano »");
 }
 
@@ -132,14 +131,11 @@ function updateTimerDisplay() {
     document.getElementById("timer").textContent = `${min}:${sec.toString().padStart(2, '0')}`;
 }
 
-// --- MODIFICA RICHIESTA: Correzione undefined ---
 function updateNarrator(title, quote) {
     let content;
     if (title) {
-        // Se c'è un titolo (es: nome personaggio), mostralo in grassetto
         content = `<span class="char-title"><b>${title}:</b></span> ${quote}`;
     } else {
-        // Altrimenti (es: inizio gioco), mostra solo la citazione
         content = quote;
     }
     document.getElementById("message-top").innerHTML = content;
