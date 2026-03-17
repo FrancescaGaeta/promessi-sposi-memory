@@ -16,7 +16,7 @@ body {
 .manzonian-font { font-family: 'IM Fell English SC', serif; }
 .script-font { font-family: 'Pinyon Script', cursive; }
 
-/* --- SCHERMATA INTRO & FINALE --- */
+/* --- SCHERMATA INTRO & FINALE (OVERLAY) --- */
 .intro-overlay { 
     position: fixed; inset: 0; z-index: 2000; 
     background: rgba(26, 16, 10, 0.95); 
@@ -78,46 +78,51 @@ body {
     opacity: 0;
 }
 
-/* --- MODIFICHE RICHIESTE: Posizionamento e Grandezze Testi --- */
+/* --- CORREZIONE RICHIESTA: Posizionamento e Grandezze Testi --- */
 
 /* Intro: Titolo più in alto */
 .selection-side h1 {
-    margin-top: 10px; /* Ridotto il margine superiore */
+    margin-top: 10px; 
 }
 
-/* Testo Intro e Finale più grande e centrato */
-.intro-text {
-    font-size: 1.5rem !important; /* Ingrandito e forzato per sovrascrivere regole generali */
+/* --- FORZATURA GRANDEZZA TESTI (Intro e Finale) --- */
+/* Uso selettori più specifici per assicurarmi che vincano */
+
+/* Testo Intro (Citazione Manzoniana) */
+.selection-side .intro-text {
+    font-size: 1.6rem !important; /* Ingrandito e forzato */
     line-height: 1.4;
     color: #3e2723;
     text-align: center;
     margin: 20px auto; /* Centrato orizzontalmente */
-    max-width: 90%; /* Per non toccare i bordi */
+    max-width: 90%;
+    padding: 15px 0;
+    border-top: 1px solid rgba(139,69,19,0.2); 
+    border-bottom: 1px solid rgba(139,69,19,0.2);
 }
 
-/* Allineamento Finale: Centrato e testi più grandi */
+/* Allineamento Finale: Reset e testi più grandi */
 .final-text-side {
-    padding: 40px; /* Reset padding per centrare */
+    padding: 20px; /* Ridotto padding per dare spazio ai testi grandi */
     text-align: center;
-    align-items: center; /* Centra orizzontalmente i figli flex */
-    justify-content: center; /* Centra verticalmente */
+    align-items: center; 
+    justify-content: center; 
 }
 
-/* Titolo Finale più in alto e grande */
-.final-title {
-    margin-top: 0; /* Spostato in alto */
-    font-size: 2rem; /* Ingrandito */
-    margin-bottom: 10px;
+/* Titolo Finale (Vittoria/Sconfitta) più grande e in alto */
+.final-text-side .final-title {
+    margin-top: 0; 
+    font-size: 2.2rem !important; /* Ingrandito e forzato */
+    margin-bottom: 15px;
 }
 
-/* Testo Finale specifico centrato */
-.final-text {
-    /* Eredita .intro-text, aggiungiamo solo correzioni se serve */
-    margin-left: auto;
-    margin-right: auto;
+/* Testo Finale (Vittoria/Sconfitta) più grande e centrato */
+.final-text-side .final-text {
+    font-size: 1.6rem !important; /* Ingrandito e forzato */
+    margin: 15px auto; /* Centrato orizzontalmente */
 }
 
-/* --- MODIFICA RICHIESTA: Immagini Vittoria/Sconfitta più piccole --- */
+/* --- CORREZIONE RICHIESTA: Immagine finale molto più piccola --- */
 .image-side-final { 
     width: 50%; height: 100%; display: flex; 
     justify-content: center; align-items: center; padding: 20px;
@@ -125,11 +130,11 @@ body {
 }
 
 .image-side-final img {
-    max-width: 60%; /* Ridotta drasticamente come richiesto */
+    max-width: 50%; /* Ridotta ulteriormente al 50% */
     height: auto;
 }
 
-/* --- AREA GIOCO --- */
+/* --- AREA GIOCO (BOARD) --- */
 .page {
     width: 95%; max-width: 1100px; margin: 20px auto; padding: 45px;
     background: #e8dcc4 url("https://www.transparenttextures.com/patterns/old-paper.png");
@@ -152,7 +157,7 @@ body {
     min-height: 80px; display: flex; align-items: center; justify-content: center;
 }
 
-.quote-box div { font-size: 1.8rem; color: #3e2723; line-height: 1.1; } /* Non modificato */
+.quote-box div { font-size: 1.8rem; color: #3e2723; line-height: 1.1; }
 
 .game-board { display: grid; grid-template-columns: repeat(var(--cols, 6), 1fr); gap: 10px; }
 .card { aspect-ratio: 3/4; cursor: pointer; }
@@ -173,11 +178,10 @@ button {
 }
 button:hover { background: #7d5c3a; transform: scale(1.05); }
 
-/* Regola generale per intro-quote mantenuta per altri scopi, sovrascritta da .intro-text */
+/* Regola generale per intro-quote (per l'intro normale), sovrascritta da .selection-side .intro-text */
 .intro-quote {
     font-size: 1.2rem; line-height: 1.4; color: #3e2723; margin: 20px 0;
-    text-align: center; border-top: 1px solid rgba(139,69,19,0.2); 
-    border-bottom: 1px solid rgba(139,69,19,0.2); padding: 15px 0;
+    text-align: center;
 }
 
 .selection-side { width: 50%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; }
