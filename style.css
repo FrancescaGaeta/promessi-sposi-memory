@@ -1,38 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Pinyon+Script&family=Crimson+Text:wght@400;600&display=swap');
-
-* { box-sizing: border-box; }
-
-body { 
-    font-family: "Crimson Text", serif; 
-    margin: 0; 
-    overflow-x: hidden; 
-    background-color: #1a100a; 
-    background-image: 
-        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-        url("https://www.transparenttextures.com/patterns/black-leather.png");
-    background-attachment: fixed;
+/* --- CARATTERI E BASI --- */
+.script-font { 
+    font-family: 'Pinyon Script', cursive; 
 }
-
-.manzonian-font { font-family: 'IM Fell English SC', serif; }
-.script-font { font-family: 'Pinyon Script', cursive; }
 
 /* --- SCHERMATA INTRO & FINALE (OVERLAY) --- */
 .intro-overlay { 
-    position: fixed; inset: 0; z-index: 2000; 
+    position: fixed; 
+    inset: 0; 
+    z-index: 2000; 
     background: rgba(26, 16, 10, 0.95); 
-    display: flex; justify-content: center; align-items: center; perspective: 2500px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    perspective: 2500px; 
 }
 
 .book-container { 
-    width: 450px; height: 600px; position: relative; 
-    transform-style: preserve-3d; transition: transform 2.5s ease-in-out; 
+    width: 450px; 
+    height: 600px; 
+    position: relative; 
+    transform-style: preserve-3d; 
+    transition: transform 2.5s ease-in-out; 
 }
 
 /* Intro specifica */
-.book-container.open:not(.final-book) { transform: translateX(225px); }
+.book-container.open:not(.final-book) { 
+    transform: translateX(225px); 
+}
 
 .book-cover-front {
-    position: absolute; inset: 0; z-index: 50;
+    position: absolute; 
+    inset: 0; 
+    z-index: 50;
     background: url("book.png") center/cover no-repeat;
     box-shadow: 10px 0 30px rgba(0,0,0,0.5);
     transform-origin: left; 
@@ -46,17 +45,28 @@ body {
 }
 
 .book-content-inner {
-    position: absolute; width: 900px; height: 100%; left: 0; z-index: 10;
+    position: absolute; 
+    width: 900px; 
+    height: 100%; 
+    left: 0; 
+    z-index: 10;
     background: url("cover.png") center/cover no-repeat;
-    display: flex; transform: translateX(-450px) scaleX(0);
-    transform-origin: right; opacity: 0;
+    display: flex; 
+    transform: translateX(-450px) scaleX(0);
+    transform-origin: right; 
+    opacity: 0;
     transition: transform 2.5s ease-in-out, opacity 1s ease;
 }
 
-.book-container.open .book-content-inner { transform: translateX(-450px) scaleX(1); opacity: 1; }
+.book-container.open .book-content-inner { 
+    transform: translateX(-450px) scaleX(1); 
+    opacity: 1; 
+}
 
-/* --- SROTOLAMENTO DAL CENTRO --- */
-.book-container.final-book.open { transform: translateX(0); }
+/* --- SROTOLAMENTO FINALE DAL CENTRO --- */
+.book-container.final-book.open { 
+    transform: translateX(0); 
+}
 
 .final-book .book-content-inner {
     left: 50%;
@@ -78,14 +88,22 @@ body {
     opacity: 0;
 }
 
-/* --- POSIZIONAMENTO E GRANDEZZE TESTI --- */
+/* --- POSIZIONAMENTO E TESTI --- */
 
-/* Intro: Titolo in alto */
+.selection-side { 
+    width: 50%; 
+    height: 100%; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 40px; 
+}
+
 .selection-side h1 {
     margin-top: 10px; 
 }
 
-/* Testo Intro (Cit Manzo) - FORZATO */
 .selection-side .intro-text {
     font-size: 1.6rem !important;
     line-height: 1.4;
@@ -100,6 +118,7 @@ body {
 
 /* Allineamento Finale */
 .final-text-side {
+    width: 50%;
     padding: 20px;
     text-align: center;
     display: flex;
@@ -108,22 +127,20 @@ body {
     justify-content: center; 
 }
 
-/* Titolo Finale (Vittoria/Sconfitta) - FORZATO */
 .final-text-side .final-title {
     margin-top: 0; 
     font-size: 2.2rem !important; 
     margin-bottom: 15px;
 }
 
-/* Testo Finale (Vittoria/Sconfitta) - FORZATO */
 .final-text-side .final-text {
     font-size: 1.6rem !important;
     margin: 15px auto;
 }
 
-/* --- IMMAGINE FINALE (Vittoria/Sconfitta) --- */
+/* --- IMMAGINI FINALI (Vittoria/Sconfitta) --- */
 .image-side-final { 
-    width: 50% !important; /* Torna al 50% per non schiacciare il testo */
+    width: 50% !important; 
     height: 100%; 
     display: flex; 
     justify-content: center; 
@@ -133,62 +150,145 @@ body {
 }
 
 .image-side-final img {
-    width: 50%;           /* più piccola */
-    max-width: 250px;     /* limite massimo */
+    width: 65%;           /* Dimensione bilanciata */
+    max-width: 200px;     /* Limite massimo per non coprire troppo */
     height: auto;
-    border-radius: 5px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* Effetto profondità */
+    object-fit: contain;
 }
 
 /* --- AREA GIOCO (BOARD) --- */
 .page {
-    width: 95%; max-width: 1100px; margin: 20px auto; padding: 45px;
+    width: 95%; 
+    max-width: 1100px; 
+    margin: 20px auto; 
+    padding: 45px;
     background: #e8dcc4 url("https://www.transparenttextures.com/patterns/old-paper.png");
-    border: 1px solid #b3a486; outline: 5px double #b3a486; outline-offset: -18px;
-    box-shadow: 0 0 50px rgba(0,0,0,0.7); position: relative;
+    border: 1px solid #b3a486; 
+    outline: 5px double #b3a486; 
+    outline-offset: -18px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.7); 
+    position: relative;
 }
 
-.title-center { text-align: center; font-size: 2.5rem; color: #5d4037; margin-bottom: 20px; }
+.title-center { 
+    text-align: center; 
+    font-size: 2.5rem; 
+    color: #5d4037; 
+    margin-bottom: 20px; 
+}
 
 .info-bar { 
-    display: flex; justify-content: space-around; padding: 10px; 
-    background: rgba(93,64,55,0.08); border: 1px solid #b3a486; margin-bottom: 10px; 
+    display: flex; 
+    justify-content: space-around; 
+    padding: 10px; 
+    background: rgba(93,64,55,0.08); 
+    border: 1px solid #b3a486; 
+    margin-bottom: 10px; 
 }
 
 .quote-box {
     background: rgba(255, 255, 255, 0.4);
-    border-top: 2px solid #b3a486; border-bottom: 2px solid #b3a486;
-    padding: 15px; text-align: center; margin: 15px 0;
-    min-height: 80px; display: flex; align-items: center; justify-content: center;
+    border-top: 2px solid #b3a486; 
+    border-bottom: 2px solid #b3a486;
+    padding: 15px; 
+    text-align: center; 
+    margin: 15px 0;
+    min-height: 80px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
 }
 
-.quote-box div { font-size: 1.8rem; color: #3e2723; line-height: 1.1; }
+.quote-box div { 
+    font-size: 1.8rem; 
+    color: #3e2723; 
+    line-height: 1.1; 
+}
 
-.game-board { display: grid; grid-template-columns: repeat(var(--cols, 6), 1fr); gap: 10px; }
-.card { aspect-ratio: 3/4; cursor: pointer; }
-.card .inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
-.card.flipped .inner { transform: rotateY(180deg); }
-.card.matched .inner { outline: 3px solid #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
-.card .back { background: #7d5c3a url("img/back.png") center/cover; border: 1px solid #5d4037; }
-.card .front { background: white; transform: rotateY(180deg); border: 1px solid #5d4037; }
-.card img { width: 100%; height: 100%; object-fit: cover; }
-.card .back, .card .front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; }
+/* Griglia Carte */
+.game-board { 
+    display: grid; 
+    grid-template-columns: repeat(var(--cols, 6), 1fr); 
+    gap: 10px; 
+}
 
-.actions { display: flex; justify-content: center; margin-top: 30px; }
+.card { 
+    aspect-ratio: 3/4; 
+    cursor: pointer; 
+}
+
+.card .inner { 
+    position: relative; 
+    width: 100%; 
+    height: 100%; 
+    transition: transform 0.6s; 
+    transform-style: preserve-3d; 
+}
+
+.card.flipped .inner { 
+    transform: rotateY(180deg); 
+}
+
+.card.matched .inner { 
+    outline: 3px solid #d4af37; 
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); 
+}
+
+.card .back { 
+    background: #7d5c3a url("img/back.png") center/cover; 
+    border: 1px solid #5d4037; 
+}
+
+.card .front { 
+    background: white; 
+    transform: rotateY(180deg); 
+    border: 1px solid #5d4037; 
+}
+
+.card img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+.card .back, .card .front { 
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    backface-visibility: hidden; 
+}
+
+/* --- PULSANTI E UTILITY --- */
+.actions { 
+    display: flex; 
+    justify-content: center; 
+    margin-top: 30px; 
+}
 
 button { 
-    background: #5d4037; color: white; padding: 10px 25px; 
-    border: 1px solid #d4af37; cursor: pointer; 
-    font-family: 'IM Fell English SC', serif; transition: 0.3s;
-}
-button:hover { background: #7d5c3a; transform: scale(1.05); }
-
-.intro-quote {
-    font-size: 1.2rem; line-height: 1.4; color: #3e2723; margin: 20px 0;
-    text-align: center;
+    background: #5d4037; 
+    color: white; 
+    padding: 10px 25px; 
+    border: 1px solid #d4af37; 
+    cursor: pointer; 
+    font-family: 'IM Fell English SC', serif; 
+    transition: 0.3s;
 }
 
-.selection-side { width: 50%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; }
-.image-side { width: 50%; height: 100%; }
+button:hover { 
+    background: #7d5c3a; 
+    transform: scale(1.05); 
+}
 
-.hidden { display: none !important; }
-.fade-out { opacity: 0; pointer-events: none; transition: 1s; }
+.hidden { 
+    display: none !important; 
+}
+
+.fade-out { 
+    opacity: 0; 
+    pointer-events: none; 
+    transition: 1s; 
+}
+
