@@ -37,18 +37,16 @@ window.onload = () => {
 
 document.getElementById("startGameBtn").addEventListener("click", () => {
     const lvl = document.getElementById("levelSelectIntro").value;
-    document.getElementById("levelSelectGame").value = lvl;
     document.getElementById("intro-screen").classList.add("fade-out");
     setTimeout(() => {
         document.getElementById("intro-screen").classList.add("hidden");
         document.getElementById("main-game").classList.remove("hidden");
         initGame(lvl);
-    }, 1500);
+    }, 1000);
 });
 
 function initGame(levelKey) {
     currentLevel = levelKey;
-    // CORREZIONE: Gestisce il nuovo overlay finale e l'animazione
     document.getElementById("finalOverlay").classList.add("hidden");
     document.getElementById("finalBookContent").classList.remove("open");
     
@@ -64,6 +62,7 @@ function initGame(levelKey) {
         const card = document.createElement("div");
         card.className = "card";
         card.dataset.name = data.name;
+        // Percorso img/ per i personaggi
         card.innerHTML = `<div class="inner"><div class="back"></div><div class="front"><img src="img/${data.img}"></div></div>`;
         card.addEventListener("click", flipCard);
         board.appendChild(card);
@@ -71,8 +70,7 @@ function initGame(levelKey) {
 
     resetState();
     startTimer();
-    // CORREZIONE: Testo narratore all'avvio corretto
-    updateNarrator("Il Narratore", "« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano. »");
+    updateNarrator("Il Narratore", "« Tutte quelle immagini gli si affollavano alla mente, »");
 }
 
 function flipCard() {
@@ -111,7 +109,7 @@ function resetState() {
     document.getElementById("matches").textContent = "0";
     document.getElementById("tries").textContent = "0";
     clearInterval(timerInterval);
-    currentTime = currentLevel === "easy" ? 120 : (currentLevel === "medium" ? 180 : 240);
+    currentTime = 180;
     updateTimerDisplay();
 }
 
@@ -119,10 +117,7 @@ function startTimer() {
     timerInterval = setInterval(() => {
         currentTime--;
         updateTimerDisplay();
-        if (currentTime <= 0) { 
-            clearInterval(timerInterval); 
-            handleEndGame(false);
-        }
+        if (currentTime <= 0) { clearInterval(timerInterval); handleEndGame(false); }
     }, 1000);
 }
 
@@ -133,38 +128,34 @@ function updateTimerDisplay() {
 }
 
 function updateNarrator(title, quote) {
-    const content = `<span class="char-title"><b>${title}:</b></span> ${quote}`;
+    const content = `<b>${title}:</b> ${quote}`;
     document.getElementById("message-top").innerHTML = content;
     document.getElementById("message-bottom").innerHTML = content;
 }
 
-// CORREZIONE: GESTIONE FINALE CON IMMAGINE FINE.PNG E TESTO CENTRATO A DESTRA
 function handleEndGame(isVictory) {
     clearInterval(timerInterval);
-    const overlay = document.getElementById("finalOverlay");
-    const bookContent = document.getElementById("finalBookContent");
     const img = document.getElementById("finalStatusImg");
     const title = document.getElementById("finalTitle");
     const text = document.getElementById("finalText");
     const btn = document.getElementById("finalActionBtn");
 
+    // Percorso root per vittoria/sconfitta
     if (isVictory) {
-        img.src = "img/vittoria.png"; // Percorso immagine vittoria
-        title.textContent = "La Provvidenza vi ha guidato!";
-        text.innerHTML = "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.<br> La vostra memoria sia lodata.";
-        btn.textContent = "Rimescolar le carte";
+        img.src = "vittoria.png";
+        title.textContent = "Vittoria!";
+        text.innerHTML = "La Provvidenza vi ha guidato a sciogliere l'intreccio.";
+        btn.textContent = "Gioca Ancora";
     } else {
-        img.src = "img/sconfitta.png"; // Percorso immagine sconfitta
-        title.textContent = "Il tempo è trascorso invano...";
-        text.innerHTML = "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: riprovate.";
-        btn.textContent = "Riprova la sorte";
+        img.src = "sconfitta.png";
+        title.textContent = "Sconfitta";
+        text.innerHTML = "Il tempo è fuggito, lasciando le memorie confuse.";
+        btn.textContent = "Riprova";
     }
 
-    // Mostra l'overlay e avvia l'animazione di dispiegamento
-    overlay.classList.remove("hidden");
-    setTimeout(() => bookContent.classList.add("open"), 100);
+    document.getElementById("finalOverlay").classList.remove("hidden");
+    setTimeout(() => document.getElementById("finalBookContent").classList.add("open"), 100);
 }
 
 document.getElementById("resetBtn").addEventListener("click", () => initGame(currentLevel));
-document.getElementById("levelSelectGame").addEventListener("change", (e) => initGame(e.target.value));
 document.getElementById("finalActionBtn").addEventListener("click", () => initGame(currentLevel));
