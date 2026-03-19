@@ -206,14 +206,10 @@ body {
     line-height: 1.1;
 }
 
-/* MODIFICA: Griglia fissa e centrata */
 .game-board {
     display: grid;
     grid-template-columns: repeat(var(--cols, 6), 1fr);
-    gap: 15px; /* Leggermente aumentato il gap per respiro */
-    justify-content: center; /* Centra le carte se sono poche */
-    max-width: 900px;
-    margin: 0 auto;
+    gap: 10px;
 }
 
 .card {
