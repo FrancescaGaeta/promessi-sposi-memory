@@ -58,7 +58,9 @@ function initGame(levelKey) {
     const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
     const board = document.getElementById("board");
     board.innerHTML = "";
-    board.style.setProperty("--cols", totalPairs <= 6 ? 4 : (totalPairs <= 10 ? 5 : 6));
+    
+    // MODIFICA: Forziamo sempre 6 colonne come nel livello difficile
+    board.style.setProperty("--cols", 6);
 
     deck.forEach(data => {
         const card = document.createElement("div");
