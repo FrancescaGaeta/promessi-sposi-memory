@@ -24,7 +24,6 @@ const manzonianQuotes = {
 
 const LEVEL_SETS = {
     easy: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua"],
-    // MEDIO: 9 coppie, Agnese rimossa
     medium: ["Renzo", "Lucia", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude"],
     hard: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude", "L'Innominato", "Madre Cecilia"]
 };
@@ -62,7 +61,7 @@ function initGame(levelKey) {
     
     board.style.setProperty("--cols", 6);
 
-    // GESTIONE BOX CITAZIONI: Nascondi il box inferiore per facile e medio
+    // Gestione visibilità box citazione inferiore
     const bottomQuote = document.getElementById("message-bottom").parentElement;
     if (levelKey === "easy" || levelKey === "medium") {
         bottomQuote.classList.add("hidden");
@@ -142,12 +141,7 @@ function updateTimerDisplay() {
 }
 
 function updateNarrator(title, quote) {
-    let content;
-    if (title) {
-        content = `<span class="char-title"><b>${title}:</b></span> ${quote}`;
-    } else {
-        content = quote;
-    }
+    let content = title ? `<span class="char-title"><b>${title}:</b></span> ${quote}` : quote;
     document.getElementById("message-top").innerHTML = content;
     document.getElementById("message-bottom").innerHTML = content;
 }
