@@ -59,7 +59,7 @@ function initGame(levelKey) {
     const board = document.getElementById("board");
     board.innerHTML = "";
     
-    // MODIFICA: Forziamo sempre 6 colonne come nel livello difficile
+    // MODIFICA: Sempre 6 colonne, esattamente come nel livello difficile
     board.style.setProperty("--cols", 6);
 
     deck.forEach(data => {
