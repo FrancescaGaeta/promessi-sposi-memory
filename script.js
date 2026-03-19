@@ -24,7 +24,8 @@ const manzonianQuotes = {
 
 const LEVEL_SETS = {
     easy: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua"],
-    medium: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude"],
+    // MEDIO: 9 coppie, Agnese rimossa
+    medium: ["Renzo", "Lucia", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude"],
     hard: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude", "L'Innominato", "Madre Cecilia"]
 };
 
@@ -59,8 +60,15 @@ function initGame(levelKey) {
     const board = document.getElementById("board");
     board.innerHTML = "";
     
-    // MODIFICA: Sempre 6 colonne, esattamente come nel livello difficile
     board.style.setProperty("--cols", 6);
+
+    // GESTIONE BOX CITAZIONI: Nascondi il box inferiore per facile e medio
+    const bottomQuote = document.getElementById("message-bottom").parentElement;
+    if (levelKey === "easy" || levelKey === "medium") {
+        bottomQuote.classList.add("hidden");
+    } else {
+        bottomQuote.classList.remove("hidden");
+    }
 
     deck.forEach(data => {
         const card = document.createElement("div");
