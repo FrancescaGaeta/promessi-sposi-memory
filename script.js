@@ -59,9 +59,13 @@ function initGame(levelKey) {
     const board = document.getElementById("board");
     board.innerHTML = "";
     
-    board.style.setProperty("--cols", 6);
+    // LOGICA COLONNE: 6 su PC, 3 o 4 su Mobile
+    let cols = 6;
+    if (window.innerWidth < 768) {
+        cols = levelKey === "hard" ? 4 : 3;
+    }
+    board.style.setProperty("--cols", cols);
 
-    // Gestione visibilità box citazione inferiore
     const bottomQuote = document.getElementById("message-bottom").parentElement;
     if (levelKey === "easy" || levelKey === "medium") {
         bottomQuote.classList.add("hidden");
@@ -80,7 +84,7 @@ function initGame(levelKey) {
 
     resetState();
     startTimer();
-    updateNarrator(null, "« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano »");
+    updateNarrator(null, "« Tutte quelle immagini gli si affollavano alla mente »");
 }
 
 function flipCard() {
@@ -158,12 +162,12 @@ function handleEndGame(isVictory) {
     if (isVictory) {
         img.src = "vittoria.png";
         title.textContent = "La Provvidenza vi ha guidato!";
-        text.innerHTML = "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.<br> La vostra memoria sia lodata.";
+        text.innerHTML = "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.";
         btn.textContent = "Rimescolar le carte";
     } else {
         img.src = "sconfitta.png";
         title.textContent = "Il tempo è trascorso invano...";
-        text.innerHTML = "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: riprovate.";
+        text.innerHTML = "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!";
         btn.textContent = "Riprova la sorte";
     }
 
