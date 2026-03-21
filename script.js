@@ -33,7 +33,6 @@ let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0, timerInterv
 
 window.onload = () => {
     document.getElementById("main-game").classList.add("hidden");
-    // L'animazione parte solo se non siamo su mobile (o se preferisci lasciarla, il CSS la gestisce)
     setTimeout(() => { document.getElementById("bookContainer").classList.add("open"); }, 500);
 };
 
@@ -60,9 +59,9 @@ function initGame(levelKey) {
     const board = document.getElementById("board");
     board.innerHTML = "";
     
-    // GESTIONE COLONNE DINAMICA PER MOBILE
+    // Configurazione Colonne Mobile: Medio e Difficile ora a 4 colonne
     if (window.innerWidth <= 768) {
-        board.style.setProperty("--cols", levelKey === "hard" ? 4 : 3);
+        board.style.setProperty("--cols", (levelKey === "medium" || levelKey === "hard") ? 4 : 3);
     } else {
         board.style.setProperty("--cols", 6);
     }
@@ -170,7 +169,6 @@ function handleEndGame(isVictory) {
     }
 
     overlay.classList.remove("hidden");
-    // L'animazione "open" viene gestita via CSS: su mobile apparirà istantaneo
     setTimeout(() => container.classList.add("open"), 100);
 }
 
