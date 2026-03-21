@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Pinyon+Script&family=Crimson+Text:wght@400;600&display=swap');
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     font-family: "Crimson Text", serif;
@@ -11,10 +13,15 @@ body {
     background-attachment: fixed;
 }
 
-.manzonian-font { font-family: 'IM Fell English SC', serif; }
-.script-font { font-family: 'Pinyon Script', cursive; }
+.manzonian-font {
+    font-family: 'IM Fell English SC', serif;
+}
 
-/* --- OVERLAY INTRO/FINALE --- */
+.script-font {
+    font-family: 'Pinyon Script', cursive;
+}
+
+/* --- SCHERMATA INTRO & FINALE (OVERLAY) - RIPRISTINATO ORIGINALE --- */
 .intro-overlay {
     position: fixed;
     inset: 0;
@@ -34,7 +41,9 @@ body {
     transition: transform 2.5s ease-in-out;
 }
 
-.book-container.open:not(.final-book) { transform: translateX(225px); }
+.book-container.open:not(.final-book) {
+    transform: translateX(225px);
+}
 
 .book-cover-front {
     position: absolute;
@@ -71,10 +80,98 @@ body {
     opacity: 1;
 }
 
-/* --- AREA GIOCO --- */
+.book-container.final-book.open {
+    transform: translateX(0);
+}
+
+.final-book .book-content-inner {
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s;
+}
+
+.book-container.final-book.open .book-content-inner {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.final-cover {
+    transition: transform 1s ease-in, opacity 0.5s 0.5s;
+}
+
+.book-container.final-book.open .final-cover {
+    transform: scale(1.2);
+    opacity: 0;
+}
+
+/* --- IMPOSTAZIONI TESTO INTRO/FINALE (RIPRISTINATE) --- */
+.selection-side {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.selection-side h1 {
+    margin-top: 10px;
+}
+
+.selection-side .intro-text {
+    font-size: 1.6rem !important;
+    line-height: 1.4;
+    color: #3e2723;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 90%;
+    padding: 15px 0;
+    border-top: 1px solid rgba(139, 69, 19, 0.2);
+    border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.final-text-side {
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.final-text-side .final-title {
+    margin-top: 0;
+    font-size: 2.2rem !important;
+    margin-bottom: 15px;
+}
+
+.final-text-side .final-text {
+    font-size: 1.6rem !important;
+    margin: 15px auto;
+}
+
+.image-side-final {
+    width: 50% !important;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.image-side-final img {
+    width: 70% !important;
+    max-width: none !important;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* --- AREA GIOCO (LARGHEZZA MAGGIORATA SOLO QUI) --- */
 .page {
     width: 95%;
-    max-width: 1250px;
+    max-width: 1250px; /* Qui manteniamo la larghezza per le carte grandi */
     margin: 20px auto;
     padding: 45px;
     background: #e8dcc4 url("https://www.transparenttextures.com/patterns/old-paper.png");
@@ -85,7 +182,12 @@ body {
     position: relative;
 }
 
-.title-center { text-align: center; font-size: 2.5rem; color: #5d4037; margin-bottom: 20px; }
+.title-center {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #5d4037;
+    margin-bottom: 20px;
+}
 
 .info-bar {
     display: flex;
@@ -109,7 +211,11 @@ body {
     justify-content: center;
 }
 
-.quote-box div { font-size: 1.8rem; color: #3e2723; line-height: 1.1; }
+.quote-box div {
+    font-size: 1.8rem;
+    color: #3e2723;
+    line-height: 1.1;
+}
 
 .game-board {
     display: grid;
@@ -117,42 +223,86 @@ body {
     gap: 10px;
 }
 
-.card { aspect-ratio: 3/4; cursor: pointer; }
-.card .inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
-.card.flipped .inner { transform: rotateY(180deg); }
-.card.matched .inner { outline: 3px solid #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
-.card .back { background: #7d5c3a url("img/back.png") center/cover; border: 1px solid #5d4037; }
-.card .front { background: white; transform: rotateY(180deg); border: 1px solid #5d4037; }
-.card img { width: 100%; height: 100%; object-fit: cover; }
-.card .back, .card .front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; }
-
-.selection-side { width: 50%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; }
-.image-side { width: 50%; height: 100%; }
-
-button { background: #5d4037; color: white; padding: 10px 25px; border: 1px solid #d4af37; cursor: pointer; font-family: 'IM Fell English SC', serif; transition: 0.3s; }
-button:hover { background: #7d5c3a; transform: scale(1.05); }
-
-.hidden { display: none !important; }
-.fade-out { opacity: 0; pointer-events: none; transition: 1s; }
-
-/* --- OTTIMIZZAZIONE MOBILE --- */
-@media screen and (max-width: 768px) {
-    .book-container { width: 85vw; height: 65vh; }
-    .book-content-inner { width: 100%; left: 0; transform: scaleX(0); flex-direction: column; }
-    .book-container.open:not(.final-book) { transform: translateX(0); }
-    .book-container.open .book-content-inner { transform: scaleX(1); }
-    
-    .selection-side, .final-text-side { width: 100% !important; padding: 20px; }
-    .image-side, .image-side-final { display: none; }
-    
-    .selection-side .intro-text { font-size: 1.1rem !important; line-height: 1.2; }
-    
-    .page { padding: 15px; outline-offset: -10px; }
-    .title-center { font-size: 1.4rem; margin-bottom: 10px; }
-    
-    .info-bar { flex-wrap: wrap; font-size: 0.85rem; padding: 5px; }
-    .quote-box { min-height: 50px; margin: 8px 0; padding: 10px; }
-    .quote-box div { font-size: 1rem !important; }
-    
-    .game-board { gap: 6px; }
+.card {
+    aspect-ratio: 3/4;
+    cursor: pointer;
 }
+
+.card .inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card.flipped .inner {
+    transform: rotateY(180deg);
+}
+
+.card.matched .inner {
+    outline: 3px solid #d4af37;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.card .back {
+    background: #7d5c3a url("img/back.png") center/cover;
+    border: 1px solid #5d4037;
+}
+
+.card .front {
+    background: white;
+    transform: rotateY(180deg);
+    border: 1px solid #5d4037;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card .back,
+.card .front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+button {
+    background: #5d4037;
+    color: white;
+    padding: 10px 25px;
+    border: 1px solid #d4af37;
+    cursor: pointer;
+    font-family: 'IM Fell English SC', serif;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #7d5c3a;
+    transform: scale(1.05);
+}
+
+.image-side {
+    width: 50%;
+    height: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transition: 1s;
+}
+
