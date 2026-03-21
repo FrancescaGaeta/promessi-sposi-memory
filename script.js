@@ -33,6 +33,7 @@ let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0, timerInterv
 
 window.onload = () => {
     document.getElementById("main-game").classList.add("hidden");
+    // L'animazione parte solo se non siamo su mobile (o se preferisci lasciarla, il CSS la gestisce)
     setTimeout(() => { document.getElementById("bookContainer").classList.add("open"); }, 500);
 };
 
@@ -44,7 +45,7 @@ document.getElementById("startGameBtn").addEventListener("click", () => {
         document.getElementById("intro-screen").classList.add("hidden");
         document.getElementById("main-game").classList.remove("hidden");
         initGame(lvl);
-    }, 1500);
+    }, 1000);
 });
 
 function initGame(levelKey) {
@@ -59,9 +60,13 @@ function initGame(levelKey) {
     const board = document.getElementById("board");
     board.innerHTML = "";
     
-    board.style.setProperty("--cols", 6);
+    // GESTIONE COLONNE DINAMICA PER MOBILE
+    if (window.innerWidth <= 768) {
+        board.style.setProperty("--cols", levelKey === "hard" ? 4 : 3);
+    } else {
+        board.style.setProperty("--cols", 6);
+    }
 
-    // Gestione visibilità box citazione inferiore
     const bottomQuote = document.getElementById("message-bottom").parentElement;
     if (levelKey === "easy" || levelKey === "medium") {
         bottomQuote.classList.add("hidden");
@@ -127,10 +132,7 @@ function startTimer() {
     timerInterval = setInterval(() => {
         currentTime--;
         updateTimerDisplay();
-        if (currentTime <= 0) { 
-            clearInterval(timerInterval); 
-            handleEndGame(false);
-        }
+        if (currentTime <= 0) { clearInterval(timerInterval); handleEndGame(false); }
     }, 1000);
 }
 
@@ -168,6 +170,7 @@ function handleEndGame(isVictory) {
     }
 
     overlay.classList.remove("hidden");
+    // L'animazione "open" viene gestita via CSS: su mobile apparirà istantaneo
     setTimeout(() => container.classList.add("open"), 100);
 }
 
