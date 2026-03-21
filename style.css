@@ -14,7 +14,7 @@ body {
 .manzonian-font { font-family: 'IM Fell English SC', serif; }
 .script-font { font-family: 'Pinyon Script', cursive; }
 
-/* --- SCHERMATA INTRO & FINALE --- */
+/* --- OVERLAY INTRO & FINALE --- */
 .intro-overlay {
     position: fixed;
     inset: 0;
@@ -155,7 +155,7 @@ button {
 .hidden { display: none !important; }
 .fade-out { opacity: 0; pointer-events: none; transition: 1s; }
 
-/* --- RESPONSIVE MOBILE MODS --- */
+/* --- MOBILE SPECIFIC --- */
 @media (max-width: 768px) {
     .book-container, .book-container.final-book {
         width: 90% !important; height: auto !important;
@@ -169,15 +169,24 @@ button {
         padding: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
     .book-cover-front, .image-side, .image-side-final { display: none !important; }
-    .selection-side, .final-text-side { width: 100% !important; padding: 10px !important; }
+    .selection-side, .final-text-side { width: 100% !important; padding: 10px !important; text-align: center; }
     
-    .quote-box { min-height: 40px !important; padding: 5px !important; margin: 5px 0 !important; }
+    /* Centratura pulsanti Intro */
+    .setup-area { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+    
+    /* Spazio e centratura Reset */
+    .actions { margin-top: 40px; justify-content: center; width: 100%; }
+    
+    .quote-box { min-height: 40px !important; padding: 5px !important; margin: 8px 0 !important; }
     .quote-box div { font-size: 1.1rem !important; }
     
     .page { padding: 15px !important; width: 98% !important; outline-offset: -10px !important; }
     .title-center { font-size: 1.5rem !important; }
-    .info-bar { font-size: 0.9rem; flex-wrap: wrap; }
-    
-    .selection-side .intro-text, .final-text-side .final-text { font-size: 1.1rem !important; }
-}
 
+    /* Evidenziazione coppie formate */
+    .card.matched .inner {
+        border: 3px solid #d4af37;
+        box-shadow: 0 0 15px #d4af37;
+        border-radius: 4px;
+    }
+}
