@@ -65,16 +65,16 @@ const translations = {
         characters: {
             "Renzo": "«Renzo, a silk weaver by trade…»",
             "Lucia": "«Lucia, shy and resolute, the betrothed.»",
-            "Don Rodrigo": "«This marriage is not to be done.»",
+            "Don Rodrigo": "«Out of my sight, you insolent peasant, you cowled beggar!»",
             "Fra Cristoforo": "«A friar who laid down his sword, not his courage.»",
-            "Agnese": "«Agnese, a practical and sensible mother.»",
-            "Azzeccagarbugli": "«The lawyer who confuses rather than clarifies.»",
+            "Agnese": "«It doesn’t take much to pass a poor man off as a criminal.»",
+            "Azzeccagarbugli": "«You have to speak plainly to a lawyer, who can then proceed to make things more complicated.»",
             "I Bravi": "«This marriage ain’t gonna happen. Not tomorrow, not never.»",
-            "Don Abbondio": "«Courage, if one doesn't have it, one can't just give it to oneself.»",
+            "Don Abbondio": "«But it’s hard to be brave when you’re not.»",
             "Gertrude": "«The 'unfortunate one replied'.»",
             "L'Innominato": "«A great soul gone astray, in search of redemption.»",
-            "Madre Cecilia": "«The plague reaps, but charity consoles.»",
-            "Perpetua": "«Perpetua, a frank and quick-tongued servant.»"
+            "Madre Cecilia": "«Farewell, Cecilia! Rest in peace! Tonight we will join you, and we shall be together forever.»",
+            "Perpetua": "«I can’t say anything because…I don’t know anything.»"
         }
     }
 };
