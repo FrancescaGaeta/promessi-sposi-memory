@@ -12,18 +12,24 @@
         <div class="book-container" id="bookContainer">
             <div class="book-content-inner">
                 <div class="selection-side">
-                    <h1 class="manzonian-font">Memory Game</h1>
-                    <p class="script-font intro-quote intro-text">
+                    <!-- Selettore Lingua -->
+                    <div class="lang-selector">
+                        <span class="lang-btn active" data-lang="it">🇮🇹 IT</span>
+                        <span class="lang-btn" data-lang="en">🇬🇧 EN</span>
+                    </div>
+
+                    <h1 class="manzonian-font" id="ui-intro-title">Memory Game</h1>
+                    <p class="script-font intro-quote intro-text" id="ui-intro-quote">
                         "L'imprese illustri e i casi memorabili si debbono trarre dall'oscurità dell'oblio. <br>
                         Aguzzate dunque l'ingegno, o Lettore: accoppiate i volti e le sventure, 
                         affinché la memoria non perda ciò che la Provvidenza ha scritto."
                     </p>
                     <div class="setup-area">
-                        <label for="levelSelectIntro" class="manzonian-font">Difficoltà:</label>
+                        <label for="levelSelectIntro" class="manzonian-font" id="ui-label-diff">Difficoltà:</label>
                         <select id="levelSelectIntro">
-                            <option value="easy" selected>Facile (6 coppie)</option>
-                            <option value="medium">Medio (9 coppie)</option>
-                            <option value="hard">Difficile (12 coppie)</option>
+                            <option value="easy" id="opt-easy">Facile (6 coppie)</option>
+                            <option value="medium" id="opt-medium">Medio (9 coppie)</option>
+                            <option value="hard" id="opt-hard">Difficile (12 coppie)</option>
                         </select>
                         <button id="startGameBtn">Inizia</button>
                     </div>
@@ -36,25 +42,25 @@
 
     <div class="page hidden" id="main-game">
         <header class="header">
-            <h1 class="manzonian-font title-center">Memory – I promessi sposi</h1>
+            <h1 class="manzonian-font title-center" id="ui-game-title">Memory – I promessi sposi</h1>
         </header>
 
         <section class="info-bar">
             <div class="info-item">
-                <span class="label">Livello:</span>
+                <span class="label" id="ui-label-lvl">Livello:</span>
                 <select id="levelSelectGame">
                     <option value="easy">Facile</option>
                     <option value="medium">Medio</option>
                     <option value="hard">Difficile</option>
                 </select>
             </div>
-            <div class="info-item"><span class="label">Tempo:</span> <span id="timer">03:00</span></div>
-            <div class="info-item"><span class="label">Mosse:</span> <span id="tries">0</span></div>
-            <div class="info-item"><span class="label">Coppie:</span> <span id="matches">0</span> / <span id="totalPairs">10</span></div>
+            <div class="info-item"><span class="label" id="ui-label-time">Tempo:</span> <span id="timer">03:00</span></div>
+            <div class="info-item"><span class="label" id="ui-label-moves">Mosse:</span> <span id="tries">0</span></div>
+            <div class="info-item"><span class="label" id="ui-label-pairs">Coppie:</span> <span id="matches">0</span> / <span id="totalPairs">10</span></div>
         </section>
 
         <div class="quote-box">
-            <div id="message-top" class="script-font">« Tutte quelle immagini gli si affollavano alla mente," »</div>
+            <div id="message-top" class="script-font"></div>
         </div>
 
         <main>
@@ -62,7 +68,7 @@
         </main>
 
         <div class="quote-box">
-            <div id="message-bottom" class="script-font">« s’urtavano, si confondevano. »</div>
+            <div id="message-bottom" class="script-font"></div>
         </div>
 
         <div class="actions">
