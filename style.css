@@ -173,23 +173,87 @@ button { background: #5d4037; color: white; padding: 10px 25px; border: 1px soli
 .hidden { display: none !important; }
 .fade-out { opacity: 0; pointer-events: none; transition: 1s; }
 
-/* --- MOBILE --- */
+/* --- VERSIONE TELEFONO (MOBILE) --- */
 @media (max-width: 768px) {
     .book-container, .book-container.final-book { 
-        width: 90% !important; height: auto !important; 
-        transform: none !important; perspective: none !important; 
+        width: 90% !important; 
+        height: auto !important; 
+        transform: none !important; 
+        perspective: none !important; 
     }
+
     .book-content-inner { 
-        width: 100% !important; position: relative !important; 
-        left: 0 !important; transform: none !important; 
-        opacity: 1 !important; flex-direction: column; 
-        background: #e8dcc4 !important; border: 5px double #b3a486; 
-        padding: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.5); 
+        width: 100% !important; 
+        position: relative !important; 
+        left: 0 !important; 
+        transform: none !important; 
+        opacity: 1 !important; 
+        flex-direction: column !important; /* Forza la disposizione verticale */
+        background: #e8dcc4 !important; 
+        border: 5px double #b3a486; 
+        padding: 20px; 
+        box-shadow: 0 0 20px rgba(0,0,0,0.5); 
     }
-    .book-cover-front, .image-side, .image-side-final { display: none !important; }
-    .selection-side, .final-text-side { width: 100% !important; padding: 10px !important; text-align: center; }
-    .lang-selector { position: relative; top: 0; justify-content: center; margin-bottom: 15px; width: 100%; }
-    .actions { margin-top: 45px; justify-content: center; width: 100%; } 
-    .quote-box div { font-size: 1.2rem !important; }
-    .page { padding: 15px !important; width: 98% !important; outline-offset: -10px !important; }
+
+    /* Nascondiamo solo le immagini decorative, NON quella finale */
+    .book-cover-front, .image-side { 
+        display: none !important; 
+    }
+
+    /* Configurazione Immagine Vittoria/Sconfitta su Mobile */
+    .image-side-final { 
+        display: flex !important; /* La rendiamo visibile */
+        width: 100% !important; 
+        justify-content: center !important; 
+        padding: 10px 0 !important;
+        border-right: none !important; 
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
+    }
+
+    .image-side-final img { 
+        width: 60% !important; /* Dimensione bilanciata per il telefono */
+        height: auto !important;
+        margin: 0 auto;
+    }
+
+    .selection-side, .final-text-side { 
+        width: 100% !important; 
+        padding: 15px !important; 
+        text-align: center; 
+    }
+
+    /* Centratura selettore lingua (anche nel gioco) */
+    .lang-selector { 
+        position: relative; 
+        top: 0; 
+        justify-content: center; 
+        margin-bottom: 15px; 
+        width: 100%; 
+    }
+
+    .actions { 
+        margin-top: 45px; 
+        justify-content: center; 
+        width: 100%; 
+    } 
+
+    .quote-box { 
+        min-height: 50px !important; 
+        padding: 8px !important; 
+        margin: 8px 0 !important; 
+    }
+
+    .quote-box div { 
+        font-size: 1.2rem !important; 
+    }
+    
+    .page { 
+        padding: 15px !important; 
+        width: 98% !important; 
+        outline-offset: -10px !important; 
+    }
+
+    .title-center { 
+        font-size: 1.6rem !important; 
+    }
 }
