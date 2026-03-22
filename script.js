@@ -63,16 +63,16 @@ const translations = {
         loseText: "The cards have been reshuffled and time has fled like a reluctant witness!<br> To work, sir: try again.",
         loseBtn: "Try your luck again",
         characters: {
-            "Renzo": "«Renzo, a silk weaver by trade…»",
-            "Lucia": "«Lucia, shy and resolute, the betrothed.»",
+            "Renzo": "«Here’s a gift from Providence!»",
+            "Lucia": "«Farewell mountains rising from the waters and reaching to the sky.»",
             "Don Rodrigo": "«Out of my sight, you insolent peasant, you cowled beggar!»",
-            "Fra Cristoforo": "«A friar who laid down his sword, not his courage.»",
+            "Fra Cristoforo": "«The day will come…»",
             "Agnese": "«It doesn’t take much to pass a poor man off as a criminal.»",
             "Azzeccagarbugli": "«You have to speak plainly to a lawyer, who can then proceed to make things more complicated.»",
             "I Bravi": "«This marriage ain’t gonna happen. Not tomorrow, not never.»",
             "Don Abbondio": "«But it’s hard to be brave when you’re not.»",
-            "Gertrude": "«The 'unfortunate one replied'.»",
-            "L'Innominato": "«A great soul gone astray, in search of redemption.»",
+            "Gertrude": "«And she gave her fateful reply.»",
+            "L'Innominato": "«God! God! God! If only I could see him! If only I could hear him! Where is this God?»",
             "Madre Cecilia": "«Farewell, Cecilia! Rest in peace! Tonight we will join you, and we shall be together forever.»",
             "Perpetua": "«I can’t say anything because…I don’t know anything.»"
         }
