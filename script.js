@@ -44,7 +44,7 @@ document.getElementById("startGameBtn").addEventListener("click", () => {
         document.getElementById("intro-screen").classList.add("hidden");
         document.getElementById("main-game").classList.remove("hidden");
         initGame(lvl);
-    }, 1000);
+    }, 1500);
 });
 
 function initGame(levelKey) {
@@ -59,7 +59,7 @@ function initGame(levelKey) {
     const board = document.getElementById("board");
     board.innerHTML = "";
     
-    // Configurazione Colonne Mobile: Medio e Difficile ora a 4 colonne
+    // Gestione colonne: Mobile (3 o 4) vs Computer (sempre 6)
     if (window.innerWidth <= 768) {
         board.style.setProperty("--cols", (levelKey === "medium" || levelKey === "hard") ? 4 : 3);
     } else {
