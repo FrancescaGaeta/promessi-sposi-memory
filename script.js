@@ -1,3 +1,84 @@
+const translations = {
+    it: {
+        introTitle: "Memory Game",
+        introQuote: "\"L'imprese illustri e i casi memorabili si debbono trarre dall'oscurità dell'oblio. <br>Aguzzate dunque l'ingegno, o Lettore: accoppiate i volti e le sventure, affinché la memoria non perda ciò che la Provvidenza ha scritto.\"",
+        labelDiff: "Difficoltà:",
+        optEasy: "Facile (6 coppie)",
+        optMedium: "Medio (9 coppie)",
+        optHard: "Difficile (12 coppie)",
+        btnStart: "Inizia",
+        gameTitle: "Memory – I promessi sposi",
+        labelLvl: "Livello:",
+        labelTime: "Tempo:",
+        labelMoves: "Mosse:",
+        labelPairs: "Coppie:",
+        btnReset: "Ricomincia la partita",
+        lvlEasy: "Facile",
+        lvlMedium: "Medio",
+        lvlHard: "Difficile",
+        initQuote: "« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano »",
+        winTitle: "La Provvidenza vi ha guidato!",
+        winText: "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.<br> La vostra memoria sia lodata.",
+        winBtn: "Rimescolar le carte",
+        loseTitle: "Il tempo è trascorso invano...",
+        loseText: "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: riprovate.",
+        loseBtn: "Riprova la sorte",
+        characters: {
+            "Renzo": "«Renzo, di professione filatore di seta…»",
+            "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
+            "Don Rodrigo": "«Questo matrimonio non s'ha da fare.»",
+            "Fra Cristoforo": "«Un frate che ha deposto la spada, non il coraggio.»",
+            "Agnese": "«Agnese, madre pratica e di buon senso.»",
+            "Azzeccagarbugli": "«L'avvocato che confonde più che chiarire.»",
+            "I Bravi": "«Oscure figure, braccia al soldo del potente.»",
+            "Don Abbondio": "«Il coraggio, uno, se non ce l'ha, mica se lo può dare.»",
+            "Gertrude": "«La 'sventurata rispose'.»",
+            "L'Innominato": "«Un animo grande traviato, in cerca di redenzione.»",
+            "Madre Cecilia": "«La peste miete, ma la carità consola.»",
+            "Perpetua": "«Perpetua, serva franca e di lingua sciolta.»"
+        }
+    },
+    en: {
+        introTitle: "Memory Game",
+        introQuote: "\"Famous deeds and memorable cases must be rescued from the darkness of oblivion. <br>Sharpen your wit, O Reader: match the faces and the misfortunes, so that memory does not lose what Providence has written.\"",
+        labelDiff: "Difficulty:",
+        optEasy: "Easy (6 pairs)",
+        optMedium: "Medium (9 pairs)",
+        optHard: "Hard (12 pairs)",
+        btnStart: "Start",
+        gameTitle: "Memory – The Betrothed",
+        labelLvl: "Level:",
+        labelTime: "Time:",
+        labelMoves: "Moves:",
+        labelPairs: "Pairs:",
+        btnReset: "Restart Match",
+        lvlEasy: "Easy",
+        lvlMedium: "Medium",
+        lvlHard: "Hard",
+        initQuote: "« All those images crowded into his mind, they collided, they confused each other »",
+        winTitle: "Providence has guided you!",
+        winText: "The plot is untangled! You have traced every semblance and given order to the muddle.<br> Blessed be your memory.",
+        winBtn: "Shuffle the cards",
+        loseTitle: "Time has passed in vain...",
+        loseText: "The cards have been reshuffled and time has fled like a reluctant witness!<br> To work, sir: try again.",
+        loseBtn: "Try your luck again",
+        characters: {
+            "Renzo": "«Renzo, a silk weaver by trade…»",
+            "Lucia": "«Lucia, shy and resolute, the betrothed.»",
+            "Don Rodrigo": "«This marriage is not to be done.»",
+            "Fra Cristoforo": "«A friar who laid down his sword, not his courage.»",
+            "Agnese": "«Agnese, a practical and sensible mother.»",
+            "Azzeccagarbugli": "«The lawyer who confuses rather than clarifies.»",
+            "I Bravi": "«Dark figures, arms in the pay of the powerful.»",
+            "Don Abbondio": "«Courage, if one doesn't have it, one can't just give it to oneself.»",
+            "Gertrude": "«The 'unfortunate one replied'.»",
+            "L'Innominato": "«A great soul gone astray, in search of redemption.»",
+            "Madre Cecilia": "«The plague reaps, but charity consoles.»",
+            "Perpetua": "«Perpetua, a frank and quick-tongued servant.»"
+        }
+    }
+};
+
 const originalCards = [
     { name: "Renzo", img: "renzo.png" }, { name: "Lucia", img: "lucia.png" },
     { name: "Don Rodrigo", img: "don-rodrigo.png" }, { name: "Fra Cristoforo", img: "fra-cristoforo.png" },
@@ -7,34 +88,55 @@ const originalCards = [
     { name: "Madre Cecilia", img: "madre-cecilia.png" }, { name: "Perpetua", img: "perpetua.png" }
 ];
 
-const manzonianQuotes = {
-    "Renzo": "«Renzo, di professione filatore di seta…»",
-    "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
-    "Don Rodrigo": "«Questo matrimonio non s'ha da fare.»",
-    "Fra Cristoforo": "«Un frate che ha deposto la spada, non il coraggio.»",
-    "Agnese": "«Agnese, madre pratica e di buon senso.»",
-    "Azzeccagarbugli": "«L'avvocato che confonde più che chiarire.»",
-    "I Bravi": "«Oscure figure, braccia al soldo del potente.»",
-    "Don Abbondio": "«Il coraggio, uno, se non ce l'ha, mica se lo può dare.»",
-    "Gertrude": "«La 'sventurata rispose'.»",
-    "L'Innominato": "«Un animo grande traviato, in cerca di redenzione.»",
-    "Madre Cecilia": "«La peste miete, ma la carità consola.»",
-    "Perpetua": "«Perpetua, serva franca e di lingua sciolta.»"
-};
-
 const LEVEL_SETS = {
     easy: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua"],
     medium: ["Renzo", "Lucia", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude"],
     hard: ["Renzo", "Lucia", "Agnese", "Fra Cristoforo", "Don Abbondio", "Perpetua", "Don Rodrigo", "I Bravi", "Azzeccagarbugli", "Gertrude", "L'Innominato", "Madre Cecilia"]
 };
 
+let currentLang = 'it';
 let hasFlipped = false, firstCard = null, secondCard = null, lockBoard = false;
 let tries = 0, matches = 0, currentLevel = "medium", totalPairs = 0, timerInterval = null, currentTime = 180;
 
 window.onload = () => {
     document.getElementById("main-game").classList.add("hidden");
     setTimeout(() => { document.getElementById("bookContainer").classList.add("open"); }, 500);
+    updateUILanguage();
 };
+
+// Cambio Lingua
+document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentLang = this.dataset.lang;
+        updateUILanguage();
+    });
+});
+
+function updateUILanguage() {
+    const t = translations[currentLang];
+    document.getElementById("ui-intro-title").textContent = t.introTitle;
+    document.getElementById("ui-intro-quote").innerHTML = t.introQuote;
+    document.getElementById("ui-label-diff").textContent = t.labelDiff;
+    document.getElementById("opt-easy").textContent = t.optEasy;
+    document.getElementById("opt-medium").textContent = t.optMedium;
+    document.getElementById("opt-hard").textContent = t.optHard;
+    document.getElementById("startGameBtn").textContent = t.btnStart;
+    
+    document.getElementById("ui-game-title").textContent = t.gameTitle;
+    document.getElementById("ui-label-lvl").textContent = t.labelLvl;
+    document.getElementById("ui-label-time").textContent = t.labelTime;
+    document.getElementById("ui-label-moves").textContent = t.labelMoves;
+    document.getElementById("ui-label-pairs").textContent = t.labelPairs;
+    document.getElementById("resetBtn").textContent = t.btnReset;
+
+    // Traduzione selettore livello nel gioco
+    const gameLvlSelect = document.getElementById("levelSelectGame");
+    gameLvlSelect.options[0].text = t.lvlEasy;
+    gameLvlSelect.options[1].text = t.lvlMedium;
+    gameLvlSelect.options[2].text = t.lvlHard;
+}
 
 document.getElementById("startGameBtn").addEventListener("click", () => {
     const lvl = document.getElementById("levelSelectIntro").value;
@@ -59,7 +161,6 @@ function initGame(levelKey) {
     const board = document.getElementById("board");
     board.innerHTML = "";
     
-    // Gestione colonne: Mobile (3 o 4) vs Computer (sempre 6)
     if (window.innerWidth <= 768) {
         board.style.setProperty("--cols", (levelKey === "medium" || levelKey === "hard") ? 4 : 3);
     } else {
@@ -84,7 +185,7 @@ function initGame(levelKey) {
 
     resetState();
     startTimer();
-    updateNarrator(null, "« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano »");
+    updateNarrator(null, translations[currentLang].initQuote);
 }
 
 function flipCard() {
@@ -101,7 +202,8 @@ function checkForMatch() {
     if (firstCard.dataset.name === secondCard.dataset.name) {
         matches++;
         document.getElementById("matches").textContent = matches;
-        updateNarrator(firstCard.dataset.name, manzonianQuotes[firstCard.dataset.name]);
+        const charQuote = translations[currentLang].characters[firstCard.dataset.name];
+        updateNarrator(firstCard.dataset.name, charQuote);
         firstCard.classList.add("matched");
         secondCard.classList.add("matched");
         resetTurn();
@@ -155,17 +257,18 @@ function handleEndGame(isVictory) {
     const title = document.getElementById("finalTitle");
     const text = document.getElementById("finalText");
     const btn = document.getElementById("finalActionBtn");
+    const t = translations[currentLang];
 
     if (isVictory) {
         img.src = "vittoria.png";
-        title.textContent = "La Provvidenza vi ha guidato!";
-        text.innerHTML = "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.<br> La vostra memoria sia lodata.";
-        btn.textContent = "Rimescolar le carte";
+        title.textContent = t.winTitle;
+        text.innerHTML = t.winText;
+        btn.textContent = t.winBtn;
     } else {
         img.src = "sconfitta.png";
-        title.textContent = "Il tempo è trascorso invano...";
-        text.innerHTML = "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: riprovate.";
-        btn.textContent = "Riprova la sorte";
+        title.textContent = t.loseTitle;
+        text.innerHTML = t.loseText;
+        btn.textContent = t.loseBtn;
     }
 
     overlay.classList.remove("hidden");
