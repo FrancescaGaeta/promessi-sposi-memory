@@ -104,13 +104,25 @@ window.onload = () => {
     updateUILanguage();
 };
 
-// Cambio Lingua
+// Cambio Lingua Potenziato
 document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
         currentLang = this.dataset.lang;
+        // Aggiorna tutti i pulsanti (intro e gioco)
+        document.querySelectorAll('.lang-btn').forEach(b => {
+            b.classList.remove('active');
+            if(b.dataset.lang === currentLang) b.classList.add('active');
+        });
         updateUILanguage();
+        
+        // Se il gioco è attivo, aggiorna la citazione corrente
+        if(!document.getElementById("main-game").classList.contains("hidden")) {
+            if (matches === 0 && !firstCard) {
+                updateNarrator(null, translations[currentLang].initQuote);
+            } else if (firstCard && firstCard.classList.contains("matched")) {
+                updateNarrator(firstCard.dataset.name, translations[currentLang].characters[firstCard.dataset.name]);
+            }
+        }
     });
 });
 
@@ -131,7 +143,6 @@ function updateUILanguage() {
     document.getElementById("ui-label-pairs").textContent = t.labelPairs;
     document.getElementById("resetBtn").textContent = t.btnReset;
 
-    // Traduzione selettore livello nel gioco
     const gameLvlSelect = document.getElementById("levelSelectGame");
     gameLvlSelect.options[0].text = t.lvlEasy;
     gameLvlSelect.options[1].text = t.lvlMedium;
@@ -206,6 +217,7 @@ function checkForMatch() {
         updateNarrator(firstCard.dataset.name, charQuote);
         firstCard.classList.add("matched");
         secondCard.classList.add("matched");
+        const cardToSave = firstCard; // Riferimento per la lingua
         resetTurn();
         if (matches === totalPairs) handleEndGame(true);
     } else {
