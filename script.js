@@ -69,7 +69,7 @@ const translations = {
             "Fra Cristoforo": "«A friar who laid down his sword, not his courage.»",
             "Agnese": "«Agnese, a practical and sensible mother.»",
             "Azzeccagarbugli": "«The lawyer who confuses rather than clarifies.»",
-            "I Bravi": "«Dark figures, arms in the pay of the powerful.»",
+            "I Bravi": "«This marriage ain’t gonna happen. Not tomorrow, not never.»",
             "Don Abbondio": "«Courage, if one doesn't have it, one can't just give it to oneself.»",
             "Gertrude": "«The 'unfortunate one replied'.»",
             "L'Innominato": "«A great soul gone astray, in search of redemption.»",
