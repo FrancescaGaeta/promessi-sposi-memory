@@ -18,12 +18,12 @@ const translations = {
         lvlHard: "Difficile",
         initQuote: "« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano »",
         winTitle: "La Provvidenza vi ha guidato!",
-        winText: "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.",
-        winBtn: "Rimescolar le carte",
+        winText: "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.<br> La vostra memoria sia lodata.",
         loseTitle: "Il tempo è trascorso invano...",
-        loseText: "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!",
+        loseText: "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: riprovate.",
+        winBtn: "Rimescolar le carte",
         loseBtn: "Riprova la sorte",
-        surveyText: "Vogliate benignamente offrirci il vostro umile parere <br> per il miglioramento dell'opera: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>cliccate qui</a>",
+        surveyText: "Aiutaci a migliorare l'opera: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>compila il questionario</a>",
         characters: {
             "Renzo": "«Renzo, di professione filatore di seta…»",
             "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
@@ -41,7 +41,7 @@ const translations = {
     },
     en: {
         introTitle: "Memory Game",
-        introQuote: "\"Famous deeds and memorable cases must be rescued from the darkness of oblivion. <br>Sharpen your wit, O Reader...\"",
+        introQuote: "\"Famous deeds and memorable cases must be rescued from the darkness of oblivion. <br>Sharpen your wit, O Reader: match the faces and the misfortunes, so that memory does not lose what Providence has written.\"",
         labelDiff: "Difficulty:",
         optEasy: "Easy (6 pairs)",
         optMedium: "Medium (9 pairs)",
@@ -56,15 +56,28 @@ const translations = {
         lvlEasy: "Easy",
         lvlMedium: "Medium",
         lvlHard: "Hard",
-        initQuote: "« All those images crowded into his mind... »",
+        initQuote: "« All those images crowded into his mind, they collided, they confused each other »",
         winTitle: "Providence has guided you!",
-        winText: "The plot is untangled! You have traced every semblance.",
-        winBtn: "Shuffle the cards",
+        winText: "The plot is untangled! You have traced every semblance and given order to the muddle.<br> Blessed be your memory.",
         loseTitle: "Time has passed in vain...",
-        loseText: "The cards have been reshuffled and time has fled!",
+        loseText: "The cards have been reshuffled and time has fled like a reluctant witness!<br> To work, sir: try again.",
+        winBtn: "Shuffle the cards",
         loseBtn: "Try your luck again",
-        surveyText: "Should you wish to grant us your kind opinion <br> to further perfect this work: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>click here</a>",
-        characters: { /* ... citazioni in inglese ... */ }
+        surveyText: "Help us improve this work: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>complete the survey</a>",
+        characters: {
+            "Renzo": "«Here’s a gift from Providence!»",
+            "Lucia": "«Farewell mountains rising from the waters and reaching to the sky.»",
+            "Don Rodrigo": "«Out of my sight, you insolent peasant, you cowled beggar!»",
+            "Fra Cristoforo": "«The day will come…»",
+            "Agnese": "«It doesn’t take much to pass a poor man off as a criminal.»",
+            "Azzeccagarbugli": "«You have to speak plainly to a lawyer, who can then proceed to make things more complicated.»",
+            "I Bravi": "«This marriage ain’t gonna happen. Not tomorrow, not never.»",
+            "Don Abbondio": "«But it’s hard to be brave when you’re not.»",
+            "Gertrude": "«And she gave her fateful reply.»",
+            "L'Innominato": "«God! God! God! If only I could see him! If only I could hear him! Where is this God?»",
+            "Madre Cecilia": "«Farewell, Cecilia! Rest in peace! Tonight we will join you, and we shall be together forever.»",
+            "Perpetua": "«I can’t say anything because…I don’t know anything.»"
+        }
     }
 };
 
@@ -96,9 +109,18 @@ window.onload = () => {
 document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         currentLang = this.dataset.lang;
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
+        document.querySelectorAll('.lang-btn').forEach(b => {
+            b.classList.remove('active');
+            if(b.dataset.lang === currentLang) b.classList.add('active');
+        });
         updateUILanguage();
+        if(!document.getElementById("main-game").classList.contains("hidden")) {
+            if (matches === 0 && !firstCard) {
+                updateNarrator(null, translations[currentLang].initQuote);
+            } else if (firstCard && firstCard.classList.contains("matched")) {
+                updateNarrator(firstCard.dataset.name, translations[currentLang].characters[firstCard.dataset.name]);
+            }
+        }
     });
 });
 
@@ -117,6 +139,11 @@ function updateUILanguage() {
     document.getElementById("ui-label-moves").textContent = t.labelMoves;
     document.getElementById("ui-label-pairs").textContent = t.labelPairs;
     document.getElementById("resetBtn").textContent = t.btnReset;
+
+    const gameLvlSelect = document.getElementById("levelSelectGame");
+    gameLvlSelect.options[0].text = t.lvlEasy;
+    gameLvlSelect.options[1].text = t.lvlMedium;
+    gameLvlSelect.options[2].text = t.lvlHard;
 }
 
 document.getElementById("startGameBtn").addEventListener("click", () => {
@@ -140,8 +167,17 @@ function initGame(levelKey) {
     const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
     const board = document.getElementById("board");
     board.innerHTML = "";
-    board.style.setProperty("--cols", window.innerWidth <= 768 ? (levelKey === "easy" ? 3 : 4) : 6);
-
+    if (window.innerWidth <= 768) {
+        board.style.setProperty("--cols", (levelKey === "medium" || levelKey === "hard") ? 4 : 3);
+    } else {
+        board.style.setProperty("--cols", 6);
+    }
+    const bottomQuote = document.getElementById("message-bottom").parentElement;
+    if (levelKey === "easy" || levelKey === "medium") {
+        bottomQuote.classList.add("hidden");
+    } else {
+        bottomQuote.classList.remove("hidden");
+    }
     deck.forEach(data => {
         const card = document.createElement("div");
         card.className = "card";
@@ -169,7 +205,8 @@ function checkForMatch() {
     if (firstCard.dataset.name === secondCard.dataset.name) {
         matches++;
         document.getElementById("matches").textContent = matches;
-        updateNarrator(firstCard.dataset.name, translations[currentLang].characters[firstCard.dataset.name]);
+        const charQuote = translations[currentLang].characters[firstCard.dataset.name];
+        updateNarrator(firstCard.dataset.name, charQuote);
         firstCard.classList.add("matched");
         secondCard.classList.add("matched");
         resetTurn();
@@ -210,22 +247,39 @@ function updateTimerDisplay() {
 }
 
 function updateNarrator(title, quote) {
-    const content = title ? `<b>${title}:</b> ${quote}` : quote;
+    let content = title ? `<span class="char-title"><b>${title}:</b></span> ${quote}` : quote;
     document.getElementById("message-top").innerHTML = content;
     document.getElementById("message-bottom").innerHTML = content;
 }
 
 function handleEndGame(isVictory) {
     clearInterval(timerInterval);
+    const overlay = document.getElementById("finalOverlay");
+    const container = document.getElementById("finalBookContainer");
+    const img = document.getElementById("finalStatusImg");
+    const title = document.getElementById("finalTitle");
+    const text = document.getElementById("finalText");
+    const survey = document.getElementById("surveyText"); // Riferimento al nuovo elemento
+    const btn = document.getElementById("finalActionBtn");
     const t = translations[currentLang];
-    document.getElementById("finalTitle").textContent = isVictory ? t.winTitle : t.loseTitle;
-    document.getElementById("finalText").innerHTML = isVictory ? t.winText : t.loseText;
-    document.getElementById("finalStatusImg").src = isVictory ? "vittoria.png" : "sconfitta.png";
-    document.getElementById("finalActionBtn").textContent = isVictory ? t.winBtn : t.loseBtn;
-    document.getElementById("surveyText").innerHTML = t.surveyText;
 
-    document.getElementById("finalOverlay").classList.remove("hidden");
-    setTimeout(() => document.getElementById("finalBookContainer").classList.add("open"), 100);
+    // Aggiornamento testo questionario
+    survey.innerHTML = t.surveyText;
+
+    if (isVictory) {
+        img.src = "vittoria.png";
+        title.textContent = t.winTitle;
+        text.innerHTML = t.winText;
+        btn.textContent = t.winBtn;
+    } else {
+        img.src = "sconfitta.png";
+        title.textContent = t.loseTitle;
+        text.innerHTML = t.loseText;
+        btn.textContent = t.loseBtn;
+    }
+
+    overlay.classList.remove("hidden");
+    setTimeout(() => container.classList.add("open"), 100);
 }
 
 document.getElementById("finalActionBtn").addEventListener("click", () => initGame(currentLevel));
