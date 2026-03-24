@@ -259,11 +259,11 @@ function handleEndGame(isVictory) {
     const img = document.getElementById("finalStatusImg");
     const title = document.getElementById("finalTitle");
     const text = document.getElementById("finalText");
-    const survey = document.getElementById("surveyText"); // Riferimento al nuovo elemento
+    const survey = document.getElementById("surveyText"); 
     const btn = document.getElementById("finalActionBtn");
     const t = translations[currentLang];
 
-    // Aggiornamento testo questionario
+    
     survey.innerHTML = t.surveyText;
 
     if (isVictory) {
