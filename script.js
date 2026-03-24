@@ -19,10 +19,11 @@ const translations = {
         initQuote: "« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano »",
         winTitle: "La Provvidenza vi ha guidato!",
         winText: "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.<br> La vostra memoria sia lodata.",
-        winBtn: "Rimescolar le carte",
         loseTitle: "Il tempo è trascorso invano...",
         loseText: "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: riprovate.",
+        winBtn: "Rimescolar le carte",
         loseBtn: "Riprova la sorte",
+        surveyText: "Aiutaci a migliorare l'opera: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>compila il questionario</a>",
         characters: {
             "Renzo": "«Renzo, di professione filatore di seta…»",
             "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
@@ -58,10 +59,11 @@ const translations = {
         initQuote: "« All those images crowded into his mind, they collided, they confused each other »",
         winTitle: "Providence has guided you!",
         winText: "The plot is untangled! You have traced every semblance and given order to the muddle.<br> Blessed be your memory.",
-        winBtn: "Shuffle the cards",
         loseTitle: "Time has passed in vain...",
         loseText: "The cards have been reshuffled and time has fled like a reluctant witness!<br> To work, sir: try again.",
+        winBtn: "Shuffle the cards",
         loseBtn: "Try your luck again",
+        surveyText: "Help us improve this work: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>complete the survey</a>",
         characters: {
             "Renzo": "«Here’s a gift from Providence!»",
             "Lucia": "«Farewell mountains rising from the waters and reaching to the sky.»",
@@ -104,18 +106,14 @@ window.onload = () => {
     updateUILanguage();
 };
 
-// Cambio Lingua Potenziato
 document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         currentLang = this.dataset.lang;
-        // Aggiorna tutti i pulsanti (intro e gioco)
         document.querySelectorAll('.lang-btn').forEach(b => {
             b.classList.remove('active');
             if(b.dataset.lang === currentLang) b.classList.add('active');
         });
         updateUILanguage();
-        
-        // Se il gioco è attivo, aggiorna la citazione corrente
         if(!document.getElementById("main-game").classList.contains("hidden")) {
             if (matches === 0 && !firstCard) {
                 updateNarrator(null, translations[currentLang].initQuote);
@@ -135,7 +133,6 @@ function updateUILanguage() {
     document.getElementById("opt-medium").textContent = t.optMedium;
     document.getElementById("opt-hard").textContent = t.optHard;
     document.getElementById("startGameBtn").textContent = t.btnStart;
-    
     document.getElementById("ui-game-title").textContent = t.gameTitle;
     document.getElementById("ui-label-lvl").textContent = t.labelLvl;
     document.getElementById("ui-label-time").textContent = t.labelTime;
@@ -164,27 +161,23 @@ function initGame(levelKey) {
     currentLevel = levelKey;
     document.getElementById("finalOverlay").classList.add("hidden");
     document.getElementById("finalBookContainer").classList.remove("open");
-    
     const selected = LEVEL_SETS[levelKey].map(name => originalCards.find(c => c.name === name));
     totalPairs = selected.length;
     document.getElementById("totalPairs").textContent = totalPairs;
     const deck = [...selected, ...selected].sort(() => Math.random() - 0.5);
     const board = document.getElementById("board");
     board.innerHTML = "";
-    
     if (window.innerWidth <= 768) {
         board.style.setProperty("--cols", (levelKey === "medium" || levelKey === "hard") ? 4 : 3);
     } else {
         board.style.setProperty("--cols", 6);
     }
-
     const bottomQuote = document.getElementById("message-bottom").parentElement;
     if (levelKey === "easy" || levelKey === "medium") {
         bottomQuote.classList.add("hidden");
     } else {
         bottomQuote.classList.remove("hidden");
     }
-
     deck.forEach(data => {
         const card = document.createElement("div");
         card.className = "card";
@@ -193,7 +186,6 @@ function initGame(levelKey) {
         card.addEventListener("click", flipCard);
         board.appendChild(card);
     });
-
     resetState();
     startTimer();
     updateNarrator(null, translations[currentLang].initQuote);
@@ -217,7 +209,6 @@ function checkForMatch() {
         updateNarrator(firstCard.dataset.name, charQuote);
         firstCard.classList.add("matched");
         secondCard.classList.add("matched");
-        const cardToSave = firstCard; // Riferimento per la lingua
         resetTurn();
         if (matches === totalPairs) handleEndGame(true);
     } else {
@@ -268,8 +259,12 @@ function handleEndGame(isVictory) {
     const img = document.getElementById("finalStatusImg");
     const title = document.getElementById("finalTitle");
     const text = document.getElementById("finalText");
+    const survey = document.getElementById("surveyText"); // Riferimento al nuovo elemento
     const btn = document.getElementById("finalActionBtn");
     const t = translations[currentLang];
+
+    // Aggiornamento testo questionario
+    survey.innerHTML = t.surveyText;
 
     if (isVictory) {
         img.src = "vittoria.png";
