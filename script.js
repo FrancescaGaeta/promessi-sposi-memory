@@ -19,11 +19,11 @@ const translations = {
         initQuote: "« Tutte quelle immagini gli si affollavano alla mente, s’urtavano, si confondevano »",
         winTitle: "La Provvidenza vi ha guidato!",
         winText: "L’intreccio è sciolto! Avete rintracciato ogni sembiante e dato ordine al guazzabuglio.<br> La vostra memoria sia lodata.",
+        winBtn: "Rimescolar le carte",
         loseTitle: "Il tempo è trascorso invano...",
         loseText: "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: riprovate.",
-        winBtn: "Rimescolar le carte",
         loseBtn: "Riprova la sorte",
-        surveyText: "Aiutaci a migliorare l'opera: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>compila il questionario</a>",
+        surveyText: "Vogliate benignamente offrirci il vostro umile parere <br> per il miglioramento dell'opera: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>cliccate qui</a>",
         characters: {
             "Renzo": "«Renzo, di professione filatore di seta…»",
             "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
@@ -59,11 +59,11 @@ const translations = {
         initQuote: "« All those images crowded into his mind, they collided, they confused each other »",
         winTitle: "Providence has guided you!",
         winText: "The plot is untangled! You have traced every semblance and given order to the muddle.<br> Blessed be your memory.",
+        winBtn: "Shuffle the cards",
         loseTitle: "Time has passed in vain...",
         loseText: "The cards have been reshuffled and time has fled like a reluctant witness!<br> To work, sir: try again.",
-        winBtn: "Shuffle the cards",
         loseBtn: "Try your luck again",
-        surveyText: "Help us improve this work: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>complete the survey</a>",
+        surveyText: "Should you wish to grant us your kind opinion <br> to further perfect this work: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>click here</a>",
         characters: {
             "Renzo": "«Here’s a gift from Providence!»",
             "Lucia": "«Farewell mountains rising from the waters and reaching to the sky.»",
@@ -83,7 +83,7 @@ const translations = {
 
 const originalCards = [
     { name: "Renzo", img: "renzo.png" }, { name: "Lucia", img: "lucia.png" },
-    { name: "Don Rodrigo", img: "don-rodrigo.png" }, { name: "Fra Cristoforo", img: "fra-cristoforo.png" },
+    { name: "Don Rodrigo", img: "don-rodrigo.png" }, { name: "Fra Cristoforo", img: "fra-christoforo.png" },
     { name: "Agnese", img: "agnese.png" }, { name: "Azzeccagarbugli", img: "azzeccagarbugli.png" },
     { name: "I Bravi", img: "bravi.png" }, { name: "Don Abbondio", img: "don-abbondio.png" },
     { name: "Gertrude", img: "gertrude.png" }, { name: "L'Innominato", img: "innominato.png" },
@@ -259,11 +259,10 @@ function handleEndGame(isVictory) {
     const img = document.getElementById("finalStatusImg");
     const title = document.getElementById("finalTitle");
     const text = document.getElementById("finalText");
-    const survey = document.getElementById("surveyText"); // Riferimento al nuovo elemento
+    const survey = document.getElementById("surveyText");
     const btn = document.getElementById("finalActionBtn");
     const t = translations[currentLang];
 
-    // Aggiornamento testo questionario
     survey.innerHTML = t.surveyText;
 
     if (isVictory) {
