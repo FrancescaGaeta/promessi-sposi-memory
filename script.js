@@ -23,7 +23,7 @@ const translations = {
         loseText: "Le carte si sono rimescolate e il tempo è fuggito come un testimone reticente!<br> All'opera, messere: riprovate.",
         winBtn: "Rimescolar le carte",
         loseBtn: "Riprova la sorte",
-        surveyText: "Aiutaci a migliorare l'opera: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>compila il questionario</a>",
+        surveyText: "Vogliate offrirci un umile parere sull'opera: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>cliccate qui</a>",
         characters: {
             "Renzo": "«Renzo, di professione filatore di seta…»",
             "Lucia": "«Lucia, timida e risoluta, promessa sposa.»",
@@ -63,7 +63,7 @@ const translations = {
         loseText: "The cards have been reshuffled and time has fled like a reluctant witness!<br> To work, sir: try again.",
         winBtn: "Shuffle the cards",
         loseBtn: "Try your luck again",
-        surveyText: "Help us improve this work: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>complete the survey</a>",
+        surveyText: "Kindly offer your brief opinion on this work: <a href='https://forms.gle/vQy5BgFLN2kEBR9M7' target='_blank'>click here</a>",
         characters: {
             "Renzo": "«Here’s a gift from Providence!»",
             "Lucia": "«Farewell mountains rising from the waters and reaching to the sky.»",
