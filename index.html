@@ -16,7 +16,6 @@
                         <span class="lang-btn active" data-lang="it">ITA</span>
                         <span class="lang-btn" data-lang="en">ENG</span>
                     </div>
-
                     <h1 class="manzonian-font" id="ui-intro-title">Memory Game</h1>
                     <p class="script-font intro-quote intro-text" id="ui-intro-quote">
                         "L'imprese illustri e i casi memorabili si debbono trarre dall'oscurità dell'oblio. <br>
@@ -49,8 +48,7 @@
         </header>
 
         <section class="info-bar">
-            <div class="info-item">
-                <span class="label" id="ui-label-lvl">Livello:</span>
+            <div class="info-item"><span class="label" id="ui-label-lvl">Livello:</span>
                 <select id="levelSelectGame">
                     <option value="easy">Facile</option>
                     <option value="medium">Medio</option>
@@ -62,40 +60,29 @@
             <div class="info-item"><span class="label" id="ui-label-pairs">Coppie:</span> <span id="matches">0</span> / <span id="totalPairs">10</span></div>
         </section>
 
-        <div class="quote-box">
-            <div id="message-top" class="script-font"></div>
-        </div>
+        <div class="quote-box"><div id="message-top" class="script-font"></div></div>
+        <main><div class="game-board" id="board"></div></main>
+        <div class="quote-box"><div id="message-bottom" class="script-font"></div></div>
 
-        <main>
-            <div class="game-board" id="board"></div>
-        </main>
-
-        <div class="quote-box">
-            <div id="message-bottom" class="script-font"></div>
-        </div>
-
-        <div class="actions">
-            <button id="resetBtn">Ricomincia la partita</button>
-        </div>
+        <div class="actions"><button id="resetBtn">Ricomincia la partita</button></div>
 
         <div id="finalOverlay" class="intro-overlay hidden">
-            <div class="book-container final-book" id="finalBookContainer">
-                <div class="book-content-inner" style="background-image: url('fine.png');"> 
-                    <div class="image-side-final">
-                        <img id="finalStatusImg" src="" alt="Stato Finale" style="border-radius: 5px;">
+            <div class="book-container" id="finalBookContainer">
+                <div class="book-content-inner">
+                    <div class="image-side">
+                        <img id="finalStatusImg" src="" alt="Stato Finale" style="width:100%; border-radius:5px;">
                     </div>
-                    <div class="selection-side final-text-side">
-                        <h2 id="finalTitle" class="manzonian-font final-title"></h2>
-                        <p id="finalText" class="script-font intro-quote intro-text final-text"></p>
+                    <div class="selection-side">
+                        <h2 id="finalTitle" class="manzonian-font"></h2>
+                        <p id="finalText" class="script-font intro-text"></p>
                         <button id="finalActionBtn"></button>
                         <p id="surveyText" class="survey-link"></p>
                     </div>
                 </div>
-                <div class="book-cover-front final-cover" style="background-image: url('fine.png');"></div> 
+                <div class="book-cover-front" id="finalBookCover"></div>
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
